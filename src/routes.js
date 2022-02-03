@@ -25,6 +25,18 @@ import Validation from 'views/pages/forms/Validation.js';
 import Vector from 'views/pages/maps/Vector.js';
 import Widgets from 'views/pages/Widgets.js';
 import Menu from 'views/pages/menu/Menu';
+import Warehouse from 'views/pages/warehouse/Warehouse';
+import Cart from 'views/pages/cart/Cart';
+import Statistics from 'views/pages/statistics/Statistics';
+import Settings from 'views/pages/settings/Settings';
+import Subscription from 'views/pages/subscription/Subscription';
+import Loyalty from 'views/pages/loyalty/Loyalty';
+import Discounts from 'views/pages/discounts/Discounts';
+import Blog from 'views/pages/blog/Blog';
+import Notices from 'views/pages/notices/Notices';
+import QrCode from 'views/pages/qrCode/QrCode';
+import AutomaticPrinting from 'views/pages/automaticPrinting/AutomaticPrinting';
+import videoGuidelines from 'views/pages/videoGuidelines/videoGuidelines';
 
 const routes = [
   {
@@ -56,7 +68,98 @@ const routes = [
     component: Menu,
     layout: '/admin',
   },
+  {
+    path: '/warehouse',
+    name: 'Warehouse',
+    icon: 'ni ni-shop text-red',
+    component: Warehouse,
+    layout: '/admin',
+  },
 
+  {
+    path: '/orders',
+    name: 'Orders',
+    icon: 'ni ni-cart text-red',
+    component: Cart,
+    layout: '/cart',
+  },
+  {
+    path: '/reservations',
+    name: 'Reservations',
+    icon: 'ni ni-paper-diploma text-red',
+    component: Cart,
+    layout: '/admin',
+  },
+  {
+    path: '/statistics',
+    name: 'Statistics',
+    icon: 'ni ni-sound-wave text-red',
+    component: Statistics,
+    layout: '/admin',
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    icon: 'ni ni-settings text-red',
+    component: Settings,
+    layout: '/admin',
+  },
+  {
+    path: '/subscription',
+    name: 'Subscription',
+    icon: 'ni ni-credit-card text-red',
+    component: Subscription,
+    layout: '/admin',
+  },
+  {
+    path: '/loyalty-card',
+    name: 'Loyalty Card',
+    icon: 'ni ni-cart text-red',
+    component: Loyalty,
+    layout: '/admin',
+  },
+  {
+    path: '/discounts',
+    name: 'Discounts',
+    icon: 'ni ni-cart text-red',
+    component: Discounts,
+    layout: '/admin',
+  },
+  {
+    path: '/blog',
+    name: 'Blog',
+    icon: 'ni ni-cart text-red',
+    component: Blog,
+    layout: '/admin',
+  },
+  {
+    path: '/notices',
+    name: 'Notices',
+    icon: 'ni ni-cart text-red',
+    component: Notices,
+    layout: '/admin',
+  },
+  {
+    path: '/qr-code',
+    name: 'QR code',
+    icon: 'ni ni-cart text-red',
+    component: QrCode,
+    layout: '/admin',
+  },
+  {
+    path: '/automatic-printing',
+    name: 'Automatic Printing',
+    icon: 'ni ni-cart text-red',
+    component: AutomaticPrinting,
+    layout: '/admin',
+  },
+  {
+    path: '/video-guides',
+    name: 'Video Guides',
+    icon: 'ni ni-cart text-red',
+    component: videoGuidelines,
+    layout: '/admin',
+  },
   {
     collapse: true,
     name: 'Examples',

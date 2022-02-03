@@ -44,17 +44,15 @@ const pagination = paginationFactory({
 
 const { SearchBar } = Search;
 
-function MenuBSTables(column, data) {
+function MenuBSTables(params) {
   const [alert, setAlert] = React.useState(null);
-  const [columnNames, setColumn] = React.useState(column.column);
-  const [menus, setMenu] = useState({});
+  const [columnNames, setColumn] = React.useState(params.column);
   const componentRef = React.useRef(null);
-  console.log(menus);
-  useEffect(() => {
-    // setColumn(column.column);
-    setMenu(data);
-  }, [data]);
-  console.log(menus);
+
+  //   useEffect(() => {
+  //     // setColumn(column.column);
+  //     setMenu(data);
+  //   }, []);
   // this function will copy to clipboard an entire table,
   // so you can paste it inside an excel or csv file
   const copyToClipboardAsTable = (el) => {
@@ -93,23 +91,25 @@ function MenuBSTables(column, data) {
       </ReactBSAlert>
     );
   };
-  const column1 = [
-    { dataField: columnNames[0], text: columnNames[0] },
-    { dataField: columnNames[1], text: columnNames[1] },
-    { dataField: columnNames[2], text: columnNames[2] },
+  const column = [
+    { dataField: 'idMeal', text: columnNames[0] },
+    { dataField: 'strMeal', text: columnNames[1] },
+    { dataField: 'strDrinkAlternate', text: columnNames[2] },
   ];
-  const menus1 = [
-    {
-      idMeal: '52771',
-      strMeal: 'Spicy Arrabiata Penne',
-      strDrinkAlternate: '432',
-    },
-    {
-      idMeal: '22',
-      strMeal: 'Vans',
-      strDrinkAlternate: '323',
-    },
-  ];
+
+  console.log(column);
+  //   let menus = [];
+  //   params.data.forEach((menu) => {
+  //     //You can perform your desired function out here
+  //     console.log(menu);
+  //     let menus2 = {
+  //       idMeal: menu.idMeal,
+  //       strMeal: menu.strMeal,
+  //       strDrinkAlternate: menu.strDrinkAlternate,
+  //     };
+  //     menus.push(menus2);
+  //   });
+  //   console.log(menus);
 
   return (
     <>
@@ -127,25 +127,44 @@ function MenuBSTables(column, data) {
                   order to get started fast.
                 </p>
               </CardHeader>
-              {/* {columnNames.map((columnName, index) => (
-                // <h1> I am here</h1>
-                <span key={index}> {columnName}</span>
-              ))} */}
 
               <ToolkitProvider
                 keyField="idMeal"
-                data={menus1}
-                columns={column1}
+                data={params.data}
+                columns={column}
                 search
               >
-                {(props) => (
+                {(menu) => (
+                  <div className="py-4 table-responsive">
+                    <div
+                      id="datatable-basic_filter"
+                      className="dataTables_filter px-4 pb-1"
+                    >
+                      <label>
+                        Search:
+                        <SearchBar
+                          className="form-control-sm"
+                          placeholder=""
+                          {...menu.searchProps}
+                        />
+                      </label>
+                    </div>
+                    <BootstrapTable
+                      {...menu.baseProps}
+                      bootstrap4={true}
+                      pagination={pagination}
+                      bordered={true}
+                    />
+                  </div>
+                )}
+                {/* {(props) => (
                   <div>
                     <h3>Input something at below input field:</h3>
                     <SearchBar {...props.searchProps} />
                     <hr />
                     <BootstrapTable {...props.baseProps} />
                   </div>
-                )}
+                )} */}
               </ToolkitProvider>
               {/* <ToolkitProvider
                 // key={index}
