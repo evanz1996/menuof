@@ -14,15 +14,15 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 // react plugin that prints a given react component
-import ReactToPrint from "react-to-print";
+import ReactToPrint from 'react-to-print';
 // react component for creating dynamic tables
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 // react component used to create sweet alerts
-import ReactBSAlert from "react-bootstrap-sweetalert";
+import ReactBSAlert from 'react-bootstrap-sweetalert';
 // reactstrap components
 import {
   Button,
@@ -33,11 +33,11 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-} from "reactstrap";
+} from 'reactstrap';
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
+import SimpleHeader from 'components/Headers/SimpleHeader.js';
 
-import { dataTable } from "variables/general";
+import { dataTable } from 'variables/general';
 
 const pagination = paginationFactory({
   page: 1,
@@ -47,7 +47,7 @@ const pagination = paginationFactory({
   sizePerPageRenderer: ({ options, currSizePerPage, onSizePerPageChange }) => (
     <div className="dataTables_length" id="datatable-basic_length">
       <label>
-        Show{" "}
+        Show{' '}
         {
           <select
             name="datatable-basic_length"
@@ -60,7 +60,7 @@ const pagination = paginationFactory({
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
-        }{" "}
+        }{' '}
         entries.
       </label>
     </div>
@@ -89,17 +89,17 @@ function ReactBSTables() {
         range.selectNode(el);
         sel.addRange(range);
       }
-      document.execCommand("copy");
+      document.execCommand('copy');
     } else if (body.createTextRange) {
       range = body.createTextRange();
       range.moveToElementText(el);
       range.select();
-      range.execCommand("Copy");
+      range.execCommand('Copy');
     }
     setAlert(
       <ReactBSAlert
         success
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: 'block', marginTop: '-100px' }}
         title="Good job!"
         onConfirm={() => setAlert(null)}
         onCancel={() => setAlert(null)}
@@ -132,33 +132,33 @@ function ReactBSTables() {
                 keyField="name"
                 columns={[
                   {
-                    dataField: "name",
-                    text: "Name",
+                    dataField: 'name',
+                    text: 'Name',
                     sort: true,
                   },
                   {
-                    dataField: "position",
-                    text: "Position",
+                    dataField: 'position',
+                    text: 'Position',
                     sort: true,
                   },
                   {
-                    dataField: "office",
-                    text: "Office",
+                    dataField: 'office',
+                    text: 'Office',
                     sort: true,
                   },
                   {
-                    dataField: "age",
-                    text: "Age",
+                    dataField: 'age',
+                    text: 'Age',
                     sort: true,
                   },
                   {
-                    dataField: "start_date",
-                    text: "Start date",
+                    dataField: 'start_date',
+                    text: 'Start date',
                     sort: true,
                   },
                   {
-                    dataField: "salary",
-                    text: "Salary",
+                    dataField: 'salary',
+                    text: 'Salary',
                     sort: true,
                   },
                 ]}
@@ -203,33 +203,33 @@ function ReactBSTables() {
                 keyField="name"
                 columns={[
                   {
-                    dataField: "name",
-                    text: "Name",
+                    dataField: 'name',
+                    text: 'Name',
                     sort: true,
                   },
                   {
-                    dataField: "position",
-                    text: "Position",
+                    dataField: 'position',
+                    text: 'Position',
                     sort: true,
                   },
                   {
-                    dataField: "office",
-                    text: "Office",
+                    dataField: 'office',
+                    text: 'Office',
                     sort: true,
                   },
                   {
-                    dataField: "age",
-                    text: "Age",
+                    dataField: 'age',
+                    text: 'Age',
                     sort: true,
                   },
                   {
-                    dataField: "start_date",
-                    text: "Start date",
+                    dataField: 'start_date',
+                    text: 'Start date',
                     sort: true,
                   },
                   {
-                    dataField: "salary",
-                    text: "Salary",
+                    dataField: 'salary',
+                    text: 'Salary',
                     sort: true,
                   },
                 ]}
@@ -248,7 +248,7 @@ function ReactBSTables() {
                               id="copy-tooltip"
                               onClick={() =>
                                 copyToClipboardAsTable(
-                                  document.getElementById("react-bs-table")
+                                  document.getElementById('react-bs-table')
                                 )
                               }
                             >

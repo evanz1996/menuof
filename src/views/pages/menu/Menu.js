@@ -17,6 +17,7 @@ import {
   Button,
 } from 'reactstrap';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
+import MenuBSTables from '../tables/MenuBSTables';
 function Menu() {
   let [menus, setMenu] = useState([]);
 
@@ -35,10 +36,12 @@ function Menu() {
       .catch(console.error);
   }, []);
   console.log(menus);
+  let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
-      <Container className="mt--6" fluid>
+      <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
+      {/* <Container className="mt--6" fluid>
         <Row>
           <Card>
             <CardBody>
@@ -90,7 +93,6 @@ function Menu() {
                   <Table className="align-items-center table-flush" responsive>
                     <thead className="thead-light">
                       <tr>
-                        <th className="sort" data-sort="name" scope="col"></th>
                         <th className="sort" data-sort="name" scope="col">
                           Title
                         </th>
@@ -128,7 +130,7 @@ function Menu() {
             </Row>
           </Col>
         </Row>
-      </Container>
+      </Container> */}
     </div>
   );
 }
