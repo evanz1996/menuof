@@ -90,6 +90,7 @@ function Menu() {
                   <Table className="align-items-center table-flush" responsive>
                     <thead className="thead-light">
                       <tr>
+                        <th className="sort" data-sort="name" scope="col"></th>
                         <th className="sort" data-sort="name" scope="col">
                           Title
                         </th>
@@ -114,16 +115,12 @@ function Menu() {
                             >
                               <img alt="..." src={menu.strMealThumb} />
                             </a>
-                            {menu.strMeal}
                           </td>
                           <td>{menu.strMeal}</td>
                           <td>{menu.strMeal}</td>
                           <td>{menu.strMeal}</td>
                         </tr>
                       ))}
-                      {/* {menus.map((item, index) => (
-                        <tr key={index}></tr>
-                      ))} */}
                     </tbody>
                   </Table>
                 </Card>
