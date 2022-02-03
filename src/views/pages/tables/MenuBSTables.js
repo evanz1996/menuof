@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Type } from 'react-bootstrap-table2-editor';
 // react plugin that prints a given react component
 import ReactToPrint from 'react-to-print';
 // react component for creating dynamic tables
@@ -48,13 +49,23 @@ function MenuBSTables(params) {
   const [alert, setAlert] = React.useState(null);
   const [columnNames, setColumn] = React.useState(params.column);
   const componentRef = React.useRef(null);
-
+  console.log(params.data);
   //   useEffect(() => {
   //     // setColumn(column.column);
   //     setMenu(data);
   //   }, []);
   // this function will copy to clipboard an entire table,
   // so you can paste it inside an excel or csv file
+
+  const setOptions = async () => {
+    let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
+    //   const fetchData = async () => {
+    const data = await fetch(url);
+    const response = await data.json();
+    console.log(response);
+    //   };
+  };
+
   const copyToClipboardAsTable = (el) => {
     var body = document.body,
       range,
@@ -92,24 +103,41 @@ function MenuBSTables(params) {
     );
   };
   const column = [
+    { dataField: 'strMealThumb', formatter: imageFormatter },
     { dataField: 'idMeal', text: columnNames[0] },
     { dataField: 'strMeal', text: columnNames[1] },
-    { dataField: 'strDrinkAlternate', text: columnNames[2] },
+    {
+      //   dataField: 'Action',
+      //   text: columnNames[2],
+      //   {
+      dataField: 'type',
+      text: 'Job Type',
+      editor: {
+        type: Type.TEXTAREA,
+      },
+      //   editor: {
+      //     type: Type.SELECT,
+      //     // getOptions: (setOptions) => {
+      //     //   setTimeout(() => setOptions([...]), 1500);
+      //     // }
+      //   },
+    },
   ];
 
+  function imageFormatter(cell, row) {
+    // return <img src={cell} />;
+    return (
+      <a
+        className="avatar rounded-circle"
+        href="#pablo"
+        onClick={(e) => e.preventDefault()}
+      >
+        <img alt="..." src={cell} />
+      </a>
+    );
+  }
+
   console.log(column);
-  //   let menus = [];
-  //   params.data.forEach((menu) => {
-  //     //You can perform your desired function out here
-  //     console.log(menu);
-  //     let menus2 = {
-  //       idMeal: menu.idMeal,
-  //       strMeal: menu.strMeal,
-  //       strDrinkAlternate: menu.strDrinkAlternate,
-  //     };
-  //     menus.push(menus2);
-  //   });
-  //   console.log(menus);
 
   return (
     <>
@@ -133,6 +161,7 @@ function MenuBSTables(params) {
                 data={params.data}
                 columns={column}
                 search
+                dataFormat={imageFormatter}
               >
                 {(menu) => (
                   <div className="py-4 table-responsive">
@@ -154,6 +183,7 @@ function MenuBSTables(params) {
                       bootstrap4={true}
                       pagination={pagination}
                       bordered={true}
+                      //   dataFormat={imageFormatter}
                     />
                   </div>
                 )}
