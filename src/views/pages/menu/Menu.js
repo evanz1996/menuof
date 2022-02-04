@@ -41,7 +41,7 @@ function Menu() {
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
       <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
-      {/* <Container className="mt--6" fluid>
+      <Container className="mt--6" fluid>
         <Row>
           <Card>
             <CardBody>
@@ -93,6 +93,7 @@ function Menu() {
                   <Table className="align-items-center table-flush" responsive>
                     <thead className="thead-light">
                       <tr>
+                        <th className="sort" data-sort="name" scope="col"></th>
                         <th className="sort" data-sort="name" scope="col">
                           Title
                         </th>
@@ -111,7 +112,7 @@ function Menu() {
                         <tr key={menu.idMeal}>
                           <td>
                             <a
-                              className="avatar rounded-circle"
+                              className="avatar avatar-xl  rounded-circle"
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}
                             >
@@ -120,7 +121,19 @@ function Menu() {
                           </td>
                           <td>{menu.strMeal}</td>
                           <td>{menu.strMeal}</td>
-                          <td>{menu.strMeal}</td>
+                          <td>
+                            <select>
+                              <option value="actual value 1">
+                                Display Text 1
+                              </option>
+                              <option value="actual value 2">
+                                Display Text 2
+                              </option>
+                              <option value="actual value 3">
+                                Display Text 3
+                              </option>
+                            </select>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -130,7 +143,7 @@ function Menu() {
             </Row>
           </Col>
         </Row>
-      </Container> */}
+      </Container>
     </div>
   );
 }

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Type } from 'react-bootstrap-table2-editor';
-// react plugin that prints a given react component
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+
 import ReactToPrint from 'react-to-print';
-// react component for creating dynamic tables
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-// react component used to create sweet alerts
 import ReactBSAlert from 'react-bootstrap-sweetalert';
-// reactstrap components
 import { Card, CardHeader, Container, Row } from 'reactstrap';
-// core components
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
-
 import { dataTable } from 'variables/general';
+
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 
 const pagination = paginationFactory({
   page: 1,
@@ -50,21 +47,21 @@ function MenuBSTables(params) {
   const [columnNames, setColumn] = React.useState(params.column);
   const componentRef = React.useRef(null);
   console.log(params.data);
-  //   useEffect(() => {
-  //     // setColumn(column.column);
-  //     setMenu(data);
-  //   }, []);
+
   // this function will copy to clipboard an entire table,
   // so you can paste it inside an excel or csv file
-
-  const setOptions = async () => {
+  const options = async () => {
+    console.log('here at options');
     let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
     //   const fetchData = async () => {
     const data = await fetch(url);
     const response = await data.json();
-    console.log(response);
+    console.log(response.categories);
+    return response.categories;
     //   };
   };
+
+  options();
 
   const copyToClipboardAsTable = (el) => {
     var body = document.body,
@@ -102,30 +99,27 @@ function MenuBSTables(params) {
       </ReactBSAlert>
     );
   };
+
   const column = [
-    { dataField: 'strMealThumb', formatter: imageFormatter },
-    { dataField: 'idMeal', text: columnNames[0] },
-    { dataField: 'strMeal', text: columnNames[1] },
+    { dataField: 'strMealThumb', formatter: imageFormatter, sort: true },
+    { dataField: 'idMeal', text: columnNames[0], sort: true },
+    { dataField: 'strMeal', text: columnNames[1], sort: true },
     {
-      //   dataField: 'Action',
-      //   text: columnNames[2],
-      //   {
       dataField: 'type',
       text: 'Job Type',
       editor: {
-        type: Type.TEXTAREA,
+        type: Type.SELECT,
+        options: [
+          {
+            value: 'A',
+            label: 'A',
+          },
+        ],
       },
-      //   editor: {
-      //     type: Type.SELECT,
-      //     // getOptions: (setOptions) => {
-      //     //   setTimeout(() => setOptions([...]), 1500);
-      //     // }
-      //   },
     },
   ];
 
   function imageFormatter(cell, row) {
-    // return <img src={cell} />;
     return (
       <a
         className="avatar rounded-circle"
@@ -136,8 +130,6 @@ function MenuBSTables(params) {
       </a>
     );
   }
-
-  console.log(column);
 
   return (
     <>
@@ -182,82 +174,15 @@ function MenuBSTables(params) {
                       {...menu.baseProps}
                       bootstrap4={true}
                       pagination={pagination}
+                      cellEdit={cellEditFactory({
+                        mode: 'click',
+                        blurToSave: true,
+                      })}
                       bordered={true}
-                      //   dataFormat={imageFormatter}
                     />
                   </div>
                 )}
-                {/* {(props) => (
-                  <div>
-                    <h3>Input something at below input field:</h3>
-                    <SearchBar {...props.searchProps} />
-                    <hr />
-                    <BootstrapTable {...props.baseProps} />
-                  </div>
-                )} */}
               </ToolkitProvider>
-              {/* <ToolkitProvider
-                // key={index}
-                data={dataTable}
-                keyField="name"
-                columns={[
-                  {
-                    dataField: 'name',
-                    text: 'Name',
-                    sort: true,
-                  },
-                  {
-                    dataField: 'position',
-                    text: 'Position',
-                    sort: true,
-                  },
-                  {
-                    dataField: 'office',
-                    text: 'Office',
-                    sort: true,
-                  },
-                  {
-                    dataField: 'age',
-                    text: 'Age',
-                    sort: true,
-                  },
-                  {
-                    dataField: 'start_date',
-                    text: 'Start date',
-                    sort: true,
-                  },
-                  {
-                    dataField: 'salary',
-                    text: 'Salary',
-                    sort: true,
-                  },
-                ]}
-                search
-              >
-                {(menus) => (
-                  <div className="py-4 table-responsive">
-                    <div
-                      id="datatable-basic_filter"
-                      className="dataTables_filter px-4 pb-1"
-                    >
-                      <label>
-                        Search:
-                        <SearchBar
-                          className="form-control-sm"
-                          placeholder=""
-                          {...menus.searchProps}
-                        />
-                      </label>
-                    </div>
-                    <BootstrapTable
-                      {...menus.baseProps}
-                      bootstrap4={true}
-                      pagination={pagination}
-                      bordered={false}
-                    />
-                  </div>
-                )}
-              </ToolkitProvider> */}
             </Card>
           </div>
         </Row>
