@@ -43,11 +43,15 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
-  const [alert, setAlert] = React.useState(null);
-  const [columnNames, setColumn] = React.useState(params.column);
+  const [alert, setAlert] = useState(null);
+  const [columnNames, setColumn] = useState(params.column);
+  const [testColumn, setTestColumn] = useState(params.data);
   const componentRef = React.useRef(null);
   console.log(params.data);
 
+  useEffect(() => {
+    console.log(params.data);
+  }, [params.data]);
   // this function will copy to clipboard an entire table,
   // so you can paste it inside an excel or csv file
   const options = async () => {

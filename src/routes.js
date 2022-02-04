@@ -26,7 +26,7 @@ import Vector from 'views/pages/maps/Vector.js';
 import Widgets from 'views/pages/Widgets.js';
 import Menu from 'views/pages/menu/Menu';
 import Warehouse from 'views/pages/warehouse/Warehouse';
-import Cart from 'views/pages/cart/Cart';
+
 import Statistics from 'views/pages/statistics/Statistics';
 import Settings from 'views/pages/settings/Settings';
 import Subscription from 'views/pages/subscription/Subscription';
@@ -37,30 +37,31 @@ import Notices from 'views/pages/notices/Notices';
 import QrCode from 'views/pages/qrCode/QrCode';
 import AutomaticPrinting from 'views/pages/automaticPrinting/AutomaticPrinting';
 import videoGuidelines from 'views/pages/videoGuidelines/videoGuidelines';
-
+import Order from 'views/pages/orders/Order';
+import Reservation from 'views/pages/reservation/Reservation';
 const routes = [
-  {
-    collapse: true,
-    name: 'Dashboards',
-    icon: 'ni ni-shop text-primary',
-    state: 'dashboardsCollapse',
-    views: [
-      {
-        path: '/dashboard',
-        name: 'Dashboard',
-        miniName: 'D',
-        component: Dashboard,
-        layout: '/admin',
-      },
-      {
-        path: '/alternative-dashboard',
-        name: 'Alternative',
-        miniName: 'A',
-        component: Alternative,
-        layout: '/admin',
-      },
-    ],
-  },
+  // {
+  //   collapse: true,
+  //   name: 'Dashboards',
+  //   icon: 'ni ni-shop text-primary',
+  //   state: 'dashboardsCollapse',
+  //   views: [
+  //     {
+  //       path: '/dashboard',
+  //       name: 'Dashboard',
+  //       miniName: 'D',
+  //       component: Dashboard,
+  //       layout: '/admin',
+  //     },
+  //     {
+  //       path: '/alternative-dashboard',
+  //       name: 'Alternative',
+  //       miniName: 'A',
+  //       component: Alternative,
+  //       layout: '/admin',
+  //     },
+  //   ],
+  // },
   {
     path: '/menu',
     name: 'Menu',
@@ -80,14 +81,14 @@ const routes = [
     path: '/orders',
     name: 'Orders',
     icon: 'ni ni-cart text-red',
-    component: Cart,
-    layout: '/cart',
+    component: Order,
+    layout: '/admin',
   },
   {
     path: '/reservations',
     name: 'Reservations',
     icon: 'ni ni-paper-diploma text-red',
-    component: Cart,
+    component: Reservation,
     layout: '/admin',
   },
   {
