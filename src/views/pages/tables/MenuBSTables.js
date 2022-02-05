@@ -8,7 +8,6 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import ReactBSAlert from 'react-bootstrap-sweetalert';
 import { Card, CardHeader, Container, Row } from 'reactstrap';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
-import { dataTable } from 'variables/general';
 
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 
@@ -44,84 +43,70 @@ const { SearchBar } = Search;
 
 function MenuBSTables(params) {
   const [alert, setAlert] = useState(null);
-  const [columnNames, setColumn] = useState(params.column);
-  const [testColumn, setTestColumn] = useState(params.data);
-  const componentRef = React.useRef(null);
-  console.log(params.data);
+  const [categoryOptions, setcategoryOptions] = useState([]);
 
-  useEffect(() => {
-    console.log(params.data);
-  }, [params.data]);
-  // this function will copy to clipboard an entire table,
-  // so you can paste it inside an excel or csv file
-  const options = async () => {
-    console.log('here at options');
-    let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
-    //   const fetchData = async () => {
+  console.log('params.data', params.data);
+  console.log('params.data', params.column);
+
+  const [columns, setColumns] = useState([
+    { dataField: 'strMealThumb', text: '', sort: true },
+    { dataField: 'idMeal', text: '', sort: true },
+    { dataField: 'strMeal', text: '', sort: true },
+    { dataField: 'strCategory', text: '' },
+  ]);
+
+  // const fetchUsers = async () => {
+  let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
+  const fetchData = async () => {
     const data = await fetch(url);
     const response = await data.json();
     console.log(response.categories);
-    return response.categories;
-    //   };
+    // return;
+    setcategoryOptions(response.categories);
   };
 
-  options();
+  useEffect(() => {
+    fetchData();
 
-  const copyToClipboardAsTable = (el) => {
-    var body = document.body,
-      range,
-      sel;
-    if (document.createRange && window.getSelection) {
-      range = document.createRange();
-      sel = window.getSelection();
-      sel.removeAllRanges();
-      try {
-        range.selectNodeContents(el);
-        sel.addRange(range);
-      } catch (e) {
-        range.selectNode(el);
-        sel.addRange(range);
-      }
-      document.execCommand('copy');
-    } else if (body.createTextRange) {
-      range = body.createTextRange();
-      range.moveToElementText(el);
-      range.select();
-      range.execCommand('Copy');
-    }
-    setAlert(
-      <ReactBSAlert
-        success
-        style={{ display: 'block', marginTop: '-100px' }}
-        title="Good job!"
-        onConfirm={() => setAlert(null)}
-        onCancel={() => setAlert(null)}
-        confirmBtnBsStyle="info"
-        btnSize=""
-      >
-        Copied to clipboard!
-      </ReactBSAlert>
-    );
-  };
-
-  const column = [
-    { dataField: 'strMealThumb', formatter: imageFormatter, sort: true },
-    { dataField: 'idMeal', text: columnNames[0], sort: true },
-    { dataField: 'strMeal', text: columnNames[1], sort: true },
-    {
-      dataField: 'type',
-      text: 'Job Type',
-      editor: {
-        type: Type.SELECT,
-        options: [
-          {
-            value: 'A',
-            label: 'A',
+    const column = [
+      { dataField: 'strMealThumb', formatter: imageFormatter, sort: true },
+      {
+        dataField: 'idMeal',
+        text: params.column[0],
+        sort: true,
+        events: {
+          onClick(e, column, columnIndex, row, rowIndex) {
+            console.log(column, columnIndex, row, rowIndex);
           },
-        ],
+        },
       },
-    },
-  ];
+      { dataField: 'strMeal', text: params.column[1], sort: true },
+      {
+        dataField: 'strCategory',
+        text: params.column[2],
+        editor: {
+          type: Type.SELECT,
+
+          getOptions: (setOptions) => {
+            console.log('cat', categoryOptions);
+            var list = [];
+            categoryOptions.forEach((element) => {
+              let listItem = {
+                id: element.idCategory,
+                value: element.strCategory,
+                label: element.strCategory,
+              };
+              console.log(listItem);
+              list.push(listItem);
+            });
+
+            setTimeout(() => setOptions(list), 1500);
+          },
+        },
+      },
+    ];
+    setColumns(column);
+  }, [params.data]);
 
   function imageFormatter(cell, row) {
     return (
@@ -155,7 +140,7 @@ function MenuBSTables(params) {
               <ToolkitProvider
                 keyField="idMeal"
                 data={params.data}
-                columns={column}
+                columns={columns}
                 search
                 dataFormat={imageFormatter}
               >
