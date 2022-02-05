@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import './Order.css';
 
@@ -20,6 +20,20 @@ import {
   Form,
 } from 'reactstrap';
 function Order() {
+  let [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    // declare the data fetching function
+
+    let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
+    const fetchData = async () => {
+      const data = await fetch(url);
+      const response = await data.json();
+      setOrders(response.meals);
+    };
+    fetchData().catch(console.error);
+  }, []);
+  console.log(orders);
   return (
     <div>
       <SimpleHeader name="" parentName="Orders " />
@@ -83,6 +97,75 @@ function Order() {
               </Row>
             </CardBody>
           </Card>
+          <Col xl="12">
+            <Row>
+              <div className="col">
+                <Card>
+                  <CardHeader className="border-0">
+                    <h3 className="mb-0">Dishes</h3>
+                  </CardHeader>
+                  <Table className="align-items-center table-flush" responsive>
+                    <thead className="thead-light">
+                      <tr>
+                        <th className="sort" data-sort="name" scope="col">
+                          #
+                        </th>
+                        <th className="sort" data-sort="budget" scope="col">
+                          Order
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          Date
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          Delivery
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          Area
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          Payment
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          Total
+                        </th>
+                        <th className="sort" data-sort="status" scope="col">
+                          State
+                        </th>
+
+                        <th scope="col" />
+                      </tr>
+                    </thead>
+                    <tbody className="list">
+                      {orders.map((order) => (
+                        <tr key={order.idMeal}>
+                          <td>{order.idMeal}</td>
+                          <td>{order.strMeal}</td>
+                          <td>{order.strCategory}</td>
+                          <td>{order.strIngredient1}</td>
+                          <td>{order.strIngredient2}</td>
+                          <td>{order.strIngredient3}</td>
+                          <td>{order.strMeasure1}</td>
+                          <td>
+                            <select>
+                              <option value="actual value 1">
+                                Display Text 1
+                              </option>
+                              <option value="actual value 2">
+                                Display Text 2
+                              </option>
+                              <option value="actual value 3">
+                                Display Text 3
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card>
+              </div>
+            </Row>
+          </Col>
         </Row>
       </Container>
     </div>
