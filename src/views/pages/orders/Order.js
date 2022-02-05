@@ -19,6 +19,7 @@ import {
   Button,
   Form,
 } from 'reactstrap';
+import OrderBSTable from '../tables/OrderBSTable';
 function Order() {
   let [orders, setOrders] = useState([]);
 
@@ -37,6 +38,7 @@ function Order() {
   return (
     <div>
       <SimpleHeader name="" parentName="Orders " />
+      <OrderBSTable data={orders}></OrderBSTable>
       <Container className="mt--6" fluid>
         <Row>
           <Card>
