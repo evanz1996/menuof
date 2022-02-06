@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import './Order.css';
 
@@ -18,14 +19,17 @@ import {
   CardTitle,
   Button,
   Form,
+  Modal,
 } from 'reactstrap';
 import OrderBSTable from '../tables/OrderBSTable';
 function Order() {
   let [orders, setOrders] = useState([]);
+  let [manageModal, setManageModal] = useState(false);
 
+  const toggleModal = (state) => {
+    manageModal(true);
+  };
   useEffect(() => {
-    // declare the data fetching function
-
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
     const fetchData = async () => {
       const data = await fetch(url);
@@ -35,10 +39,15 @@ function Order() {
     fetchData().catch(console.error);
   }, []);
   console.log(orders);
+
+  function manageHandler(e) {
+    e.preventDefault();
+    console.log('manage');
+    setManageModal(true);
+  }
   return (
     <div>
       <SimpleHeader name="" parentName="Orders " />
-      <OrderBSTable data={orders}></OrderBSTable>
       <Container className="mt--6" fluid>
         <Row>
           <Card>
@@ -46,24 +55,20 @@ function Order() {
               <CardTitle className="mb-3" tag="h3">
                 Manage Orders
               </CardTitle>
-              <CardText className="mb-4">
+              <CardText className="mb-4 wrap-overlap">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Facilis non dolore est fuga nobis ipsum illum eligendi nemo iure
                 repellat, soluta, optio minus ut reiciendis voluptates enim
                 impedit veritatis officiis.
               </CardText>
               <Row>
-                <Col xl="4">
-                  <Button
-                    color="primary"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
+                <Col xl="3">
+                  <Button color="primary" href="#pablo" onClick={manageHandler}>
                     Management Of
                   </Button>
                 </Col>
 
-                <Col xl="4">
+                <Col xl="3">
                   <Button
                     color="success"
                     href="#pablo"
@@ -72,7 +77,7 @@ function Order() {
                     Delivery Map Brands
                   </Button>
                 </Col>
-                <Col xl="3">
+                <Col xl="3" sm="5" md="4">
                   <input
                     className="custom-control-input notice-pending"
                     id="customCheck1"
@@ -99,77 +104,57 @@ function Order() {
               </Row>
             </CardBody>
           </Card>
-          <Col xl="12">
-            <Row>
-              <div className="col">
-                <Card>
-                  <CardHeader className="border-0">
-                    <h3 className="mb-0">Dishes</h3>
-                  </CardHeader>
-                  <Table className="align-items-center table-flush" responsive>
-                    <thead className="thead-light">
-                      <tr>
-                        <th className="sort" data-sort="name" scope="col">
-                          #
-                        </th>
-                        <th className="sort" data-sort="budget" scope="col">
-                          Order
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Date
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Delivery
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Area
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Payment
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Total
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          State
-                        </th>
-
-                        <th scope="col" />
-                      </tr>
-                    </thead>
-                    <tbody className="list">
-                      {orders.map((order) => (
-                        <tr key={order.idMeal}>
-                          <td>{order.idMeal}</td>
-                          <td>{order.strMeal}</td>
-                          <td>{order.strCategory}</td>
-                          <td>{order.strIngredient1}</td>
-                          <td>{order.strIngredient2}</td>
-                          <td>{order.strIngredient3}</td>
-                          <td>{order.strMeasure1}</td>
-                          <td>
-                            <select>
-                              <option value="actual value 1">
-                                Display Text 1
-                              </option>
-                              <option value="actual value 2">
-                                Display Text 2
-                              </option>
-                              <option value="actual value 3">
-                                Display Text 3
-                              </option>
-                            </select>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Card>
-              </div>
-            </Row>
-          </Col>
         </Row>
       </Container>
+      <Container>
+        <OrderBSTable data={orders}></OrderBSTable>
+      </Container>
+
+      {/* Modal */}
+      <Modal
+        className="modal-dialog-centered"
+        isOpen={manageModal}
+        toggle={() => toggleModal('defaultModal')}
+      >
+        <div className="modal-header">
+          <h1 className="modal-title" id="modal-title-default">
+            Home delivery time slots
+          </h1>
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setManageModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body wrap-overlap ">
+          <p>
+            Select the time slots you want to deactivate for today. NB It will
+            not be possible to cancel the changes. The bands deactivated today
+            will automatically be available tomorrow according to the parameters
+            selected in <Link href="#"> Settings{'->'} Orders </Link>
+          </p>
+          <h3> Bands available today for home deliveries:</h3>
+          <h3> Bands available today for take away:</h3>
+        </div>
+        <div className="modal-footer">
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+          <Button
+            className="ml-auto"
+            color="link"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setManageModal(false)}
+          >
+            Close
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -110,7 +110,7 @@ function MenuBSTables(params) {
   function imageFormatter(cell, row) {
     return (
       <a
-        className="avatar rounded-circle"
+        className="avatar avatar-xl  rounded-circle"
         href="#pablo"
         onClick={(e) => e.preventDefault()}
       >
@@ -123,94 +123,92 @@ function MenuBSTables(params) {
     <>
       {alert}
 
-      <Container className="mt--6" fluid>
-        <Row>
-          <div className="col">
-            <Card>
-              <CardHeader>
-                <h3 className="mb-0">Dishes</h3>
-                <p className="text-sm mb-0">
-                  This is an exmaple of data table using the well known
-                  react-bootstrap-table2 plugin. This is a minimal setup in
-                  order to get started fast.
-                </p>
-              </CardHeader>
+      <Row>
+        <div className="col">
+          <Card>
+            <CardHeader>
+              <h3 className="mb-0">Dishes</h3>
+              <p className="text-sm mb-0">
+                This is an exmaple of data table using the well known
+                react-bootstrap-table2 plugin. This is a minimal setup in order
+                to get started fast.
+              </p>
+            </CardHeader>
 
-              <ToolkitProvider
-                keyField="idMeal"
-                data={params.data}
-                columns={columns}
-                search
-                dataFormat={imageFormatter}
-              >
-                {(menu) => (
-                  <div className="py-4 table-responsive">
-                    <div
-                      id="datatable-basic_filter"
-                      className="dataTables_filter px-4 pb-1"
-                    >
-                      <label>
-                        Search:
-                        <SearchBar
-                          className="form-control-sm"
-                          placeholder=""
-                          {...menu.searchProps}
-                        />
-                      </label>
-                    </div>
-                    <BootstrapTable
-                      {...menu.baseProps}
-                      bootstrap4={true}
-                      pagination={pagination}
-                      cellEdit={cellEditFactory({
-                        mode: 'click',
-                        blurToSave: true,
-                      })}
-                      bordered={true}
-                    />
+            <ToolkitProvider
+              keyField="idMeal"
+              data={params.data}
+              columns={columns}
+              search
+              dataFormat={imageFormatter}
+            >
+              {(menu) => (
+                <div className="py-4 table-responsive">
+                  <div
+                    id="datatable-basic_filter"
+                    className="dataTables_filter px-4 pb-1"
+                  >
+                    <label>
+                      Search:
+                      <SearchBar
+                        className="form-control-sm"
+                        placeholder=""
+                        {...menu.searchProps}
+                      />
+                    </label>
                   </div>
-                )}
-              </ToolkitProvider>
-            </Card>
-          </div>
-        </Row>
-        {/* Modal */}
-        <Modal
-          isOpen={openModal}
-          toggle={() => setopenModal(false)}
-          className="modal-dialog-centered modal-secondary"
-        >
-          {' '}
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
-              Modal title
-            </h5>
-            <button
-              aria-label="Close"
-              className="close"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => this.toggleModal('exampleModal')}
-            >
-              <span aria-hidden={true}>×</span>
-            </button>
-          </div>
-          <div className="modal-body">...</div>
-          <div className="modal-footer">
-            <Button
-              color="secondary"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => this.toggleModal('exampleModal')}
-            >
-              Close
-            </Button>
-            <Button color="primary" type="button">
-              Save changes
-            </Button>
-          </div>
-        </Modal>
-      </Container>
+                  <BootstrapTable
+                    {...menu.baseProps}
+                    bootstrap4={true}
+                    pagination={pagination}
+                    cellEdit={cellEditFactory({
+                      mode: 'click',
+                      blurToSave: true,
+                    })}
+                    bordered={true}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
+          </Card>
+        </div>
+      </Row>
+      {/* Modal */}
+      <Modal
+        isOpen={openModal}
+        toggle={() => setopenModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        {' '}
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLabel">
+            Modal title
+          </h5>
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => this.toggleModal('exampleModal')}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body">...</div>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => this.toggleModal('exampleModal')}
+          >
+            Close
+          </Button>
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }

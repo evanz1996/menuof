@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import './Menu.css';
 import {
   Table,
   DropdownToggle,
@@ -40,7 +40,7 @@ function Menu() {
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
-      <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
+
       <Container className="mt--6" fluid>
         <Row>
           <Card>
@@ -48,7 +48,7 @@ function Menu() {
               <CardTitle className="mb-3" tag="h3">
                 Menu Sections
               </CardTitle>
-              <CardText className="mb-4">
+              <CardText className="mb-4 wrap-overlap">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Facilis non dolore est fuga nobis ipsum illum eligendi nemo iure
                 repellat, soluta, optio minus ut reiciendis voluptates enim
@@ -81,68 +81,9 @@ function Menu() {
             </CardBody>
           </Card>
         </Row>
-        <Row>
-          <Col xl="5"></Col>
-          <Col xl="12">
-            <Row>
-              <div className="col">
-                <Card>
-                  <CardHeader className="border-0">
-                    <h3 className="mb-0">Dishes</h3>
-                  </CardHeader>
-                  <Table className="align-items-center table-flush" responsive>
-                    <thead className="thead-light">
-                      <tr>
-                        <th className="sort" data-sort="name" scope="col"></th>
-                        <th className="sort" data-sort="name" scope="col">
-                          Title
-                        </th>
-                        <th className="sort" data-sort="budget" scope="col">
-                          Description
-                        </th>
-                        <th className="sort" data-sort="status" scope="col">
-                          Section / Subsection
-                        </th>
-
-                        <th scope="col" />
-                      </tr>
-                    </thead>
-                    <tbody className="list">
-                      {menus.map((menu) => (
-                        <tr key={menu.idMeal}>
-                          <td>
-                            <a
-                              className="avatar avatar-xl  rounded-circle"
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <img alt="..." src={menu.strMealThumb} />
-                            </a>
-                          </td>
-                          <td>{menu.strMeal}</td>
-                          <td>{menu.strMeal}</td>
-                          <td>
-                            <select>
-                              <option value="actual value 1">
-                                Display Text 1
-                              </option>
-                              <option value="actual value 2">
-                                Display Text 2
-                              </option>
-                              <option value="actual value 3">
-                                Display Text 3
-                              </option>
-                            </select>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Card>
-              </div>
-            </Row>
-          </Col>
-        </Row>
+      </Container>
+      <Container>
+        <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
       </Container>
     </div>
   );

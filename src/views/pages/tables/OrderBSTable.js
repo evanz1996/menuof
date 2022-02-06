@@ -5,6 +5,7 @@ import ReactBSAlert from 'react-bootstrap-sweetalert';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+import '../orders/Order.css';
 import {
   Card,
   CardHeader,
@@ -58,9 +59,6 @@ function OrderBSTable(params) {
 
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
-    { dataField: 'idMeal', text: '', sort: true },
-    { dataField: 'strMeal', text: '', sort: true },
-    { dataField: 'strCategory', text: '' },
   ]);
 
   //Call API endpoint
@@ -140,10 +138,10 @@ function OrderBSTable(params) {
           },
         },
       },
-      { dataField: 'strMealThumb', text: 'Date', sort: true },
+      { dataField: 'strIngredient2', text: 'Date', sort: true },
       { dataField: 'strIngredient6', text: 'Delivery', sort: true },
-      { dataField: 'strDrinkAlternate', text: 'Area', sort: true },
-      { dataField: 'strImageSource', text: 'Payment', sort: true },
+      { dataField: 'strTags', text: 'Area', sort: true },
+      { dataField: 'strIngredient3', text: 'Payment', sort: true },
       { dataField: 'strIngredient1', text: 'Total', sort: true },
       {
         dataField: 'strCategory',
@@ -173,142 +171,136 @@ function OrderBSTable(params) {
   }, [params.data]);
   return (
     <>
-      <Container className="mt--6" fluid>
-        <Row>
-          <div className="col">
-            <Card>
-              <CardHeader>
-                <h3 className="mb-0">Orders</h3>
-                <p className="text-sm mb-0">
-                  This is an exmaple of data table using the well known
-                  react-bootstrap-table2 plugin. This is a minimal setup in
-                  order to get started fast.
-                </p>
-              </CardHeader>
+      {/* <Container className="mt--6" fluid> */}
+      <Row>
+        <div className="col">
+          <Card>
+            <CardHeader>
+              <h3 className="mb-0">Orders</h3>
+              <p className="text-sm mb-0 wrap-overlap">
+                This is an exmaple of data table using the well known
+                react-bootstrap-table2 plugin. This is a minimal setup in order
+                to get started fast.
+              </p>
+            </CardHeader>
 
-              <ToolkitProvider
-                keyField="idMeal"
-                data={params.data}
-                columns={columns}
-                search
-              >
-                {(menu) => (
-                  <div className="py-4 table-responsive">
-                    <div
-                      id="datatable-basic_filter"
-                      className="dataTables_filter px-4 pb-1"
-                    >
-                      <label>
-                        Search:
-                        <SearchBar
-                          className="form-control-sm"
-                          placeholder=""
-                          {...menu.searchProps}
-                        />
-                      </label>
-                    </div>
-                    <BootstrapTable
-                      {...menu.baseProps}
-                      bootstrap4={true}
-                      pagination={pagination}
-                      cellEdit={cellEditFactory({
-                        mode: 'click',
-                        blurToSave: true,
-                      })}
-                      bordered={true}
-                    />
+            <ToolkitProvider
+              keyField="idMeal"
+              data={params.data}
+              columns={columns}
+              search
+            >
+              {(menu) => (
+                <div className="py-4 table-responsive">
+                  <div
+                    id="datatable-basic_filter"
+                    className="dataTables_filter px-4 pb-1"
+                  >
+                    <label>
+                      Search:
+                      <SearchBar
+                        className="form-control-sm"
+                        placeholder=""
+                        {...menu.searchProps}
+                      />
+                    </label>
                   </div>
-                )}
-              </ToolkitProvider>
-            </Card>
-          </div>
-        </Row>
-        {/* Modal */}
-        <Modal
-          isOpen={orderModal}
-          toggle={() => setOrderModal(false)}
-          className="modal-dialog-centered modal-secondary"
-        >
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
-              Delivery
-            </h5>
-            <button
-              aria-label="Close"
-              className="close"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => setOrderModal(false)}
-            >
-              <span aria-hidden={true}>×</span>
-            </button>
-            <strong>Delivery: test101</strong>
-          </div>
+                  <BootstrapTable
+                    {...menu.baseProps}
+                    bootstrap4={true}
+                    pagination={pagination}
+                    cellEdit={cellEditFactory({
+                      mode: 'click',
+                      blurToSave: true,
+                    })}
+                    bordered={true}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
+          </Card>
+        </div>
+      </Row>
+      {/* Modal */}
+      <Modal
+        isOpen={orderModal}
+        toggle={() => setOrderModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLabel">
+            Delivery
+          </h5>
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setOrderModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+          <strong>Delivery: test101</strong>
+        </div>
 
-          <div className="modal-body">
-            <Row>
-              <Col sm="6">Payment: test101</Col>
-              <Col sm="6">Payment: test101</Col>
-            </Row>
-            <Row>
-              <Col sm="6"> First name: test101</Col>
-              <Col sm="6">Address: test101</Col>
-            </Row>
-            <Row>
-              <Col sm="6">Phone number: test101</Col>
-              <Col sm="6">Email-Address: test101</Col>
-            </Row>
-            <Table
-              className="align-items-center"
-              responsive
-              id="react-bs-table"
-            >
-              <thead className="thead-light">
-                <tr>
-                  <th scope="col">Qty</th>
-                  <th scope="col">Order</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td> 1</td>
-                  <td>2 </td>
-                  <td>300 </td>
-                  <td>600 </td>
-                </tr>
-              </tbody>
-              Subtotal: 600 <br />
-              Delivery costs: 50
-              <br /> Discount (Card): 0 Total 650
-              <br />
-            </Table>
-          </div>
-          <div className="modal-footer">
-            <Button
-              color="secondary"
-              data-dismiss="modal"
-              type="button"
-              onClick={() => setOrderModal(false)}
-            >
-              Close
-            </Button>
-            <Button
-              color="primary"
-              type="button"
-              onClick={() =>
-                copyToClipboardAsTable(
-                  document.getElementById('react-bs-table')
-                )
-              }
-              id="copy-tooltip"
-            >
-              Print
-            </Button>
-          </div>
-        </Modal>
-      </Container>
+        <div className="modal-body">
+          <Row>
+            <Col sm="6">Payment: test101</Col>
+            <Col sm="6">Payment: test101</Col>
+          </Row>
+          <Row>
+            <Col sm="6"> First name: test101</Col>
+            <Col sm="6">Address: test101</Col>
+          </Row>
+          <Row>
+            <Col sm="6">Phone number: test101</Col>
+            <Col sm="6">Email-Address: test101</Col>
+          </Row>
+          <Table className="align-items-center" responsive id="react-bs-table">
+            <thead className="thead-light">
+              <tr>
+                <th scope="col">Qty</th>
+                <th scope="col">Order</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td> 1</td>
+                <td>2 </td>
+                <td>300 </td>
+                <td>600 </td>
+              </tr>
+            </tbody>
+            Subtotal: 600 <br />
+            Delivery costs: 50
+            <br /> Discount (Card): 0 Total 650
+            <br />
+          </Table>
+        </div>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setOrderModal(false)}
+          >
+            Close
+          </Button>
+          <Button
+            color="primary"
+            type="button"
+            onClick={() =>
+              copyToClipboardAsTable(document.getElementById('react-bs-table'))
+            }
+            id="copy-tooltip"
+          >
+            Print
+          </Button>
+        </div>
+      </Modal>
+      {/* </Container> */}
     </>
   );
 }
