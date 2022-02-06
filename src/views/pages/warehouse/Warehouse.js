@@ -3,27 +3,22 @@ import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import './Warehouse.css';
 import WarehouseBSTable from '../tables/WarehouseBSTable';
 import {
-  Table,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   Card,
-  CardHeader,
   Container,
   Row,
-  Col,
   CardBody,
   CardText,
   CardTitle,
   Button,
-  FormGroup,
-  Input,
 } from 'reactstrap';
 
 function Warehouse() {
   const [warehouses, setWarehouse] = useState([]);
-  const [quantity, setQuantity] = useState([]);
+  // const [quantity, setQuantity] = useState([]);
 
   useEffect(() => {
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';

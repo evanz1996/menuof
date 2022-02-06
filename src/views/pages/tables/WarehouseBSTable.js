@@ -3,7 +3,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import { Card, CardHeader, Row, Modal, Button } from 'reactstrap';
+import { Card, CardHeader, Row } from 'reactstrap';
 
 import cellEditFactory from 'react-bootstrap-table2-editor';
 
@@ -43,7 +43,7 @@ function WarehouseBSTables(params) {
   const [columns, setColumns] = useState([
     { dataField: '', text: '', sort: true },
   ]);
-  let quantity = [1, 2, 45, 6, 90];
+  //   let quantity = [1, 2, 45, 6, 90];
 
   useEffect(() => {
     const column = [

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-
-import ReactToPrint from 'react-to-print';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import ReactBSAlert from 'react-bootstrap-sweetalert';
-import { Card, CardHeader, Container, Row, Modal, Button } from 'reactstrap';
+import { Card, CardHeader, Row, Modal, Button } from 'reactstrap';
 
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 
@@ -41,11 +38,9 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
-  const [alert, setAlert] = useState(null);
+  // const [alert, setAlert] = useState(null);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
-  console.log('params.data', params.data);
-  console.log('params.data', params.column);
 
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
@@ -58,8 +53,7 @@ function MenuBSTables(params) {
   const fetchData = async () => {
     const data = await fetch(url);
     const response = await data.json();
-    console.log(response.categories);
-    // return;
+
     setcategoryOptions(response.categories);
   };
 
@@ -67,7 +61,12 @@ function MenuBSTables(params) {
     fetchData();
 
     const column = [
-      { dataField: 'strMealThumb', formatter: imageFormatter, sort: true },
+      {
+        dataField: 'strMealThumb',
+        text: '',
+        formatter: imageFormatter,
+        sort: true,
+      },
       {
         dataField: 'idMeal',
         text: params.column[0],
@@ -87,7 +86,6 @@ function MenuBSTables(params) {
           type: Type.SELECT,
 
           getOptions: (setOptions) => {
-            console.log('cat', categoryOptions);
             var list = [];
             categoryOptions.forEach((element) => {
               let listItem = {

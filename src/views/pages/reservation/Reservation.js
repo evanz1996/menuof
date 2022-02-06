@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 
 import {
-  Table,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
   Card,
-  CardHeader,
   Container,
   Row,
   Col,
@@ -17,11 +11,12 @@ import {
   CardTitle,
   Button,
   Form,
-  Modal,
 } from 'reactstrap';
+import ReservationBSTable from '../tables/ReservationBSTable';
+
 function Reservation() {
   let [reservations, setReservations] = useState([]);
-  let [activateModal, setActivateModal] = useState(false);
+  // let [activateModal, setActivateModal] = useState(false);
 
   useEffect(() => {
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
@@ -37,6 +32,7 @@ function Reservation() {
   return (
     <div>
       <SimpleHeader name="" parentName="Reservations" />
+
       <Container className="mt--6" fluid>
         <Row>
           <Card>
@@ -114,6 +110,9 @@ function Reservation() {
             </CardBody>
           </Card>
         </Row>
+      </Container>
+      <Container>
+        <ReservationBSTable data={reservations}></ReservationBSTable>
       </Container>
     </div>
   );
