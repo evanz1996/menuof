@@ -135,7 +135,7 @@ function Order() {
             Select the time slots you want to deactivate for today. NB It will
             not be possible to cancel the changes. The bands deactivated today
             will automatically be available tomorrow according to the parameters
-            selected in <Link href="#"> Settings{'->'} Orders </Link>
+            selected in <Link href="#"> Settings Orders </Link>
           </p>
           <h3> Bands available today for home deliveries:</h3>
           <h3> Bands available today for take away:</h3>
