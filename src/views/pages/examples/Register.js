@@ -14,9 +14,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React from 'react';
 // nodejs library that concatenates classes
-import classnames from "classnames";
+import classnames from 'classnames';
 // reactstrap components
 import {
   Button,
@@ -32,9 +32,9 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 // core components
-import AuthHeader from "components/Headers/AuthHeader.js";
+import AuthHeader from 'components/Headers/AuthHeader.js';
 
 function Register() {
   const [focusedName, setfocusedName] = React.useState(false);
@@ -65,7 +65,7 @@ function Register() {
                       <img
                         alt="..."
                         src={
-                          require("assets/img/icons/common/github.svg").default
+                          require('assets/img/icons/common/github.svg').default
                         }
                       />
                     </span>
@@ -81,7 +81,7 @@ function Register() {
                       <img
                         alt="..."
                         src={
-                          require("assets/img/icons/common/google.svg").default
+                          require('assets/img/icons/common/google.svg').default
                         }
                       />
                     </span>
@@ -153,7 +153,7 @@ function Register() {
                   </FormGroup>
                   <div className="text-muted font-italic">
                     <small>
-                      password strength:{" "}
+                      password strength:{' '}
                       <span className="text-success font-weight-700">
                         strong
                       </span>
@@ -172,7 +172,7 @@ function Register() {
                           htmlFor="customCheckRegister"
                         >
                           <span className="text-muted">
-                            I agree with the{" "}
+                            I agree with the{' '}
                             <a
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}

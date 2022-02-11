@@ -1,27 +1,10 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { useState, useEffect } from 'react';
 // nodejs library that concatenates classes
-import classnames from "classnames";
+import classnames from 'classnames';
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -32,13 +15,47 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 // core components
-import AuthHeader from "components/Headers/AuthHeader.js";
+import AuthHeader from 'components/Headers/AuthHeader.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+// import { login } from 'slices/auth';
+import { login } from 'actions/auth';
+import { clearMessage } from 'slices/message';
 
 function Login() {
-  const [focusedEmail, setfocusedEmail] = React.useState(false);
-  const [focusedPassword, setfocusedPassword] = React.useState(false);
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   console.log('here at first useEffect');
+  //   <Redirect to="/admin/menu" />;
+  //   dispatch(clearMessage());
+  // }, [dispatch]);
+
+  useEffect(() => {
+    console.log('check if logged In');
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      return <Redirect to="/admin/menu" />;
+    }
+  }, [isLoggedIn]);
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log('henlo from login component');
+    setLoading(true);
+    dispatch(login(email, password));
+  };
+
   return (
     <>
       <AuthHeader
@@ -49,53 +66,14 @@ function Login() {
         <Row className="justify-content-center">
           <Col lg="5" md="7">
             <Card className="bg-secondary border-0 mb-0">
-              <CardHeader className="bg-transparent pb-5">
-                <div className="text-muted text-center mt-2 mb-3">
-                  <small>Sign in with</small>
-                </div>
-                <div className="btn-wrapper text-center">
-                  <Button
-                    className="btn-neutral btn-icon"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require("assets/img/icons/common/github.svg").default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Github</span>
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-icon"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require("assets/img/icons/common/google.svg").default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Google</span>
-                  </Button>
-                </div>
-              </CardHeader>
               <CardBody className="px-lg-5 py-lg-5">
                 <div className="text-center text-muted mb-4">
-                  <small>Or sign in with credentials</small>
+                  <small>Sign in with credentials</small>
                 </div>
-                <Form role="form">
+                <Form role="form" onSubmit={onSubmitHandler}>
                   <FormGroup
-                    className={classnames("mb-3", {
-                      focused: focusedEmail,
+                    className={classnames('mb-3', {
+                      focused: email,
                     })}
                   >
                     <InputGroup className="input-group-merge input-group-alternative">
@@ -105,16 +83,24 @@ function Login() {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
+                        autoComplete="off"
+                        name="email"
                         placeholder="Email"
                         type="email"
-                        onFocus={() => setfocusedEmail(true)}
-                        onBlur={() => setfocusedEmail(true)}
+                        // onFocus={() => setemail(true)}
+                        // onBlur={() => setemail(true)}
+
+                        onChange={(e) => setemail(e.target.value)}
+                        // {...register('email')}
+                        // className={`form-control ${
+                        //   errors.email ? 'is-invalid' : ''
+                        // }`}
                       />
                     </InputGroup>
                   </FormGroup>
                   <FormGroup
                     className={classnames({
-                      focused: focusedPassword,
+                      focused: password,
                     })}
                   >
                     <InputGroup className="input-group-merge input-group-alternative">
@@ -124,10 +110,17 @@ function Login() {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
+                        autoComplete="off"
+                        name="password"
                         placeholder="Password"
                         type="password"
-                        onFocus={() => setfocusedPassword(true)}
-                        onBlur={() => setfocusedPassword(true)}
+                        // {...register('password')}
+
+                        onChange={(e) => setpassword(e.target.value)}
+
+                        // className={`form-control ${
+                        //   errors.password ? 'is-invalid' : ''
+                        // }`}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -144,8 +137,9 @@ function Login() {
                       <span className="text-muted">Remember me</span>
                     </label>
                   </div>
+
                   <div className="text-center">
-                    <Button className="my-4" color="info" type="button">
+                    <Button type="submit" className="my-4" color="info">
                       Sign in
                     </Button>
                   </div>

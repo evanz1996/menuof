@@ -1,10 +1,8 @@
-import Alternative from 'views/pages/dashboards/Alternative.js';
 import Buttons from 'views/pages/components/Buttons.js';
 import Calendar from 'views/pages/Calendar.js';
 import Cards from 'views/pages/components/Cards.js';
 import Charts from 'views/pages/Charts.js';
 import Components from 'views/pages/forms/Components.js';
-import Dashboard from 'views/pages/dashboards/Dashboard.js';
 import Elements from 'views/pages/forms/Elements.js';
 import Google from 'views/pages/maps/Google.js';
 import Grid from 'views/pages/components/Grid.js';
@@ -39,6 +37,7 @@ import AutomaticPrinting from 'views/pages/automaticPrinting/AutomaticPrinting';
 import videoGuidelines from 'views/pages/videoGuidelines/videoGuidelines';
 import Order from 'views/pages/orders/Order';
 import Reservation from 'views/pages/reservation/Reservation';
+// import Register from 'views/pages/authentication/Register';
 const routes = [
   // {
   //   collapse: true,
