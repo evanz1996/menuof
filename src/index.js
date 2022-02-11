@@ -22,12 +22,17 @@ import RTLLayout from 'layouts/RTL.js';
 import AuthLayout from 'layouts/Auth.js';
 import IndexView from 'views/Index.js';
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slices/auth';
-import messageReducer from './slices/message';
+import auth from 'reducers/auth';
+import message from 'reducers/message';
+// import messageReducer from './slices/message';
 import { Provider } from 'react-redux';
+// const reducer = {
+//   auth: authReducer,
+//   message: messageReducer,
+// };
 const reducer = {
-  auth: authReducer,
-  message: messageReducer,
+  auth: auth,
+  message: message,
 };
 
 const store = configureStore({

@@ -25,7 +25,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 // import { login } from 'slices/auth';
 import { login } from 'actions/auth';
-import { clearMessage } from 'slices/message';
+// import { clearMessage } from 'slices/message';
+import message from 'reducers/index';
 
 function Login() {
   const [email, setemail] = useState('');
@@ -45,6 +46,7 @@ function Login() {
     console.log('check if logged In');
     console.log(isLoggedIn);
     if (isLoggedIn) {
+      console.log('i am here');
       return <Redirect to="/admin/menu" />;
     }
   }, [isLoggedIn]);
@@ -52,6 +54,7 @@ function Login() {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('henlo from login component');
+
     setLoading(true);
     dispatch(login(email, password));
   };
