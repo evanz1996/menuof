@@ -25,7 +25,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 // import { login } from 'slices/auth';
 import { login } from 'actions/auth';
-// import { clearMessage } from 'slices/message';
+import { clearMessage } from 'actions/message';
 import message from 'reducers/index';
 
 function Login() {
@@ -36,11 +36,11 @@ function Login() {
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   console.log('here at first useEffect');
-  //   <Redirect to="/admin/menu" />;
-  //   dispatch(clearMessage());
-  // }, [dispatch]);
+  useEffect(() => {
+    console.log('here at first useEffect');
+    <Redirect to="/admin/menu" />;
+    dispatch(clearMessage());
+  }, [dispatch]);
 
   useEffect(() => {
     console.log('check if logged In');
@@ -90,14 +90,7 @@ function Login() {
                         name="email"
                         placeholder="Email"
                         type="email"
-                        // onFocus={() => setemail(true)}
-                        // onBlur={() => setemail(true)}
-
                         onChange={(e) => setemail(e.target.value)}
-                        // {...register('email')}
-                        // className={`form-control ${
-                        //   errors.email ? 'is-invalid' : ''
-                        // }`}
                       />
                     </InputGroup>
                   </FormGroup>

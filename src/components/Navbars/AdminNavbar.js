@@ -1,23 +1,6 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// nodejs library that concatenates classes
-import classnames from "classnames";
+import classnames from 'classnames';
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 // reactstrap components
 import {
   Collapse,
@@ -41,52 +24,68 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
-
+} from 'reactstrap';
+import { logout } from 'actions/auth';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearMessage } from 'actions/message';
+import { history } from 'helpers/history';
 function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   // function that on mobile devices makes the search open
   const openSearch = () => {
-    document.body.classList.add("g-navbar-search-showing");
+    document.body.classList.add('g-navbar-search-showing');
     setTimeout(function () {
-      document.body.classList.remove("g-navbar-search-showing");
-      document.body.classList.add("g-navbar-search-show");
+      document.body.classList.remove('g-navbar-search-showing');
+      document.body.classList.add('g-navbar-search-show');
     }, 150);
     setTimeout(function () {
-      document.body.classList.add("g-navbar-search-shown");
+      document.body.classList.add('g-navbar-search-shown');
     }, 300);
   };
   // function that on mobile devices makes the search close
   const closeSearch = () => {
-    document.body.classList.remove("g-navbar-search-shown");
+    document.body.classList.remove('g-navbar-search-shown');
     setTimeout(function () {
-      document.body.classList.remove("g-navbar-search-show");
-      document.body.classList.add("g-navbar-search-hiding");
+      document.body.classList.remove('g-navbar-search-show');
+      document.body.classList.add('g-navbar-search-hiding');
     }, 150);
     setTimeout(function () {
-      document.body.classList.remove("g-navbar-search-hiding");
-      document.body.classList.add("g-navbar-search-hidden");
+      document.body.classList.remove('g-navbar-search-hiding');
+      document.body.classList.add('g-navbar-search-hidden');
     }, 300);
     setTimeout(function () {
-      document.body.classList.remove("g-navbar-search-hidden");
+      document.body.classList.remove('g-navbar-search-hidden');
     }, 500);
+  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('dispatch from logout');
+    history.listen((location) => {
+      dispatch(clearMessage()); // clear message when changing location
+    });
+  }, [dispatch]);
+
+  const logOut = () => {
+    console.log('here at logOut');
+    dispatch(logout());
   };
 
   return (
     <>
       <Navbar
         className={classnames(
-          "navbar-top navbar-expand border-bottom",
-          { "navbar-dark bg-info": theme === "dark" },
-          { "navbar-light bg-secondary": theme === "light" }
+          'navbar-top navbar-expand border-bottom',
+          { 'navbar-dark bg-info': theme === 'dark' },
+          { 'navbar-light bg-secondary': theme === 'light' }
         )}
       >
         <Container fluid>
           <Collapse navbar isOpen={true}>
             <Form
               className={classnames(
-                "navbar-search form-inline mr-sm-3",
-                { "navbar-search-light": theme === "dark" },
-                { "navbar-search-dark": theme === "light" }
+                'navbar-search form-inline mr-sm-3',
+                { 'navbar-search-light': theme === 'dark' },
+                { 'navbar-search-dark': theme === 'light' }
               )}
             >
               <FormGroup className="mb-0">
@@ -113,9 +112,9 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
               <NavItem className="d-xl-none">
                 <div
                   className={classnames(
-                    "pr-3 sidenav-toggler",
+                    'pr-3 sidenav-toggler',
                     { active: sidenavOpen },
-                    { "sidenav-toggler-dark": theme === "dark" }
+                    { 'sidenav-toggler-dark': theme === 'dark' }
                   )}
                   onClick={toggleSidenav}
                 >
@@ -141,7 +140,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                 >
                   <div className="px-3 py-3">
                     <h6 className="text-sm text-muted m-0">
-                      You have <strong className="text-info">13</strong>{" "}
+                      You have <strong className="text-info">13</strong>{' '}
                       notifications.
                     </h6>
                   </div>
@@ -158,7 +157,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           <img
                             alt="..."
                             className="avatar rounded-circle"
-                            src={require("assets/img/theme/team-1.jpg").default}
+                            src={require('assets/img/theme/team-1.jpg').default}
                           />
                         </Col>
                         <div className="col ml--2">
@@ -187,7 +186,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           <img
                             alt="..."
                             className="avatar rounded-circle"
-                            src={require("assets/img/theme/team-2.jpg").default}
+                            src={require('assets/img/theme/team-2.jpg').default}
                           />
                         </Col>
                         <div className="col ml--2">
@@ -216,7 +215,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           <img
                             alt="..."
                             className="avatar rounded-circle"
-                            src={require("assets/img/theme/team-3.jpg").default}
+                            src={require('assets/img/theme/team-3.jpg').default}
                           />
                         </Col>
                         <div className="col ml--2">
@@ -245,7 +244,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           <img
                             alt="..."
                             className="avatar rounded-circle"
-                            src={require("assets/img/theme/team-4.jpg").default}
+                            src={require('assets/img/theme/team-4.jpg').default}
                           />
                         </Col>
                         <div className="col ml--2">
@@ -274,7 +273,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           <img
                             alt="..."
                             className="avatar rounded-circle"
-                            src={require("assets/img/theme/team-5.jpg").default}
+                            src={require('assets/img/theme/team-5.jpg').default}
                           />
                         </Col>
                         <div className="col ml--2">
@@ -395,7 +394,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                     <span className="avatar avatar-sm rounded-circle">
                       <img
                         alt="..."
-                        src={require("assets/img/theme/team-4.jpg").default}
+                        src={require('assets/img/theme/team-4.jpg').default}
                       />
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
@@ -438,10 +437,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                     <span>Support</span>
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
+                  <DropdownItem href="#pablo" onClick={logOut}>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>
@@ -458,12 +454,12 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
 AdminNavbar.defaultProps = {
   toggleSidenav: () => {},
   sidenavOpen: false,
-  theme: "dark",
+  theme: 'dark',
 };
 AdminNavbar.propTypes = {
   toggleSidenav: PropTypes.func,
   sidenavOpen: PropTypes.bool,
-  theme: PropTypes.oneOf(["dark", "light"]),
+  theme: PropTypes.oneOf(['dark', 'light']),
 };
 
 export default AdminNavbar;

@@ -9,12 +9,14 @@ import {
 
 import authService from 'services/auth.service';
 
-export const register = (username, email, password) => (dispatch) => {
+export const register = (name, email, password) => (dispatch) => {
   console.log('actions/auth/register');
-  console.log('register', username, email, password);
-
-  return authService.register(username, email, password).then(
+  console.log('register', name, email, password);
+  console.log(authService.register(name, email, password));
+  return authService.register(name, email, password).then(
     (response) => {
+      console.log('response at register actions', response);
+
       dispatch({
         type: REGISTER_SUCCESS,
       });
@@ -25,6 +27,7 @@ export const register = (username, email, password) => (dispatch) => {
       return Promise.resolve();
     },
     (error) => {
+      console.log('error in action/auth', error);
       const message =
         (error.response &&
           error.response.data &&

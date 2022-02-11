@@ -42,6 +42,8 @@ export default function auth(state = initialState, action) {
         user: null,
       };
     case LOGOUT:
+      console.log('here at logout');
+      console.log(state);
       return {
         ...state,
         isLoggedIn: false,

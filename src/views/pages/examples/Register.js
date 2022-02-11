@@ -1,27 +1,10 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // nodejs library that concatenates classes
 import classnames from 'classnames';
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -35,11 +18,24 @@ import {
 } from 'reactstrap';
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
-
+import { register } from 'actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
 function Register() {
   const [focusedName, setfocusedName] = React.useState(false);
   const [focusedEmail, setfocusedEmail] = React.useState(false);
   const [focusedPassword, setfocusedPassword] = React.useState(false);
+
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+  const [name, setName] = useState('');
+  const dispatch = useDispatch();
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log('henlo from create signup');
+
+    dispatch(register(name, email, password));
+  };
   return (
     <>
       <AuthHeader
@@ -50,50 +46,11 @@ function Register() {
         <Row className="justify-content-center">
           <Col lg="6" md="8">
             <Card className="bg-secondary border-0">
-              <CardHeader className="bg-transparent pb-5">
-                <div className="text-muted text-center mt-2 mb-4">
-                  <small>Sign up with</small>
-                </div>
-                <div className="text-center">
-                  <Button
-                    className="btn-neutral btn-icon mr-4"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require('assets/img/icons/common/github.svg').default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Github</span>
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-icon"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require('assets/img/icons/common/google.svg').default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Google</span>
-                  </Button>
-                </div>
-              </CardHeader>
               <CardBody className="px-lg-5 py-lg-5">
                 <div className="text-center text-muted mb-4">
-                  <small>Or sign up with credentials</small>
+                  <small>Create an account</small>
                 </div>
-                <Form role="form">
+                <Form role="form" onSubmit={onSubmitHandler}>
                   <FormGroup
                     className={classnames({
                       focused: focusedName,
@@ -108,8 +65,7 @@ function Register() {
                       <Input
                         placeholder="Name"
                         type="text"
-                        onFocus={() => setfocusedName(true)}
-                        onBlur={() => setfocusedName(false)}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -127,8 +83,7 @@ function Register() {
                       <Input
                         placeholder="Email"
                         type="email"
-                        onFocus={() => setfocusedEmail(true)}
-                        onBlur={() => setfocusedEmail(false)}
+                        onChange={(e) => setemail(e.target.value)}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -146,8 +101,7 @@ function Register() {
                       <Input
                         placeholder="Password"
                         type="password"
-                        onFocus={() => setfocusedPassword(true)}
-                        onBlur={() => setfocusedPassword(false)}
+                        onChange={(e) => setpassword(e.target.value)}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -185,7 +139,7 @@ function Register() {
                     </Col>
                   </Row>
                   <div className="text-center">
-                    <Button className="mt-4" color="info" type="button">
+                    <Button className="mt-4" color="info" type="submit">
                       Create account
                     </Button>
                   </div>
