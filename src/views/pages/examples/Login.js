@@ -20,13 +20,9 @@ import {
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-// import { login } from 'slices/auth';
+
 import { login } from 'actions/auth';
 import { clearMessage } from 'actions/message';
-import message from 'reducers/index';
 
 function Login() {
   const [email, setemail] = useState('');

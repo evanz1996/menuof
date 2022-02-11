@@ -26,8 +26,8 @@ import {
   Col,
 } from 'reactstrap';
 import { logout } from 'actions/auth';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { clearMessage } from 'actions/message';
 import { history } from 'helpers/history';
 function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {

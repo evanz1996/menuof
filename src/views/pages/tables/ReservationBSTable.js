@@ -3,7 +3,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import { Card, CardHeader, Row, Modal, Button } from 'reactstrap';
+import { Card, CardHeader, Row } from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 
 const pagination = paginationFactory({

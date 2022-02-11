@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import ReactToPrint from 'react-to-print';
+// import ReactToPrint from 'react-to-print';
 import ReactBSAlert from 'react-bootstrap-sweetalert';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import '../orders/Order.css';
-import {
-  Card,
-  CardHeader,
-  Container,
-  Row,
-  Modal,
-  Button,
-  Col,
-  Table,
-} from 'reactstrap';
+import { Card, CardHeader, Row, Modal, Button, Col, Table } from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 
 const pagination = paginationFactory({
@@ -47,13 +38,13 @@ const pagination = paginationFactory({
 });
 
 const { SearchBar } = Search;
-function printReceipt(id) {
-  console.log(id);
-  console.log('check');
-}
+// function printReceipt(id) {
+//   console.log(id);
+//   console.log('check');
+// }
 function OrderBSTable(params) {
   console.log(params.data);
-  const [alert, setAlert] = useState(null);
+  // const [alert, setAlert] = useState(null);
   const [orderStateOptions, setOrderStateOptions] = useState([]);
   const [orderModal, setOrderModal] = useState(false);
 
@@ -71,7 +62,7 @@ function OrderBSTable(params) {
     setOrderStateOptions(response.categories);
   };
   //React Print
-  const printPageRef = useRef(null);
+  // const printPageRef = useRef(null);
   // this function will copy to clipboard an entire table,
   // so you can paste it inside an excel or csv file
   const copyToClipboardAsTable = (el) => {

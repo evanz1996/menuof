@@ -3,7 +3,7 @@ import classnames from 'classnames';
 // javascipt plugin for creating charts
 import { Chart } from 'chart.js';
 // react plugin used to create charts
-import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import {
   // global options for the charts

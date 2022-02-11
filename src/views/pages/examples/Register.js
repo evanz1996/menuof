@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-// nodejs library that concatenates classes
-import classnames from 'classnames';
-// reactstrap components
+import React, { useState } from 'react';
+
 import {
   Button,
   Card,
@@ -19,11 +17,11 @@ import {
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { register } from 'actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 function Register() {
-  const [focusedName, setfocusedName] = React.useState(false);
-  const [focusedEmail, setfocusedEmail] = React.useState(false);
-  const [focusedPassword, setfocusedPassword] = React.useState(false);
+  // const [focusedName, setfocusedName] = React.useState(false);
+  // const [focusedEmail, setfocusedEmail] = React.useState(false);
+  // const [focusedPassword, setfocusedPassword] = React.useState(false);
 
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
@@ -52,9 +50,9 @@ function Register() {
                 </div>
                 <Form role="form" onSubmit={onSubmitHandler}>
                   <FormGroup
-                    className={classnames({
-                      focused: focusedName,
-                    })}
+                  // className={classnames({
+                  //   focused: focusedName,
+                  // })}
                   >
                     <InputGroup className="input-group-merge input-group-alternative mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -70,9 +68,9 @@ function Register() {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup
-                    className={classnames({
-                      focused: focusedEmail,
-                    })}
+                  // className={classnames({
+                  //   focused: focusedEmail,
+                  // })}
                   >
                     <InputGroup className="input-group-merge input-group-alternative mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -88,9 +86,9 @@ function Register() {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup
-                    className={classnames({
-                      focused: focusedPassword,
-                    })}
+                  // className={classnames({
+                  //   focused: focusedPassword,
+                  // })}
                   >
                     <InputGroup className="input-group-merge input-group-alternative">
                       <InputGroupAddon addonType="prepend">

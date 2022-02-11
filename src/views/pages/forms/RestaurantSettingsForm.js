@@ -4,12 +4,10 @@ import React from 'react';
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
   Input,
-  Row,
   Col,
 } from 'reactstrap';
 function RestaurantSettingsForm() {
