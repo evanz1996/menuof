@@ -15,12 +15,12 @@ import {
 } from 'reactstrap';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import MenuBSTables from '../tables/MenuBSTables';
+
 function Menu() {
   let [menus, setMenu] = useState([]);
 
   useEffect(() => {
     // declare the data fetching function
-
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
     const fetchData = async () => {
       const data = await fetch(url);
@@ -80,6 +80,7 @@ function Menu() {
         </Row>
       </Container>
       <Container>
+        {/* <NewMenuBSTables column={dataFieldTable} data={menus} /> */}
         <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
       </Container>
     </div>

@@ -43,11 +43,6 @@ function Login() {
     console.log('check if logged In');
     console.log(isLoggedIn);
     isLoggedIn ? history.push('/admin/menu') : history.push('/auth/login');
-    // if (isLoggedIn) {
-    //   console.log('i am here');
-    //   history.push('/admin/menu');
-    //   // return <Redirect to="/admin/menu" />;
-    // }
   }, [isLoggedIn]);
 
   const onSubmitHandler = (event) => {

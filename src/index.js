@@ -24,12 +24,8 @@ import IndexView from 'views/Index.js';
 import { configureStore } from '@reduxjs/toolkit';
 import auth from 'reducers/auth';
 import message from 'reducers/message';
-// import messageReducer from './slices/message';
 import { Provider } from 'react-redux';
-// const reducer = {
-//   auth: authReducer,
-//   message: messageReducer,
-// };
+
 const reducer = {
   auth: auth,
   message: message,

@@ -4,8 +4,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { Card, CardHeader, Row, Modal, Button } from 'reactstrap';
-
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import MenuForm from '../menu/MenuForm';
 
 const pagination = paginationFactory({
   page: 1,
@@ -66,6 +66,9 @@ function MenuBSTables(params) {
         text: '',
         formatter: imageFormatter,
         sort: true,
+        editable: (content, row, rowIndex, columnIndex) => {
+          console.log(content);
+        },
       },
       {
         dataField: 'idMeal',
@@ -177,28 +180,26 @@ function MenuBSTables(params) {
         toggle={() => setopenModal(false)}
         className="modal-dialog-centered modal-secondary"
       >
-        {' '}
         <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalLabel">
-            Modal title
-          </h5>
           <button
             aria-label="Close"
             className="close"
             data-dismiss="modal"
             type="button"
-            onClick={() => this.toggleModal('exampleModal')}
+            onClick={() => setopenModal(false)}
           >
             <span aria-hidden={true}>×</span>
           </button>
         </div>
-        <div className="modal-body">...</div>
+        <div className="modal-body">
+          <MenuForm></MenuForm>
+        </div>
         <div className="modal-footer">
           <Button
             color="secondary"
             data-dismiss="modal"
             type="button"
-            onClick={() => this.toggleModal('exampleModal')}
+            onClick={() => setopenModal(false)}
           >
             Close
           </Button>
