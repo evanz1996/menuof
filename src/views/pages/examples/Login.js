@@ -15,12 +15,13 @@ import {
   Container,
   Row,
   Col,
+  Progress,
 } from 'reactstrap';
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-
+// import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { login } from 'actions/auth';
 import { clearMessage } from 'actions/message';
 
@@ -31,26 +32,27 @@ function Login() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
-
+  let history = useHistory();
   useEffect(() => {
     console.log('here at first useEffect');
-    <Redirect to="/admin/menu" />;
+    // <Redirect to="/admin/menu" />;
     dispatch(clearMessage());
   }, [dispatch]);
 
   useEffect(() => {
     console.log('check if logged In');
     console.log(isLoggedIn);
-    if (isLoggedIn) {
-      console.log('i am here');
-      return <Redirect to="/admin/menu" />;
-    }
+    isLoggedIn ? history.push('/admin/menu') : history.push('/auth/login');
+    // if (isLoggedIn) {
+    //   console.log('i am here');
+    //   history.push('/admin/menu');
+    //   // return <Redirect to="/admin/menu" />;
+    // }
   }, [isLoggedIn]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('henlo from login component');
-
     setLoading(true);
     dispatch(login(email, password));
   };

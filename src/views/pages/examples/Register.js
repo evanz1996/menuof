@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import {
   Button,
@@ -17,7 +17,8 @@ import {
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { register } from 'actions/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import NotificationAlert from 'react-notification-alert';
 function Register() {
   // const [focusedName, setfocusedName] = React.useState(false);
   // const [focusedEmail, setfocusedEmail] = React.useState(false);
@@ -26,13 +27,44 @@ function Register() {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [name, setName] = useState('');
+  const [successful, setSuccessful] = useState(false);
+  const { message } = useSelector((state) => state);
+  console.log(message);
   const dispatch = useDispatch();
 
+  const notificationAlertRef = useRef(null);
+  const notify = (place, message, type) => {
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
+
   const onSubmitHandler = (event) => {
+    // console.log('message register', message);
     event.preventDefault();
     console.log('henlo from create signup');
 
-    dispatch(register(name, email, password));
+    dispatch(register(name, email, password))
+      .then(() => {
+        console.log('success register');
+        notify('tr', 'successfully registered', 'success');
+      })
+      .catch(() => {
+        console.log('failed register');
+        notify('tr', 'Failed to register!', 'danger');
+      });
   };
   return (
     <>
@@ -147,6 +179,9 @@ function Register() {
           </Col>
         </Row>
       </Container>
+      <div className="rna-wrapper">
+        <NotificationAlert ref={notificationAlertRef} />
+      </div>
     </>
   );
 }

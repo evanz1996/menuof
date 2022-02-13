@@ -12,7 +12,6 @@ import authService from 'services/auth.service';
 export const register = (name, email, password) => (dispatch) => {
   console.log('actions/auth/register');
   console.log('register', name, email, password);
-  console.log(authService.register(name, email, password));
   return authService.register(name, email, password).then(
     (response) => {
       console.log('response at register actions', response);
@@ -81,7 +80,7 @@ export const login = (email, password) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  console.log('actions/auth/logout');
+  console.log('im here at actions/auth/logout', dispatch);
   authService.logout();
   dispatch({
     type: LOGOUT,

@@ -27,9 +27,11 @@ import {
 } from 'reactstrap';
 import { logout } from 'actions/auth';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearMessage } from 'actions/message';
 import { history } from 'helpers/history';
+import { useHistory } from 'react-router-dom';
+
 function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   // function that on mobile devices makes the search open
   const openSearch = () => {
@@ -57,9 +59,16 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
       document.body.classList.remove('g-navbar-search-hidden');
     }, 500);
   };
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  console.log(isLoggedIn);
   const dispatch = useDispatch();
+  let history = useHistory();
   useEffect(() => {
     console.log('dispatch from logout');
+    if (!isLoggedIn) {
+      history.push('/auth/login');
+    }
     history.listen((location) => {
       dispatch(clearMessage()); // clear message when changing location
     });
@@ -68,6 +77,9 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   const logOut = () => {
     console.log('here at logOut');
     dispatch(logout());
+    if (!isLoggedIn) {
+      history.push('/auth/login');
+    }
   };
 
   return (

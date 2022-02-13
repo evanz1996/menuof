@@ -60,7 +60,10 @@ const login = (email, password) => {
 
 //logout
 const logout = () => {
+  console.log('im here at services auth.service');
   localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  localStorage.removeItem('expires');
 };
 
 const authService = {
