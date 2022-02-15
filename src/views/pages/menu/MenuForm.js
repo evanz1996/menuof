@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
   Container,
-  Card,
-  CardBody,
   Col,
   Form,
   FormGroup,
@@ -14,14 +12,16 @@ import {
 } from 'reactstrap';
 import VariationModalForm from './variation/VariationModalForm';
 import { useHistory } from 'react-router-dom';
+import Variation from '../variations/Variation';
+import { Redirect } from 'react-router';
 
 function MenuForm() {
   const [openModal, setopenModal] = useState(false);
   let history = useHistory();
-  const addVariation = () => {
-    console.log(addVariation);
-    history.push('../variations/Variation.js');
-  };
+  // const addVariation = () => {
+  //   console.log('addVariation');
+  //   history.push('/admin/variations/Variation.js');
+  // };
 
   return (
     <div>
@@ -105,7 +105,17 @@ function MenuForm() {
                   </Col>
                 </Row>
                 <FormGroup>
-                  <Button onClick={() => addVariation}>Add Variations</Button>
+                  {/* <a
+                    // href={process.env.MENUOF_PUBLIC_FRONT_END_API + }
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    class="btn btn-info"
+                  >
+                    Add Variations
+                  </a> */}
+                  <Button onClick={() => setopenModal(true)}>
+                    Add Variations
+                  </Button>
                 </FormGroup>
               </Form>
             </div>
@@ -114,6 +124,7 @@ function MenuForm() {
       </Container>
       {/* Modal */}
       <Modal
+        size="lg"
         isOpen={openModal}
         toggle={() => setopenModal(false)}
         className="modal-dialog-centered modal-secondary"

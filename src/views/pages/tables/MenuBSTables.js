@@ -41,6 +41,8 @@ function MenuBSTables(params) {
   // const [alert, setAlert] = useState(null);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedId, setselectedId] = useState('');
 
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
@@ -53,7 +55,6 @@ function MenuBSTables(params) {
   const fetchData = async () => {
     const data = await fetch(url);
     const response = await data.json();
-
     setcategoryOptions(response.categories);
   };
 
@@ -82,32 +83,20 @@ function MenuBSTables(params) {
         },
       },
       { dataField: 'strMeal', text: params.column[1], sort: true },
+
       {
-        dataField: 'strCategory',
-        text: params.column[2],
-        editor: {
-          type: Type.SELECT,
-
-          getOptions: (setOptions) => {
-            var list = [];
-            categoryOptions.forEach((element) => {
-              let listItem = {
-                id: element.idCategory,
-                value: element.strCategory,
-                label: element.strCategory,
-              };
-              console.log(listItem);
-              list.push(listItem);
-            });
-
-            setTimeout(() => setOptions(list), 1500);
-          },
-        },
+        dataField: 'delete',
+        text: 'Delete',
+        sort: false,
+        formatter: deleteFormatter,
+        // headerAttrs: { width: 50 },
+        attrs: { width: 50, className: 'DeleteRow' },
       },
     ];
     setColumns(column);
   }, [params.data]);
 
+  useEffect(() => {}, [selectedId]);
   function imageFormatter(cell, row) {
     return (
       <a
@@ -119,11 +108,37 @@ function MenuBSTables(params) {
       </a>
     );
   }
+  const selectRow = {
+    mode: 'checkbox',
+    clickToSelect: true,
+    clickToEdit: true,
+  };
+
+  function deleteFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <div
+        style={{ textAlign: 'center', cursor: 'pointer', lineHeight: 'normal' }}
+      >
+        <Button onClick={(e) => DeleteHandler(row)}> Delete </Button>
+      </div>
+    );
+  }
+
+  const DeleteHandler = (row) => {
+    console.log('here at confirm delete');
+    console.log(row.idMeal);
+    setselectedId(row.idMeal);
+    setDeleteModal(true);
+  };
+
+  const confirmDeleteHandler = (e) => {
+    console.log('confirmDeleteHandler');
+    console.log('selectedId', selectedId);
+    setDeleteModal(false);
+  };
 
   return (
     <>
-      {alert}
-
       <Row>
         <div className="col">
           <Card>
@@ -164,8 +179,9 @@ function MenuBSTables(params) {
                     pagination={pagination}
                     cellEdit={cellEditFactory({
                       mode: 'click',
-                      blurToSave: true,
+                      // blurToSave: true,
                     })}
+                    selectRow={selectRow}
                     bordered={true}
                   />
                 </div>
@@ -176,6 +192,7 @@ function MenuBSTables(params) {
       </Row>
       {/* Modal */}
       <Modal
+        size="lg"
         isOpen={openModal}
         toggle={() => setopenModal(false)}
         className="modal-dialog-centered modal-secondary"
@@ -205,6 +222,55 @@ function MenuBSTables(params) {
           </Button>
           <Button color="primary" type="button">
             Save changes
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal
+        className="modal-dialog-centered modal-danger"
+        contentClassName="bg-gradient-danger"
+        isOpen={deleteModal}
+        toggle={() => setDeleteModal(false)}
+      >
+        <div className="modal-header">
+          <h6 className="modal-title" id="modal-title-notification">
+            Your attention is required
+          </h6>
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setDeleteModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className="py-3 text-center">
+            <i className="ni ni-bell-55 ni-3x" />
+            <h4 className="heading mt-4">You should read this!</h4>
+            <p>Are you sure you want to delete?</p>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <Button
+            className="btn-white"
+            color="default"
+            type="button"
+            onClick={() => confirmDeleteHandler()}
+          >
+            Yes
+          </Button>
+          <Button
+            className="text-white ml-auto"
+            color="link"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setDeleteModal(false)}
+          >
+            Close
           </Button>
         </div>
       </Modal>

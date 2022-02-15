@@ -37,6 +37,7 @@ import AutomaticPrinting from 'views/pages/automaticPrinting/AutomaticPrinting';
 import videoGuidelines from 'views/pages/videoGuidelines/videoGuidelines';
 import Order from 'views/pages/orders/Order';
 import Reservation from 'views/pages/reservation/Reservation';
+import Variation from 'views/pages/variations/Variation';
 // import Register from 'views/pages/authentication/Register';
 const routes = [
   // {
@@ -159,6 +160,14 @@ const routes = [
     icon: 'ni ni-cart text-red',
     component: videoGuidelines,
     layout: '/admin',
+  },
+  {
+    path: '/variations',
+    name: 'Variation',
+    icon: 'ni ni-box-2 text-red',
+    component: Variation,
+    layout: '/admin',
+    show: false,
   },
   {
     collapse: true,

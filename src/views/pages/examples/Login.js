@@ -15,7 +15,6 @@ import {
   Container,
   Row,
   Col,
-  Progress,
 } from 'reactstrap';
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
