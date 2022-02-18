@@ -11,13 +11,9 @@ import {
   Modal,
 } from 'reactstrap';
 import VariationModalForm from './variation/VariationModalForm';
-import { useHistory } from 'react-router-dom';
-import Variation from '../variations/Variation';
-import { Redirect } from 'react-router';
 
 function MenuForm() {
   const [openModal, setopenModal] = useState(false);
-  let history = useHistory();
 
   return (
     <div>

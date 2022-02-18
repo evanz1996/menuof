@@ -24,7 +24,6 @@ import * as XLSX from 'xlsx';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
-  let [excelFile, setexcelFile] = useState({});
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [menuSectionsModal, setMenuSectionsModal] = useState([]);
@@ -169,7 +168,6 @@ function Menu() {
         </Row>
       </Container>
       <Container>
-        {/* <NewMenuBSTables column={dataFieldTable} data={menus} /> */}
         <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
       </Container>
     </div>
