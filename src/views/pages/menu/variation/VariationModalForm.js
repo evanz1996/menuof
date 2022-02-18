@@ -10,14 +10,8 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Label,
 } from 'reactstrap';
-import AddRemoveInputField from 'views/pages/addRemoveInputField/AddRemoveInputField';
 function VariationModalForm() {
-  // const [formValues, setFormValues] = useState([
-  //   { groupname: '', guy: '', maxChoices: 0 },
-  // ]);
-
   const [formValues, setFormValues] = useState([{ name: '', email: '' }]);
 
   const [formGroupValues, setformGroupValues] = useState([

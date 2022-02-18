@@ -18,10 +18,6 @@ import { Redirect } from 'react-router';
 function MenuForm() {
   const [openModal, setopenModal] = useState(false);
   let history = useHistory();
-  // const addVariation = () => {
-  //   console.log('addVariation');
-  //   history.push('/admin/variations/Variation.js');
-  // };
 
   return (
     <div>

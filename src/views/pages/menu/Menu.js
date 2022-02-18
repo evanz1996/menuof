@@ -27,6 +27,7 @@ function Menu() {
   let [excelFile, setexcelFile] = useState({});
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
+  const [menuSectionsModal, setMenuSectionsModal] = useState([]);
   useEffect(() => {
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
@@ -41,34 +42,6 @@ function Menu() {
       .catch(console.error);
   }, []);
 
-  // const fileHandler = (event) => {
-  //   event.preventDefault();
-  //   let fileObj = event.target.files[0];
-  //   console.log('fileObj', fileObj);
-  //   // console.log('fileHandler', fileHandler);
-  //   uploadExcelFile(fileObj);
-  //   //just pass the fileObj as parameter
-  //   // ExcelRenderer(fileObj, (err, resp) => {
-  //   //   if (err) {
-  //   //     console.log('err', err);
-  //   //   } else {
-  //   //     this.setState({
-  //   //       cols: resp.cols,
-  //   //       rows: resp.rows,
-  //   //     });
-  //   //   }
-  //   // });
-  // };
-  // const uploadExcelFile = () => {
-  //   console.log('fileObj', excelFile);
-  //   if (excelFile) {
-  //     var fileReader = new FileReader();
-  //     console.log('fileReader', fileReader);
-  //     console.log(fileReader.onload);
-  //   }
-  // };
-  // handle file upload
-  // process CSV data
   const processData = (dataString) => {
     console.log('dataString1', dataString);
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -98,7 +71,6 @@ function Menu() {
             obj[headers[j]] = d;
           }
         }
-
         // remove the blank rows
         if (Object.values(obj).filter((x) => x).length > 0) {
           list.push(obj);
@@ -115,10 +87,6 @@ function Menu() {
     setData(list); //data of excel
     setColumns(columns); //columns of excel
   };
-  //columns are
-  console.log('data', data);
-  console.log('columns', columns);
-
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
