@@ -25,6 +25,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import auth from 'reducers/auth';
 import message from 'reducers/message';
 import { Provider } from 'react-redux';
+import i18next from 'i18next';
 
 const reducer = {
   auth: auth,

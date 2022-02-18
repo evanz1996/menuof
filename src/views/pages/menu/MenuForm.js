@@ -66,8 +66,8 @@ function MenuForm() {
                   </Label>
                   <Col md="10">
                     <Input id="typeOfUser" type="select">
-                      <option value="1">Staff</option>
-                      <option value="2">Super User</option>
+                      <option value="1">Multiple Choice</option>
+                      <option value="2">Alternative Choice</option>
                     </Input>
                   </Col>
                 </FormGroup>
