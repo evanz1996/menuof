@@ -13,6 +13,7 @@ import {
   CardTitle,
   Button,
   Input,
+  Modal,
 } from 'reactstrap';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import MenuBSTables from '../tables/MenuBSTables';
@@ -20,13 +21,13 @@ import { useTranslation } from 'react-i18next';
 import readXlsxFile from 'read-excel-file';
 import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 import * as XLSX from 'xlsx';
-
+import SectionModal from './sections/SectionModal';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  const [menuSectionsModal, setMenuSectionsModal] = useState([]);
+  const [menuSectionsModal, setMenuSectionsModal] = useState(false);
   useEffect(() => {
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
@@ -40,6 +41,10 @@ function Menu() {
       // make sure to catch any error
       .catch(console.error);
   }, []);
+
+  const deletedSelectedRow = () => {
+    console.log('deletedSelectedRow');
+  };
 
   const processData = (dataString) => {
     console.log('dataString1', dataString);
@@ -103,12 +108,14 @@ function Menu() {
     };
     reader.readAsBinaryString(file);
   };
+  const pull_data = (data) => {
+    console.log('pull data', data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+  };
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
 
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
-
       <Container className="mt--6" fluid>
         <Row>
           <Card>
@@ -125,7 +132,7 @@ function Menu() {
               <Button
                 color="primary"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => setMenuSectionsModal(true)}
               >
                 Edit
               </Button>
@@ -151,25 +158,52 @@ function Menu() {
                 accept=".csv,.xlsx,.xls"
                 onChange={handleFileUpload}
               />
-              {/* <Input
-                type="file"
-                onChange={(event) => setexcelFile(event.target.files[0])}
-                id="menuSectionFile"
-                accept=".xls,.xlsx"
-              />
-              <Input
-                type="button"
-                id="uploadExcel"
-                value="Upload"
-                onClick={uploadExcelFile()}
-              /> */}
             </CardBody>
           </Card>
         </Row>
       </Container>
       <Container>
-        <MenuBSTables column={dataFieldTable} data={menus}></MenuBSTables>
+        <MenuBSTables
+          column={dataFieldTable}
+          data={menus}
+          func={pull_data}
+        ></MenuBSTables>
       </Container>
+      {/* Menu Section Modal */}
+      <Modal
+        size="lg"
+        isOpen={menuSectionsModal}
+        toggle={() => setMenuSectionsModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <div className="modal-header">
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setMenuSectionsModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <SectionModal />
+        </div>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setMenuSectionsModal(false)}
+          >
+            Close
+          </Button>
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

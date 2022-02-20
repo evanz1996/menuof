@@ -43,7 +43,7 @@ function MenuBSTables(params) {
   const [openModal, setopenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setselectedId] = useState('');
-
+  // const [selectedRows, setSelectedRows] = useState([]);
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
     { dataField: 'idMeal', text: '', sort: true },
@@ -67,9 +67,7 @@ function MenuBSTables(params) {
         text: '',
         formatter: imageFormatter,
         sort: true,
-        editable: (content, row, rowIndex, columnIndex) => {
-          console.log(content);
-        },
+        editable: (content, row, rowIndex, columnIndex) => {},
       },
       {
         dataField: 'idMeal',
@@ -108,11 +106,26 @@ function MenuBSTables(params) {
       </a>
     );
   }
+  let selectedRow = [];
+  let selectedRows = [];
+  let removeRepeated;
   const selectRow = {
     mode: 'checkbox',
     clickToSelect: true,
     clickToEdit: true,
+    classes: (row, rowIndex) => {
+      console.log('row', row.idMeal);
+
+      selectedRow.push(row.idMeal);
+      console.log(selectedRow);
+      const removeRepeatNumbers = (array) => [...new Set(array)];
+      removeRepeated = removeRepeatNumbers(selectedRow); // [ 1, 21, 34, 12 ]
+      console.log(removeRepeated, 'removeRepeated');
+      // setSelectedRows(selectedRows);
+    },
   };
+  params.func(removeRepeated);
+  console.log('removeRepeated', removeRepeated);
 
   function deleteFormatter(cell, row, rowIndex, formatExtraData) {
     return (
