@@ -108,8 +108,8 @@ function Menu() {
     };
     reader.readAsBinaryString(file);
   };
-  const pull_data = (data) => {
-    console.log('pull data', data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+  const selectedRowsFromTable = (rowsId) => {
+    console.log('selectedRowsFromTable', rowsId); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   };
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
 
@@ -166,7 +166,7 @@ function Menu() {
         <MenuBSTables
           column={dataFieldTable}
           data={menus}
-          func={pull_data}
+          func={selectedRowsFromTable}
         ></MenuBSTables>
       </Container>
       {/* Menu Section Modal */}

@@ -3,7 +3,15 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import { Card, CardHeader, Row, Modal, Button } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  Row,
+  Modal,
+  Button,
+  CardBody,
+  Input,
+} from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import MenuForm from '../menu/MenuForm';
 
@@ -38,12 +46,17 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
+  console.log('params', params.data);
   // const [alert, setAlert] = useState(null);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedId, setselectedId] = useState('');
-  // const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [menus, setMenu] = useState([]);
+  // this.state = { selected: [0, 1] };
+
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
     { dataField: 'idMeal', text: '', sort: true },
@@ -60,6 +73,7 @@ function MenuBSTables(params) {
 
   useEffect(() => {
     fetchData();
+    setMenu(params.data);
 
     const column = [
       {
@@ -92,9 +106,8 @@ function MenuBSTables(params) {
       },
     ];
     setColumns(column);
-  }, [params.data]);
+  }, []);
 
-  useEffect(() => {}, [selectedId]);
   function imageFormatter(cell, row) {
     return (
       <a
@@ -106,25 +119,52 @@ function MenuBSTables(params) {
       </a>
     );
   }
+
+  function selectedRowsTry(data) {
+    console.log('data form function', data);
+    return data;
+  }
+  const deleteSelectedRows = () => {
+    console.log(selected);
+    console.log('params.data', params.data);
+    // let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
+    // const fetchData = async () => {
+    //   const data = await fetch(url);
+    //   const response = await data.json();
+    //   setcategoryOptions(response.categories);
+    // };
+    // menus = params.data;
+    // const newMenu = menus.filter((menu) => menu.idMeal === selected);
+    // console.log(newMenu);
+    // console.log(menu);
+  };
+
   let selectedRow = [];
-  let selectedRows = [];
-  let removeRepeated;
+  const handleOnSelect = (row, isSelect) => {
+    console.log('handleOnSelect');
+    console.log(row.idMeal, isSelect);
+    console.log('selectedRow', row.idMeal);
+    setSelected((arr) => [...arr, row.idMeal]);
+  };
+
+  console.log('check', selected);
+  let removeRepeated = [];
   const selectRow = {
     mode: 'checkbox',
     clickToSelect: true,
-    clickToEdit: true,
-    classes: (row, rowIndex) => {
-      console.log('row', row.idMeal);
-
-      selectedRow.push(row.idMeal);
-      console.log(selectedRow);
-      const removeRepeatNumbers = (array) => [...new Set(array)];
-      removeRepeated = removeRepeatNumbers(selectedRow); // [ 1, 21, 34, 12 ]
-      console.log(removeRepeated, 'removeRepeated');
-      // setSelectedRows(selectedRows);
-    },
+    // selected: selected,
+    onSelect: handleOnSelect,
+    // classes: (row, rowIndex) => {
+    //   selectedRow.push(row.idMeal);
+    //   console.log(selectedRow);
+    //   const removeRepeatNumbers = (array) => [...new Set(array)];
+    //   removeRepeated = removeRepeatNumbers(selectedRow); // [ 1, 21, 34, 12 ]
+    //   return removeRepeated;
+    //   console.log(removeRepeated, 'removeRepeated');
+    // },
   };
-  params.func(removeRepeated);
+
+  // params.func(removeRepeated);
   console.log('removeRepeated', removeRepeated);
 
   function deleteFormatter(cell, row, rowIndex, formatExtraData) {
@@ -186,6 +226,13 @@ function MenuBSTables(params) {
                       />
                     </label>
                   </div>
+
+                  <div className="dataTables_filter px-4 pb-1">
+                    <label>
+                      <Button onClick={deleteSelectedRows}>Delete</Button>
+                    </label>
+                  </div>
+
                   <BootstrapTable
                     {...menu.baseProps}
                     bootstrap4={true}
