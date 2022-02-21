@@ -38,6 +38,7 @@ import videoGuidelines from 'views/pages/videoGuidelines/videoGuidelines';
 import Order from 'views/pages/orders/Order';
 import Reservation from 'views/pages/reservation/Reservation';
 import Variation from 'views/pages/variations/Variation';
+import RestaurantForm from 'views/pages/restaurant/RestaurantForm';
 // import Register from 'views/pages/authentication/Register';
 const routes = [
   // {
@@ -194,6 +195,13 @@ const routes = [
         name: 'Register',
         miniName: 'R',
         component: Register,
+        layout: '/auth',
+      },
+      {
+        path: '/restaurant',
+        name: 'RestaurantForm',
+        miniName: 'R',
+        component: RestaurantForm,
         layout: '/auth',
       },
       {

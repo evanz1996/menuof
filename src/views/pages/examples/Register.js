@@ -19,6 +19,7 @@ import AuthHeader from 'components/Headers/AuthHeader.js';
 import { register } from 'actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import NotificationAlert from 'react-notification-alert';
+import { useHistory } from 'react-router-dom';
 function Register() {
   // const [focusedName, setfocusedName] = React.useState(false);
   // const [focusedEmail, setfocusedEmail] = React.useState(false);
@@ -31,6 +32,7 @@ function Register() {
   const { message } = useSelector((state) => state);
   console.log(message);
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const notificationAlertRef = useRef(null);
   const notify = (place, message, type) => {
@@ -60,6 +62,7 @@ function Register() {
       .then(() => {
         console.log('success register');
         notify('tr', 'successfully registered', 'success');
+        history.push('/admin/menu');
       })
       .catch(() => {
         console.log('failed register');
@@ -99,11 +102,7 @@ function Register() {
                       />
                     </InputGroup>
                   </FormGroup>
-                  <FormGroup
-                  // className={classnames({
-                  //   focused: focusedEmail,
-                  // })}
-                  >
+                  <FormGroup>
                     <InputGroup className="input-group-merge input-group-alternative mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -117,11 +116,7 @@ function Register() {
                       />
                     </InputGroup>
                   </FormGroup>
-                  <FormGroup
-                  // className={classnames({
-                  //   focused: focusedPassword,
-                  // })}
-                  >
+                  <FormGroup>
                     <InputGroup className="input-group-merge input-group-alternative">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
