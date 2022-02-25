@@ -36,6 +36,15 @@ function SectionModal() {
     newFormValues[i][e.target.name] = e.target.value;
     setSectionValues(newFormValues);
   };
+  let handleSubSectionChange = (i, e) => {
+    console.log(i, e);
+    let newFormValues = [...subSectionValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    setSubSectionValues(newFormValues);
+    // setSectionValues(newFormValues);
+    console.log(subSectionValues);
+  };
+
   return (
     <div>
       <Container className="mt--6" fluid>
@@ -59,8 +68,8 @@ function SectionModal() {
                             {/* <Input required type="text" placeholder="eg: Dough" /> */}
                             <Input
                               type="text"
-                              name="name"
-                              value={input.groupName || ''}
+                              name="section"
+                              value={input.section || ''}
                               onChange={(e) => handleSectionChange(index, e)}
                             />
                           </FormGroup>
@@ -87,11 +96,14 @@ function SectionModal() {
                                 <Input
                                   placeholder="integral"
                                   type="text"
-                                  name="itemName"
-                                  value={element.itemName || ''}
+                                  name="subsection"
+                                  value={element.subsection || ''}
                                   onChange={(e) =>
-                                    setSubSectionValues(index, e)
+                                    handleSubSectionChange(index, e)
                                   }
+                                  // onChange={(e) =>
+                                  //   setSubSectionValues(index, e)
+                                  // }
                                 />
                               </FormGroup>
                             </Col>

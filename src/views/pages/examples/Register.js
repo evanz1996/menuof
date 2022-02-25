@@ -62,6 +62,7 @@ function Register() {
       .then(() => {
         console.log('success register');
         notify('tr', 'successfully registered', 'success');
+        // history.push('/admin/menu');
         history.push('/admin/menu');
       })
       .catch(() => {
@@ -72,8 +73,8 @@ function Register() {
   return (
     <>
       <AuthHeader
-        title="Create an account"
-        lead="Use these awesome forms to login or create new account in your project for free."
+        title="Create Restaurant Account"
+        lead="Hey, Welcome to MenuOf. Register Now!"
       />
       <Container className="mt--8 pb-5">
         <Row className="justify-content-center">

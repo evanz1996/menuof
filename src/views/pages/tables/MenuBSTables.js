@@ -196,7 +196,7 @@ function MenuBSTables(params) {
         <div className="col">
           <Card>
             <CardHeader>
-              <h3 className="mb-0">Dishes</h3>
+              {/* <h3 className="mb-0">Dishes</h3> */}
               <p className="text-sm mb-0">
                 This is an exmaple of data table using the well known
                 react-bootstrap-table2 plugin. This is a minimal setup in order

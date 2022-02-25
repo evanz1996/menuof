@@ -14,6 +14,7 @@ import {
   Button,
   Input,
   Modal,
+  ModalBody,
 } from 'reactstrap';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import MenuBSTables from '../tables/MenuBSTables';
@@ -22,12 +23,17 @@ import readXlsxFile from 'read-excel-file';
 import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 import * as XLSX from 'xlsx';
 import SectionModal from './sections/SectionModal';
+import DishModal from './dish/DishModal';
+import VariationModalForm from './variation/VariationModalForm';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [menuSectionsModal, setMenuSectionsModal] = useState(false);
+  const [dishModal, setDishModal] = useState(false);
+  const [variationModal, setVariationModal] = useState(false);
+
   useEffect(() => {
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
@@ -162,7 +168,23 @@ function Menu() {
           </Card>
         </Row>
       </Container>
+
       <Container>
+        <h1> Dishes</h1>
+        <Button
+          color="success"
+          href="#pablo"
+          onClick={(e) => setDishModal(true)}
+        >
+          Add
+        </Button>
+        <Button
+          color="success"
+          href="#pablo"
+          onClick={(e) => setVariationModal(true)}
+        >
+          Variations
+        </Button>
         <MenuBSTables
           column={dataFieldTable}
           data={menus}
@@ -171,7 +193,7 @@ function Menu() {
       </Container>
       {/* Menu Section Modal */}
       <Modal
-        size="lg"
+        size="sm"
         isOpen={menuSectionsModal}
         toggle={() => setMenuSectionsModal(false)}
         className="modal-dialog-centered modal-secondary"
@@ -196,6 +218,56 @@ function Menu() {
             data-dismiss="modal"
             type="button"
             onClick={() => setMenuSectionsModal(false)}
+          >
+            Close
+          </Button>
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+        </div>
+      </Modal>
+      {/* Dish */}
+      <Modal
+        size="lg"
+        isOpen={dishModal}
+        toggle={() => setMenuSectionsModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <DishModal></DishModal>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setDishModal(false)}
+          >
+            Close
+          </Button>
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Variation */}
+      <Modal
+        size="lg"
+        isOpen={variationModal}
+        toggle={() => setVariationModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <li> Sauces</li>
+        <li> Dough + Ingredients</li>
+        <li> Test</li>
+
+        <VariationModalForm />
+
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setVariationModal(false)}
           >
             Close
           </Button>

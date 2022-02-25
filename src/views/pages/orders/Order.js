@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import './Order.css';
-
 import {
   Card,
   Container,
@@ -14,10 +13,11 @@ import {
   Modal,
 } from 'reactstrap';
 import OrderBSTable from '../tables/OrderBSTable';
+import ReactToPrint from 'react-to-print';
 function Order() {
   let [orders, setOrders] = useState([]);
   let [manageModal, setManageModal] = useState(false);
-
+  const componentRef = useRef();
   const toggleModal = (state) => {
     manageModal(true);
   };
@@ -30,8 +30,6 @@ function Order() {
     };
     fetchData().catch(console.error);
   }, []);
-  console.log(orders);
-
   function manageHandler(e) {
     e.preventDefault();
     console.log('manage');
@@ -63,8 +61,8 @@ function Order() {
                 <Col xl="3">
                   <Button
                     color="success"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
+                    href="https://www.google.com/maps/dir/Lungomare+Sirena,+12,+64018+Tortoreto+Lido+TE,+Italy/Lungomare+Sirena,+12,+64018+Tortoreto+Lido+TE,+Italy/@42.8133901,13.9361516,17z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x13318d186886baad:0x675b71e8a02fdc0a!2m2!1d13.9383403!2d42.8133901!1m5!1m1!1s0x13318d186886baad:0x675b71e8a02fdc0a!2m2!1d13.9383403!2d42.8133901"
+                    // onClick={(e) => e.preventDefault()}
                   >
                     Delivery Map Brands
                   </Button>

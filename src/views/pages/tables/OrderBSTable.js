@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 // import ReactToPrint from 'react-to-print';
 import ReactBSAlert from 'react-bootstrap-sweetalert';
@@ -8,7 +8,10 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import '../orders/Order.css';
 import { Card, CardHeader, Row, Modal, Button, Col, Table } from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-
+import { useReactToPrint } from 'react-to-print';
+import OrderModalBody from '../orders/OrderModalBody';
+import ReactToPrint from 'react-to-print';
+import MenuBSTables from './MenuBSTables';
 const pagination = paginationFactory({
   page: 1,
   alwaysShowAllBtns: true,
@@ -17,7 +20,7 @@ const pagination = paginationFactory({
   sizePerPageRenderer: ({ options, currSizePerPage, onSizePerPageChange }) => (
     <div className="dataTables_length" id="datatable-basic_length">
       <label>
-        Show{' '}
+        Show
         {
           <select
             name="datatable-basic_length"
@@ -30,7 +33,7 @@ const pagination = paginationFactory({
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
-        }{' '}
+        }
         entries.
       </label>
     </div>
@@ -38,16 +41,16 @@ const pagination = paginationFactory({
 });
 
 const { SearchBar } = Search;
-// function printReceipt(id) {
-//   console.log(id);
-//   console.log('check');
-// }
+
 function OrderBSTable(params) {
   console.log(params.data);
-  // const [alert, setAlert] = useState(null);
   const [orderStateOptions, setOrderStateOptions] = useState([]);
   const [orderModal, setOrderModal] = useState(false);
-
+  let componentRef = useRef();
+  const [hidden, setHidden] = useState(true);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
   ]);
@@ -58,51 +61,9 @@ function OrderBSTable(params) {
     const data = await fetch(url);
     const response = await data.json();
     console.log(response.categories);
-    // return;
     setOrderStateOptions(response.categories);
   };
-  //React Print
-  // const printPageRef = useRef(null);
-  // this function will copy to clipboard an entire table,
-  // so you can paste it inside an excel or csv file
-  const copyToClipboardAsTable = (el) => {
-    var body = document.body,
-      range,
-      sel;
-    if (document.createRange && window.getSelection) {
-      range = document.createRange();
-      sel = window.getSelection();
-      sel.removeAllRanges();
-      try {
-        range.selectNodeContents(el);
-        sel.addRange(range);
-      } catch (e) {
-        range.selectNode(el);
-        sel.addRange(range);
-      }
-      document.execCommand('copy');
-    } else if (body.createTextRange) {
-      range = body.createTextRange();
-      range.moveToElementText(el);
-      range.select();
-      range.execCommand('Copy');
-    }
-    this.setState({
-      alert: (
-        <ReactBSAlert
-          success
-          style={{ display: 'block', marginTop: '-100px' }}
-          title="Good job!"
-          onConfirm={() => this.setState({ alert: null })}
-          onCancel={() => this.setState({ alert: null })}
-          confirmBtnBsStyle="info"
-          btnSize=""
-        >
-          Copied to clipboard!
-        </ReactBSAlert>
-      ),
-    });
-  };
+
   useEffect(() => {
     fetchData();
     const column = [
@@ -160,9 +121,9 @@ function OrderBSTable(params) {
     ];
     setColumns(column);
   }, [params.data]);
+
   return (
     <>
-      {/* <Container className="mt--6" fluid> */}
       <Row>
         <div className="col">
           <Card>
@@ -234,42 +195,8 @@ function OrderBSTable(params) {
           <strong>Delivery: test101</strong>
         </div>
 
-        <div className="modal-body">
-          <Row>
-            <Col sm="6">Payment: test101</Col>
-            <Col sm="6">Payment: test101</Col>
-          </Row>
-          <Row>
-            <Col sm="6"> First name: test101</Col>
-            <Col sm="6">Address: test101</Col>
-          </Row>
-          <Row>
-            <Col sm="6">Phone number: test101</Col>
-            <Col sm="6">Email-Address: test101</Col>
-          </Row>
-          <Table className="align-items-center" responsive id="react-bs-table">
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">Qty</th>
-                <th scope="col">Order</th>
-                <th scope="col">Price</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td> 1</td>
-                <td>2 </td>
-                <td>300 </td>
-                <td>600 </td>
-              </tr>
-            </tbody>
-            Subtotal: 600 <br />
-            Delivery costs: 50
-            <br /> Discount (Card): 0 Total 650
-            <br />
-          </Table>
-        </div>
+        <OrderModalBody ref={(el) => (componentRef = el)} />
+
         <div className="modal-footer">
           <Button
             color="secondary"
@@ -279,16 +206,19 @@ function OrderBSTable(params) {
           >
             Close
           </Button>
-          <Button
-            color="primary"
-            type="button"
-            onClick={() =>
-              copyToClipboardAsTable(document.getElementById('react-bs-table'))
-            }
-            id="copy-tooltip"
-          >
-            Print
-          </Button>
+          <ReactToPrint
+            trigger={() => (
+              <Button
+                color="primary"
+                type="button"
+                // onClick={() => handlePrint}
+                id="printPage"
+              >
+                Print
+              </Button>
+            )}
+            content={() => componentRef}
+          />
         </div>
       </Modal>
       {/* </Container> */}

@@ -90,7 +90,7 @@ function VariationModalForm() {
                         {/* <Input required type="text" placeholder="eg: Dough" /> */}
                         <Input
                           type="text"
-                          name="name"
+                          name="groupName"
                           value={input.groupName || ''}
                           onChange={(e) => handleGroupChange(index, e)}
                         />
@@ -103,7 +103,7 @@ function VariationModalForm() {
                           className="form-control"
                           id="sel1"
                           type="select"
-                          name="options"
+                          name="groupOptions"
                           value={input.groupOptions || ''}
                           onChange={(e) => handleGroupChange(index, e)}
                         >

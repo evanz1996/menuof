@@ -14,13 +14,13 @@ import {
 } from 'reactstrap';
 // core components
 import AuthHeader from 'components/Headers/AuthHeader.js';
-
+import { useHistory } from 'react-router-dom';
+import { render } from 'preact/compat';
 function RestaurantForm() {
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [description, setDescription] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [phone, setPhone] = useState('');
   const [vatCode, setVatCode] = useState('');
   const [fiscalNumber, setFiscalNumber] = useState('');
   const [timezone, setTimezone] = useState('');
@@ -33,10 +33,37 @@ function RestaurantForm() {
   const [profileImage, setProfileImage] = useState('');
   const [coverImage, setCoverImage] = useState('');
 
+  let history = useHistory();
+
+  // return <div>Hello Res Form</div>;
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('im here');
+    let restaurant = {
+      name: name,
+      company_name: companyName,
+      description: description,
+      phone: telephone,
+      vat_code: vatCode,
+      fiscal_number: fiscalNumber,
+      timezone: timezone,
+      country_code: countryCode,
+      currency: currency,
+      latitude: latitude,
+      longitude: longitude,
+      billing_address: billingAddress,
+      address: address,
+      profile_image: profileImage,
+      cover_image: coverImage,
+    };
+    console.log('res', restaurant);
   };
+
+  let success = false;
+  if (success) {
+    history.push('/admin/dashboard');
+  }
+
   return (
     <>
       <AuthHeader

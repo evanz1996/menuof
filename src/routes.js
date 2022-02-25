@@ -39,6 +39,9 @@ import Order from 'views/pages/orders/Order';
 import Reservation from 'views/pages/reservation/Reservation';
 import Variation from 'views/pages/variations/Variation';
 import RestaurantForm from 'views/pages/restaurant/RestaurantForm';
+import Dashboard from 'views/pages/dashboards/Dashboard';
+import RestaurantDashboard from 'views/pages/dashboards/RestaurantDashboard';
+import RegisterRestaurant from 'views/pages/examples/RegisterRestaurant';
 // import Register from 'views/pages/authentication/Register';
 const routes = [
   // {
@@ -46,6 +49,7 @@ const routes = [
   //   name: 'Dashboards',
   //   icon: 'ni ni-shop text-primary',
   //   state: 'dashboardsCollapse',
+  // },
   //   views: [
   //     {
   //       path: '/dashboard',
@@ -62,6 +66,13 @@ const routes = [
   //       layout: '/admin',
   //     },
   //   ],
+  // },
+  // {
+  //   path: '/dashboard',
+  //   name: 'Dashboard',
+  //   icon: 'ni ni-box-2 text-red',
+  //   component: RestaurantDashboard,
+  //   layout: '/admin',
   // },
   {
     path: '/menu',
@@ -170,6 +181,7 @@ const routes = [
     layout: '/admin',
     show: false,
   },
+
   {
     collapse: true,
     name: 'Examples',
@@ -181,6 +193,13 @@ const routes = [
         name: 'Pricing',
         miniName: 'P',
         component: Pricing,
+        layout: '/auth',
+      },
+      {
+        path: '/restaurant',
+        name: 'Restaurant',
+        miniName: 'P',
+        component: RestaurantForm,
         layout: '/auth',
       },
       {
@@ -197,13 +216,13 @@ const routes = [
         component: Register,
         layout: '/auth',
       },
-      {
-        path: '/restaurant',
-        name: 'RestaurantForm',
-        miniName: 'R',
-        component: RestaurantForm,
-        layout: '/auth',
-      },
+      // {
+      //   path: '/check',
+      //   name: 'RestaurantForm',
+      //   miniName: 'R',
+      //   component: RestaurantForm,
+      //   layout: '/auth',
+      // },
       {
         path: '/lock',
         name: 'Lock',

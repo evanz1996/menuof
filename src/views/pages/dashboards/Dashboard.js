@@ -1,27 +1,7 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
-// javascipt plugin for creating charts
-import { Chart } from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
+import React from 'react';
+import classnames from 'classnames';
+import { Chart } from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
 import {
   Badge,
   Button,
@@ -46,25 +26,25 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-} from "reactstrap";
+} from 'reactstrap';
 
 // core components
-import CardsHeader from "components/Headers/CardsHeader.js";
+import CardsHeader from 'components/Headers/CardsHeader.js';
 
 import {
   chartOptions,
   parseOptions,
   chartExample1,
   chartExample2,
-} from "variables/charts.js";
+} from 'variables/charts.js';
 
 function Dashboard() {
   const [activeNav, setActiveNav] = React.useState(1);
-  const [chartExample1Data, setChartExample1Data] = React.useState("data1");
+  const [chartExample1Data, setChartExample1Data] = React.useState('data1');
   const toggleNavs = (e, index) => {
     e.preventDefault();
     setActiveNav(index);
-    setChartExample1Data(chartExample1Data === "data1" ? "data2" : "data1");
+    setChartExample1Data(chartExample1Data === 'data1' ? 'data2' : 'data1');
   };
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -88,7 +68,7 @@ function Dashboard() {
                     <Nav className="justify-content-end" pills>
                       <NavItem className="mr-2 mr-md-0">
                         <NavLink
-                          className={classnames("py-2 px-3", {
+                          className={classnames('py-2 px-3', {
                             active: activeNav === 1,
                           })}
                           href="#pablo"
@@ -100,7 +80,7 @@ function Dashboard() {
                       </NavItem>
                       <NavItem>
                         <NavLink
-                          className={classnames("py-2 px-3", {
+                          className={classnames('py-2 px-3', {
                             active: activeNav === 2,
                           })}
                           data-toggle="tab"
@@ -171,7 +151,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/team-1.jpg").default}
+                            src={require('assets/img/theme/team-1.jpg').default}
                           />
                         </a>
                       </Col>
@@ -181,7 +161,7 @@ function Dashboard() {
                             John Michael
                           </a>
                         </h4>
-                        <span className="text-success">●</span>{" "}
+                        <span className="text-success">●</span>{' '}
                         <small>Online</small>
                       </div>
                       <Col className="col-auto">
@@ -201,7 +181,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/team-2.jpg").default}
+                            src={require('assets/img/theme/team-2.jpg').default}
                           />
                         </a>
                       </Col>
@@ -211,7 +191,7 @@ function Dashboard() {
                             Alex Smith
                           </a>
                         </h4>
-                        <span className="text-warning">●</span>{" "}
+                        <span className="text-warning">●</span>{' '}
                         <small>In a meeting</small>
                       </div>
                       <Col className="col-auto">
@@ -231,7 +211,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/team-3.jpg").default}
+                            src={require('assets/img/theme/team-3.jpg').default}
                           />
                         </a>
                       </Col>
@@ -241,7 +221,7 @@ function Dashboard() {
                             Samantha Ivy
                           </a>
                         </h4>
-                        <span className="text-danger">●</span>{" "}
+                        <span className="text-danger">●</span>{' '}
                         <small>Offline</small>
                       </div>
                       <Col className="col-auto">
@@ -261,7 +241,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/team-4.jpg").default}
+                            src={require('assets/img/theme/team-4.jpg').default}
                           />
                         </a>
                       </Col>
@@ -271,7 +251,7 @@ function Dashboard() {
                             John Michael
                           </a>
                         </h4>
-                        <span className="text-success">●</span>{" "}
+                        <span className="text-success">●</span>{' '}
                         <small>Online</small>
                       </div>
                       <Col className="col-auto">
@@ -406,7 +386,7 @@ function Dashboard() {
                           <img
                             alt="..."
                             src={
-                              require("assets/img/theme/bootstrap.jpg").default
+                              require('assets/img/theme/bootstrap.jpg').default
                             }
                           />
                         </a>
@@ -433,7 +413,7 @@ function Dashboard() {
                           <img
                             alt="..."
                             src={
-                              require("assets/img/theme/angular.jpg").default
+                              require('assets/img/theme/angular.jpg').default
                             }
                           />
                         </a>
@@ -459,7 +439,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/sketch.jpg").default}
+                            src={require('assets/img/theme/sketch.jpg').default}
                           />
                         </a>
                       </Col>
@@ -484,7 +464,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/react.jpg").default}
+                            src={require('assets/img/theme/react.jpg').default}
                           />
                         </a>
                       </Col>
@@ -516,7 +496,7 @@ function Dashboard() {
                     <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/theme/team-1.jpg").default}
+                      src={require('assets/img/theme/team-1.jpg').default}
                     />
                   </a>
                   <div className="mx-3">
@@ -554,7 +534,7 @@ function Dashboard() {
                 <img
                   alt="..."
                   className="img-fluid rounded"
-                  src={require("assets/img/theme/img-1-1000x600.jpg").default}
+                  src={require('assets/img/theme/img-1-1000x600.jpg').default}
                 />
                 <Row className="align-items-center my-3 pb-3 border-bottom">
                   <Col sm="6">
@@ -588,7 +568,7 @@ function Dashboard() {
                         >
                           <img
                             alt="..."
-                            src={require("assets/img/theme/team-1.jpg").default}
+                            src={require('assets/img/theme/team-1.jpg').default}
                           />
                         </a>
                         <UncontrolledTooltip delay={0} target="tooltip36177092">
@@ -603,7 +583,7 @@ function Dashboard() {
                           <img
                             alt="..."
                             className="rounded-circle"
-                            src={require("assets/img/theme/team-2.jpg").default}
+                            src={require('assets/img/theme/team-2.jpg').default}
                           />
                         </a>
                         <UncontrolledTooltip
@@ -621,7 +601,7 @@ function Dashboard() {
                           <img
                             alt="..."
                             className="rounded-circle"
-                            src={require("assets/img/theme/team-3.jpg").default}
+                            src={require('assets/img/theme/team-3.jpg').default}
                           />
                         </a>
                         <UncontrolledTooltip
@@ -643,7 +623,7 @@ function Dashboard() {
                     <img
                       alt="..."
                       className="avatar avatar-lg media-comment-avatar rounded-circle"
-                      src={require("assets/img/theme/team-1.jpg").default}
+                      src={require('assets/img/theme/team-1.jpg').default}
                     />
                     <Media>
                       <div className="media-comment-text">
@@ -674,7 +654,7 @@ function Dashboard() {
                     <img
                       alt="..."
                       className="avatar avatar-lg media-comment-avatar rounded-circle"
-                      src={require("assets/img/theme/team-2.jpg").default}
+                      src={require('assets/img/theme/team-2.jpg').default}
                     />
                     <Media>
                       <div className="media-comment-text">
@@ -706,7 +686,7 @@ function Dashboard() {
                     <img
                       alt="..."
                       className="avatar avatar-lg rounded-circle mr-4"
-                      src={require("assets/img/theme/team-3.jpg").default}
+                      src={require('assets/img/theme/team-3.jpg').default}
                     />
                     <Media body>
                       <Form>
@@ -760,7 +740,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/bootstrap.jpg")
+                                  require('assets/img/theme/bootstrap.jpg')
                                     .default
                                 }
                               />
@@ -790,7 +770,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -809,7 +789,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -828,7 +808,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -847,7 +827,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -910,7 +890,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/angular.jpg")
+                                  require('assets/img/theme/angular.jpg')
                                     .default
                                 }
                               />
@@ -940,7 +920,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -959,7 +939,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -978,7 +958,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -997,7 +977,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1060,7 +1040,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/sketch.jpg").default
+                                  require('assets/img/theme/sketch.jpg').default
                                 }
                               />
                             </a>
@@ -1089,7 +1069,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1108,7 +1088,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1127,7 +1107,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1146,7 +1126,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1209,7 +1189,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/react.jpg").default
+                                  require('assets/img/theme/react.jpg').default
                                 }
                               />
                             </a>
@@ -1238,7 +1218,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1257,7 +1237,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1276,7 +1256,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1295,7 +1275,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1358,7 +1338,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/vue.jpg").default
+                                  require('assets/img/theme/vue.jpg').default
                                 }
                               />
                             </a>
@@ -1387,7 +1367,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1406,7 +1386,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1425,7 +1405,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1444,7 +1424,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1507,7 +1487,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/bootstrap.jpg")
+                                  require('assets/img/theme/bootstrap.jpg')
                                     .default
                                 }
                               />
@@ -1537,7 +1517,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1556,7 +1536,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1575,7 +1555,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1594,7 +1574,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1657,7 +1637,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/angular.jpg")
+                                  require('assets/img/theme/angular.jpg')
                                     .default
                                 }
                               />
@@ -1687,7 +1667,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1706,7 +1686,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1725,7 +1705,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1744,7 +1724,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1807,7 +1787,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/sketch.jpg").default
+                                  require('assets/img/theme/sketch.jpg').default
                                 }
                               />
                             </a>
@@ -1836,7 +1816,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -1855,7 +1835,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -1874,7 +1854,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -1893,7 +1873,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -1956,7 +1936,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/angular.jpg")
+                                  require('assets/img/theme/angular.jpg')
                                     .default
                                 }
                               />
@@ -1986,7 +1966,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-1.jpg").default
+                                  require('assets/img/theme/team-1.jpg').default
                                 }
                               />
                             </a>
@@ -2005,7 +1985,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-2.jpg").default
+                                  require('assets/img/theme/team-2.jpg').default
                                 }
                               />
                             </a>
@@ -2024,7 +2004,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-3.jpg").default
+                                  require('assets/img/theme/team-3.jpg').default
                                 }
                               />
                             </a>
@@ -2043,7 +2023,7 @@ function Dashboard() {
                               <img
                                 alt="..."
                                 src={
-                                  require("assets/img/theme/team-4.jpg").default
+                                  require('assets/img/theme/team-4.jpg').default
                                 }
                               />
                             </a>
@@ -2104,7 +2084,7 @@ function Dashboard() {
               <Card className="bg-gradient-default">
                 <CardBody>
                   <div className="mb-2">
-                    <sup className="text-white">$</sup>{" "}
+                    <sup className="text-white">$</sup>{' '}
                     <span className="h2 text-white">3,300</span>
                     <div className="text-light mt-2 text-sm">
                       Your current balance
@@ -2112,7 +2092,7 @@ function Dashboard() {
                     <div>
                       <span className="text-success font-weight-600">
                         + 15%
-                      </span>{" "}
+                      </span>{' '}
                       <span className="text-light">($250)</span>
                     </div>
                   </div>
@@ -2155,7 +2135,7 @@ function Dashboard() {
                       <img
                         alt="..."
                         src={
-                          require("assets/img/icons/cards/bitcoin.png").default
+                          require('assets/img/icons/cards/bitcoin.png').default
                         }
                       />
                     </div>
