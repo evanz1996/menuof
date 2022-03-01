@@ -16,7 +16,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'assets/vendor/nucleo/css/nucleo.css';
 // core styles
 import 'assets/scss/argon-dashboard-pro-react.scss?v1.2.0';
-
 import AdminLayout from 'layouts/Admin.js';
 import RTLLayout from 'layouts/RTL.js';
 import AuthLayout from 'layouts/Auth.js';
@@ -25,11 +24,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import auth from 'reducers/auth';
 import message from 'reducers/message';
 import { Provider } from 'react-redux';
-import i18next from 'i18next';
+import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
 
 const reducer = {
   auth: auth,
   message: message,
+  currentRestaurantReducer: currentRestaurantReducer,
 };
 
 const store = configureStore({

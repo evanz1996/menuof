@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import {
   Button,
@@ -16,6 +16,7 @@ import {
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { useHistory } from 'react-router-dom';
 import { render } from 'preact/compat';
+import { geolocated } from 'react-geolocated';
 function RestaurantForm() {
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -64,12 +65,56 @@ function RestaurantForm() {
     history.push('/admin/dashboard');
   }
 
+  useEffect(() => {
+    console.log('usehere');
+    const script = document.createElement('script');
+
+    script.src = 'http://maps.googleapis.com/maps/api/js?sensor=false';
+    script.async = true;
+    // Update the document title using the browser API
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log('Latitude is :', position.coords.latitude);
+
+      console.log('Longitude is :', position.coords.longitude);
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      GetAddress(
+        position.coords.latitude,
+        GetAddress(position.coords.longitude)
+      );
+    });
+  });
+  console.log('latitude', latitude);
+  console.log('longitude', longitude);
+  function GetAddress(lat, lng) {
+    // var latlng = new google.maps.LatLng(lat, lng);
+    // var geocoder = (geocoder = new google.maps.Geocoder());
+    // geocoder.geocode(
+    //   {
+    //     latLng: latlng,
+    //   },
+    //   function (results, status) {
+    //     if (status == google.maps.GeocoderStatus.OK) {
+    //       if (results[0]) {
+    //         var address = results[1].address_components;
+    //         for (var i = 0, iLen = address.length; i < iLen; i++) {
+    //           if (address[i].types[0] === 'country') {
+    //             var countryName = address[i].long_name;
+    //             alert(countryName);
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // );
+  }
   return (
     <>
       <AuthHeader
         title="Restaurant Form"
         lead="Time for you to set up the details of  your restaurant"
       />
+
       <Container className="mt--8 ">
         <Card>
           <CardBody>
@@ -82,6 +127,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Name</label>
                     <Input
+                      required
                       defaultValue="John Snow"
                       id="name"
                       type="text"
@@ -93,6 +139,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Company Name</label>
                     <Input
+                      required
                       defaultValue="company name...."
                       id="Company name"
                       type="text"
@@ -110,6 +157,7 @@ function RestaurantForm() {
                   Description
                 </label>
                 <Input
+                  required
                   defaultValue="Description...."
                   id="description"
                   type="textarea"
@@ -121,6 +169,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Telephone </label>
                     <Input
+                      required
                       id="phone"
                       type="text"
                       onChange={(e) => setTelephone(e.target.value)}
@@ -140,7 +189,7 @@ function RestaurantForm() {
                 </Col>
               </Row>
               <Row>
-                <Col md="6">
+                <Col md="4">
                   <FormGroup>
                     <label className="form-control-label">Fiscal Number</label>
                     <Input
@@ -151,7 +200,7 @@ function RestaurantForm() {
                     />
                   </FormGroup>
                 </Col>
-                <Col md="6">
+                <Col md="4">
                   <FormGroup>
                     <label className="form-control-label">Timezone</label>
                     <Input
@@ -162,8 +211,19 @@ function RestaurantForm() {
                     />
                   </FormGroup>
                 </Col>
+                <Col md="">
+                  <FormGroup>
+                    <label className="form-control-label">Country Code</label>
+                    <Input
+                      defaultValue=""
+                      id="countryCode"
+                      type="text"
+                      onChange={(e) => setCountryCode(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
               </Row>
-              <Row>
+              {/* <Row>
                 <Col md="6">
                   <FormGroup>
                     <label className="form-control-label">Country Code</label>
@@ -182,12 +242,13 @@ function RestaurantForm() {
                       defaultValue=""
                       id="currency"
                       type="text"
+                      hidden
                       onChange={(e) => setCurrency(e.target.value)}
                     />
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row>
+              </Row> */}
+              {/* <Row>
                 <Col md="6">
                   <FormGroup>
                     <label className="form-control-label">Latitude</label>
@@ -195,6 +256,7 @@ function RestaurantForm() {
                       defaultValue=""
                       id="latitude"
                       type="text"
+                      hidden
                       onChange={(e) => setLatitude(e.target.value)}
                     />
                   </FormGroup>
@@ -206,11 +268,12 @@ function RestaurantForm() {
                       defaultValue=""
                       id="longitude"
                       type="text"
+                      hidden
                       onChange={(e) => setLongitude(e.target.value)}
                     />
                   </FormGroup>
                 </Col>
-              </Row>
+              </Row> */}
               <FormGroup>
                 <label className="form-control-label">Address</label>
                 <Input

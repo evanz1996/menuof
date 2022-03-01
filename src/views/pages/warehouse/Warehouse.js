@@ -20,12 +20,14 @@ import {
 } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
 import 'react-notification-alert/dist/animate.css';
+import { useDispatch, useSelector } from 'react-redux';
 function Warehouse() {
   const [warehouses, setWarehouse] = useState([]);
   const [activeWarehouse, setActiveWarehouse] = useState(false);
   const [blockPurchase, setBlockPurchase] = useState(false);
   const [showAvailability, setShowAvailability] = useState(false);
-
+  const id = useSelector((state) => state.currentRestaurantReducer);
+  console.log('warehouse````````', id);
   useEffect(() => {
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
     const fetchData = async () => {

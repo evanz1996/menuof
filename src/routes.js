@@ -44,6 +44,13 @@ import RestaurantDashboard from 'views/pages/dashboards/RestaurantDashboard';
 import RegisterRestaurant from 'views/pages/examples/RegisterRestaurant';
 // import Register from 'views/pages/authentication/Register';
 const routes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: 'ni ni-box-2 text-red',
+    component: RestaurantDashboard,
+    layout: '/admin',
+  },
   // {
   //   collapse: true,
   //   name: 'Dashboards',

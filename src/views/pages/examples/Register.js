@@ -18,24 +18,24 @@ import {
 import AuthHeader from 'components/Headers/AuthHeader.js';
 import { register } from 'actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import NotificationAlert from 'react-notification-alert';
-import { useHistory } from 'react-router-dom';
-function Register() {
-  // const [focusedName, setfocusedName] = React.useState(false);
-  // const [focusedEmail, setfocusedEmail] = React.useState(false);
-  // const [focusedPassword, setfocusedPassword] = React.useState(false);
 
+import NotificationAlert from 'react-notification-alert';
+import 'react-notification-alert/dist/animate.css';
+import { useHistory } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
+function Register() {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [name, setName] = useState('');
-  const [successful, setSuccessful] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const { message } = useSelector((state) => state);
   console.log(message);
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const notificationAlertRef = useRef(null);
+  const notifAlert = useRef(null);
   const notify = (place, message, type) => {
+    console.log('im here');
     let options = {
       place: place,
       message: (
@@ -50,7 +50,7 @@ function Register() {
       icon: 'ni ni-bell-55',
       autoDismiss: 7,
     };
-    notificationAlertRef.current.notificationAlert(options);
+    notifAlert.current.notificationAlert(options);
   };
 
   const onSubmitHandler = (event) => {
@@ -61,35 +61,36 @@ function Register() {
     dispatch(register(name, email, password))
       .then(() => {
         console.log('success register');
+
         notify('tr', 'successfully registered', 'success');
-        // history.push('/admin/menu');
-        history.push('/admin/menu');
+
+        setTimeout(function () {
+          history.push('/auth/restaurant');
+        }, 1000);
       })
       .catch(() => {
         console.log('failed register');
         notify('tr', 'Failed to register!', 'danger');
       });
   };
+
   return (
     <>
       <AuthHeader
         title="Create Restaurant Account"
         lead="Hey, Welcome to MenuOf. Register Now!"
       />
+
       <Container className="mt--8 pb-5">
         <Row className="justify-content-center">
           <Col lg="6" md="8">
             <Card className="bg-secondary border-0">
               <CardBody className="px-lg-5 py-lg-5">
                 <div className="text-center text-muted mb-4">
-                  <small>Create an account</small>
+                  <small>Create a Restaurant User Account</small>
                 </div>
                 <Form role="form" onSubmit={onSubmitHandler}>
-                  <FormGroup
-                  // className={classnames({
-                  //   focused: focusedName,
-                  // })}
-                  >
+                  <FormGroup>
                     <InputGroup className="input-group-merge input-group-alternative mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -176,7 +177,7 @@ function Register() {
         </Row>
       </Container>
       <div className="rna-wrapper">
-        <NotificationAlert ref={notificationAlertRef} />
+        <NotificationAlert ref={notifAlert} />
       </div>
     </>
   );

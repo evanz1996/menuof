@@ -1,28 +1,12 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React from 'react';
 // react library for routing
-import { useLocation, NavLink as NavLinkRRD, Link } from "react-router-dom";
+import { useLocation, NavLink as NavLinkRRD, Link } from 'react-router-dom';
 // nodejs library that concatenates classes
-import classnames from "classnames";
+import classnames from 'classnames';
 // nodejs library to set properties for components
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 // react library that creates nice scrollbar on windows devices
-import PerfectScrollbar from "react-perfect-scrollbar";
+import PerfectScrollbar from 'react-perfect-scrollbar';
 // reactstrap components
 import {
   Collapse,
@@ -31,10 +15,29 @@ import {
   NavItem,
   NavLink,
   Nav,
-} from "reactstrap";
+  Input,
+} from 'reactstrap';
 
+import { selectRestaurantId } from 'actions/selectRestaurant';
+import { useDispatch, useSelector } from 'react-redux';
+import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
 function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   const [state, setState] = React.useState({});
+  const [selectedRestaurant, setSelectedRestaurant] = React.useState('');
+  const dispatch = useDispatch();
+  const id = useSelector((state) => state.currentRestaurantReducer);
+  console.log('IIIID', id);
+  const restaurantTest = [
+    {
+      label: 'Apple',
+      value: 1,
+    },
+    {
+      label: 'Mango',
+      value: 2,
+    },
+  ];
+
   const location = useLocation();
   React.useEffect(() => {
     setState(getCollapseStates(routes));
@@ -42,18 +45,18 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   }, []);
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
-    return location.pathname.indexOf(routeName) > -1 ? "active" : "";
+    return location.pathname.indexOf(routeName) > -1 ? 'active' : '';
   };
   // makes the sidenav normal on hover (actually when mouse enters on it)
   const onMouseEnterSidenav = () => {
-    if (!document.body.classList.contains("g-sidenav-pinned")) {
-      document.body.classList.add("g-sidenav-show");
+    if (!document.body.classList.contains('g-sidenav-pinned')) {
+      document.body.classList.add('g-sidenav-show');
     }
   };
   // makes the sidenav mini on hover (actually when mouse leaves from it)
   const onMouseLeaveSidenav = () => {
-    if (!document.body.classList.contains("g-sidenav-pinned")) {
-      document.body.classList.remove("g-sidenav-show");
+    if (!document.body.classList.contains('g-sidenav-pinned')) {
+      document.body.classList.remove('g-sidenav-show');
     }
   };
   // this creates the intial state of this component based on the collapse routes
@@ -100,7 +103,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       }
       if (prop.collapse) {
         var st = {};
-        st[prop["state"]] = !state[prop.state];
+        st[prop['state']] = !state[prop.state];
         return (
           <NavItem key={key}>
             <NavLink
@@ -162,6 +165,14 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
     });
   };
 
+  const restaurantIdHandler = (e) => {
+    e.preventDefault();
+    let id = e.target.value;
+    setSelectedRestaurant(e.target.value);
+    dispatch(selectRestaurantId(id));
+    console.log('restaurantIdHandler');
+  };
+  console.log('here ate selected rest', selectedRestaurant);
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -171,24 +182,39 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   } else if (logo && logo.outterLink) {
     navbarBrandProps = {
       href: logo.outterLink,
-      target: "_blank",
+      target: '_blank',
     };
   }
   const scrollBarInner = (
     <div className="scrollbar-inner">
       <div className="sidenav-header d-flex align-items-center">
         {logo ? (
-          <NavbarBrand {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
-          </NavbarBrand>
+          // <NavbarBrand {...navbarBrandProps}>
+          //   <img
+          //     alt={logo.imgAlt}
+          //     className="navbar-brand-img"
+          //     src={logo.imgSrc}
+          //   />
+          // </NavbarBrand>
+
+          <Input
+            type="select"
+            name="select"
+            id="exampleSelect"
+            onChange={(e) => restaurantIdHandler(e)}
+            // value={selectedValue}
+          >
+            {restaurantTest.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Input>
         ) : null}
+
         <div className="ml-auto">
           <div
-            className={classnames("sidenav-toggler d-none d-xl-block", {
+            className={classnames('sidenav-toggler d-none d-xl-block', {
               active: sidenavOpen,
             })}
             onClick={toggleSidenav}
@@ -252,20 +278,22 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
     </div>
   );
   return (
-    <Navbar
-      className={
-        "sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " +
-        (rtlActive ? "" : "fixed-left")
-      }
-      onMouseEnter={onMouseEnterSidenav}
-      onMouseLeave={onMouseLeaveSidenav}
-    >
-      {navigator.platform.indexOf("Win") > -1 ? (
-        <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>
-      ) : (
-        scrollBarInner
-      )}
-    </Navbar>
+    <>
+      <Navbar
+        className={
+          'sidenav navbar-vertical navbar-expand-xs navbar-light bg-white ' +
+          (rtlActive ? '' : 'fixed-left')
+        }
+        onMouseEnter={onMouseEnterSidenav}
+        onMouseLeave={onMouseLeaveSidenav}
+      >
+        {navigator.platform.indexOf('Win') > -1 ? (
+          <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>
+        ) : (
+          scrollBarInner
+        )}
+      </Navbar>
+    </>
   );
 }
 

@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 function SectionModal() {
   const [sectionValues, setSectionValues] = useState([{ section: '' }]);
+  // const [sectionValues1, setSectionValues1] = useState([{ section: '' }]);
   const [subSectionValues, setSubSectionValues] = useState([
     { subsection: '' },
   ]);
@@ -26,24 +27,32 @@ function SectionModal() {
     newFormValues.splice(i, 1);
     setSubSectionValues(newFormValues);
   };
+
   const addSectionFields = () => {
     console.log('add section');
     setSectionValues([...sectionValues, { section: '' }]);
   };
 
   let handleSectionChange = (i, e) => {
+    console.log('subindex', i);
     let newFormValues = [...sectionValues];
     newFormValues[i][e.target.name] = e.target.value;
+    console.log('section', newFormValues[i][e.target.name]);
     setSectionValues(newFormValues);
   };
   let handleSubSectionChange = (i, e) => {
     console.log(i, e);
+    console.log('index', i);
     let newFormValues = [...subSectionValues];
     newFormValues[i][e.target.name] = e.target.value;
+    console.log('newFormValues subsection', newFormValues[i][e.target.name]);
+    console.log(newFormValues);
+    // console.log(newFormValues[0]);
+
     setSubSectionValues(newFormValues);
-    // setSectionValues(newFormValues);
-    console.log(subSectionValues);
   };
+  console.log('outsideSUb', sectionValues);
+  console.log('outside', subSectionValues);
 
   return (
     <div>
@@ -59,6 +68,8 @@ function SectionModal() {
                 {sectionValues.map((input, index) => (
                   <div key={index}>
                     <CardBody>
+                      {index}
+
                       <Row>
                         <Col md="12">
                           <FormGroup>
@@ -91,6 +102,8 @@ function SectionModal() {
                       {subSectionValues.map((element, index) => (
                         <div key={index}>
                           <Row>
+                            {index}
+                            {/* {element} */}
                             <Col md="8">
                               <FormGroup>
                                 <Input
@@ -101,6 +114,7 @@ function SectionModal() {
                                   onChange={(e) =>
                                     handleSubSectionChange(index, e)
                                   }
+
                                   // onChange={(e) =>
                                   //   setSubSectionValues(index, e)
                                   // }

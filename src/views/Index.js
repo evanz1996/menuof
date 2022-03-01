@@ -1,22 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard PRO React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-/*eslint-disable*/
-// react library for routing
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 // reactstrap components
 import {
   Badge,
@@ -27,11 +9,12 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-} from "reactstrap";
+} from 'reactstrap';
 // core components
-import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import IndexHeader from "components/Headers/IndexHeader.js";
-import AuthFooter from "components/Footers/AuthFooter.js";
+import IndexNavbar from 'components/Navbars/IndexNavbar.js';
+import IndexHeader from 'components/Headers/IndexHeader.js';
+import AuthFooter from 'components/Footers/AuthFooter.js';
+import 'react-notification-alert/dist/animate.css';
 
 function Index() {
   return (
@@ -157,7 +140,7 @@ function Index() {
                 <img
                   alt="..."
                   className="img-fluid"
-                  src={require("assets/img/theme/landing-1.png").default}
+                  src={require('assets/img/theme/landing-1.png').default}
                 />
               </Col>
               <Col className="order-md-1" md="6">
@@ -218,7 +201,7 @@ function Index() {
                 <img
                   alt="..."
                   className="img-fluid"
-                  src={require("assets/img/theme/landing-2.png").default}
+                  src={require('assets/img/theme/landing-2.png').default}
                 />
               </Col>
               <Col md="6">
@@ -247,7 +230,7 @@ function Index() {
                 <img
                   alt="..."
                   className="img-fluid"
-                  src={require("assets/img/theme/landing-3.png").default}
+                  src={require('assets/img/theme/landing-3.png').default}
                 />
               </Col>
               <Col className="order-md-1" md="6">
@@ -337,7 +320,7 @@ function Index() {
             <Row className="row-grid justify-content-center">
               <Col className="text-center" lg="8">
                 <h2 className="display-3">
-                  Do you love this awesome{" "}
+                  Do you love this awesome{' '}
                   <span className="text-success">
                     Dashboard for Bootstrap 4, React and Reactstrap?
                   </span>
@@ -441,7 +424,7 @@ function Index() {
                           alt="..."
                           className="img-fluid rounded-circle"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/laravel_logo.png"
-                          style={{ backgroundColor: "white" }}
+                          style={{ backgroundColor: 'white' }}
                         />
                       </a>
                       <UncontrolledTooltip delay={0} target="tooltip374813717">

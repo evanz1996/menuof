@@ -25,6 +25,7 @@ import * as XLSX from 'xlsx';
 import SectionModal from './sections/SectionModal';
 import DishModal from './dish/DishModal';
 import VariationModalForm from './variation/VariationModalForm';
+import SectionForm from './sections/SectionForm';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
@@ -135,13 +136,13 @@ function Menu() {
                 repellat, soluta, optio minus ut reiciendis voluptates enim
                 impedit veritatis officiis.
               </CardText>
-              <Button
+              {/* <Button
                 color="primary"
                 href="#pablo"
                 onClick={(e) => setMenuSectionsModal(true)}
               >
                 Edit
-              </Button>
+              </Button> */}
               <UncontrolledDropdown>
                 <DropdownToggle color="primary">Style</DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
@@ -164,6 +165,13 @@ function Menu() {
                 accept=".csv,.xlsx,.xls"
                 onChange={handleFileUpload}
               />
+              <Button
+                color="primary"
+                href="#pablo"
+                onClick={(e) => setMenuSectionsModal(true)}
+              >
+                Add Section
+              </Button>
             </CardBody>
           </Card>
         </Row>
@@ -193,7 +201,7 @@ function Menu() {
       </Container>
       {/* Menu Section Modal */}
       <Modal
-        size="sm"
+        size=""
         isOpen={menuSectionsModal}
         toggle={() => setMenuSectionsModal(false)}
         className="modal-dialog-centered modal-secondary"
@@ -210,7 +218,8 @@ function Menu() {
           </button>
         </div>
         <div className="modal-body">
-          <SectionModal />
+          {/* <SectionModal /> */}
+          <SectionForm></SectionForm>
         </div>
         <div className="modal-footer">
           <Button
@@ -244,7 +253,7 @@ function Menu() {
             Close
           </Button>
           <Button color="primary" type="button">
-            Save changes
+            Add Section
           </Button>
         </div>
       </Modal>
