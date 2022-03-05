@@ -1,0 +1,9 @@
+.segmentsList:hover {
+  background-color: peachpuff;
+}
+.segmentsList:focus,
+.segmentsList.selected {
+  background: lightblue;
+  color: black;
+  cursor: pointer;
+}

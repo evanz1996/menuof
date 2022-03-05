@@ -38,6 +38,7 @@ function Menu() {
   useEffect(() => {
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
+
     const fetchData = async () => {
       const data = await fetch(url);
       const response = await data.json();
@@ -136,13 +137,13 @@ function Menu() {
                 repellat, soluta, optio minus ut reiciendis voluptates enim
                 impedit veritatis officiis.
               </CardText>
-              {/* <Button
+              <Button
                 color="primary"
                 href="#pablo"
                 onClick={(e) => setMenuSectionsModal(true)}
               >
                 Edit
-              </Button> */}
+              </Button>
               <UncontrolledDropdown>
                 <DropdownToggle color="primary">Style</DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>

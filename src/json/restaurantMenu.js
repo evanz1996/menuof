@@ -1,4 +1,4 @@
-export const Menu = [
+export const items = [
   {
     uid: '934539c0badfa8fa474e20c524aa0ffe',
     name: 'Burger',
@@ -23,6 +23,31 @@ export const Menu = [
           },
         ],
       },
+      {
+        uid: '234',
+        name: 'Vegetable Burger',
+        slug: 'chicken-burger',
+        description: null,
+        availability: null,
+        menu: [
+          {
+            uid: '12345',
+            name: 'Potato Burger',
+            slug: 'beef-burger',
+            description: null,
+            availability: null,
+            menu: [],
+          },
+          {
+            uid: '2345',
+            name: 'Fried Burger',
+            slug: 'beef-burger',
+            description: null,
+            availability: null,
+            menu: [],
+          },
+        ],
+      },
     ],
   },
   {
@@ -40,12 +65,21 @@ export const Menu = [
         availability: null,
         menu: [
           {
-            uid: 'd0ce02aae5a873e3ef1a62990ef10b8a',
+            uid: '1243',
             name: 'Cheese Ice cream',
             slug: 'cheese-icecream',
             description: null,
             availability: null,
-            menu: [],
+            menu: [
+              {
+                uid: '1243445',
+                name: 'Avocado Ice cream',
+                slug: 'cheese-icecream',
+                description: null,
+                availability: null,
+                menu: [],
+              },
+            ],
           },
         ],
       },
