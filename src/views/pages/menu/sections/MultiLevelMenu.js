@@ -19,6 +19,7 @@ function MultiLevelMenu({ items }) {
       {items.map((item) => {
         return (
           <li key={item.uid}>
+            {/* {item.name} */}
             <Button
               className={activeSelected}
               onClick={(e) => {

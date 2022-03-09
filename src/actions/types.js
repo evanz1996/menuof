@@ -8,3 +8,5 @@ export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
 //Selected current Restaurant
 export const SELECTED_RESTAURANT_ID = 'SELECTED_RESTAURANT_ID';
+//Selected Menu
+export const SELECTED_MENU_ID = 'SELECTED_MENU_ID';

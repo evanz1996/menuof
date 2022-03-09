@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   Container,
@@ -15,18 +15,26 @@ import {
 import { items } from 'json/restaurantMenu';
 import './MultilevelMenu.css';
 import MultiLevelMenu from './MultiLevelMenu';
-
+import NavBarMenu from './NavBarMenu';
+import { useDispatch, useSelector } from 'react-redux';
 function SectionForm() {
-  console.log('restaurantMenu', items);
   const [selected, setSelected] = useState('');
+  const id = useSelector((state) => state.currentMenuSelectedReducer);
+  console.log(id['payload']);
+  let selectedMenu = id['payload'];
+  // useEffect(() => {
+  //   console.log('useEffect', id);
+  // }, [id]);
 
-  console.log('selected111', selected);
+  const selectedMenuHandleChange = () => {
+    console.log('selectedMenuHandleChange');
+  };
   return (
     <>
       <div>
         <Container className="mt--6" fluid>
           <h5 className="modal-title" id="exampleModalLabel">
-            Menu Section
+            Menu Section {selectedMenu}
           </h5>
           <br></br>
 
@@ -42,8 +50,12 @@ function SectionForm() {
                       type="text"
                     />
                     <label>Pick your Selected Menu:</label>
-
-                    <MultiLevelMenu items={items}></MultiLevelMenu>
+                    <Input
+                      value={'hello'}
+                      onChange={selectedMenuHandleChange}
+                    ></Input>
+                    <NavBarMenu items={items}> </NavBarMenu>
+                    {/* <MultiLevelMenu items={items}></MultiLevelMenu> */}
                   </FormGroup>
                 </FormGroup>
 

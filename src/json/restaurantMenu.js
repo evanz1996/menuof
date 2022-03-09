@@ -36,7 +36,6 @@ export const items = [
             slug: 'beef-burger',
             description: null,
             availability: null,
-            menu: [],
           },
           {
             uid: '2345',
@@ -44,7 +43,6 @@ export const items = [
             slug: 'beef-burger',
             description: null,
             availability: null,
-            menu: [],
           },
         ],
       },
@@ -72,7 +70,7 @@ export const items = [
             availability: null,
             menu: [
               {
-                uid: '1243445',
+                uid: '888',
                 name: 'Avocado Ice cream',
                 slug: 'cheese-icecream',
                 description: null,

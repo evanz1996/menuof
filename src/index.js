@@ -25,11 +25,12 @@ import auth from 'reducers/auth';
 import message from 'reducers/message';
 import { Provider } from 'react-redux';
 import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
-
+import currentMenuSelectedReducer from 'reducers/currentMenuSelectedReducer';
 const reducer = {
   auth: auth,
   message: message,
   currentRestaurantReducer: currentRestaurantReducer,
+  currentMenuSelectedReducer: currentMenuSelectedReducer,
 };
 
 const store = configureStore({

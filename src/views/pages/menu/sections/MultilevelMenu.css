@@ -7,3 +7,10 @@
   color: black;
   cursor: pointer;
 }
+
+ul {
+  list-style: none;
+}
+/* li {
+  display: inline-block;
+} */

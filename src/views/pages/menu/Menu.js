@@ -26,6 +26,10 @@ import SectionModal from './sections/SectionModal';
 import DishModal from './dish/DishModal';
 import VariationModalForm from './variation/VariationModalForm';
 import SectionForm from './sections/SectionForm';
+import NavBarMenu from './sections/NavBarMenu';
+import { items } from 'json/restaurantMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import EditMenuSectionModal from './sections/EditMenuSectionModal';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
@@ -34,7 +38,10 @@ function Menu() {
   const [menuSectionsModal, setMenuSectionsModal] = useState(false);
   const [dishModal, setDishModal] = useState(false);
   const [variationModal, setVariationModal] = useState(false);
-
+  const [editModal, setEditModal] = useState(false);
+  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
+  console.log(menuId['payload']);
+  let selectedMenu = menuId['payload'];
   useEffect(() => {
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
@@ -129,7 +136,7 @@ function Menu() {
           <Card>
             <CardBody>
               <CardTitle className="mb-3" tag="h3">
-                Menu Sections
+                Menu Sections {selectedMenu}
               </CardTitle>
               <CardText className="mb-4 wrap-overlap">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -140,7 +147,7 @@ function Menu() {
               <Button
                 color="primary"
                 href="#pablo"
-                onClick={(e) => setMenuSectionsModal(true)}
+                onClick={(e) => setEditModal(true)}
               >
                 Edit
               </Button>
@@ -178,6 +185,17 @@ function Menu() {
         </Row>
       </Container>
 
+      {/* MenuSection Dashboard*/}
+      <Container>
+        <Row>
+          <Card>
+            <CardBody>
+              <NavBarMenu items={items}></NavBarMenu>
+            </CardBody>
+          </Card>
+        </Row>
+      </Container>
+
       <Container>
         <h1> Dishes</h1>
         <Button
@@ -202,7 +220,7 @@ function Menu() {
       </Container>
       {/* Menu Section Modal */}
       <Modal
-        size=""
+        size="lg"
         isOpen={menuSectionsModal}
         toggle={() => setMenuSectionsModal(false)}
         className="modal-dialog-centered modal-secondary"
@@ -278,6 +296,42 @@ function Menu() {
             data-dismiss="modal"
             type="button"
             onClick={() => setVariationModal(false)}
+          >
+            Close
+          </Button>
+          <Button color="primary" type="button">
+            Save changes
+          </Button>
+        </div>
+      </Modal>
+      {/* EDIT MENU Section Modal */}
+      <Modal
+        size="lg"
+        isOpen={editModal}
+        toggle={() => setEditModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <div className="modal-header">
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setEditModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          {/* <SectionModal /> */}
+          <EditMenuSectionModal></EditMenuSectionModal>
+        </div>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setEditModal(false)}
           >
             Close
           </Button>
