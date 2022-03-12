@@ -13,8 +13,9 @@ import {
   Input,
 } from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import MenuForm from '../menu/MenuForm';
-
+import { useDispatch, useSelector } from 'react-redux';
 const pagination = paginationFactory({
   page: 1,
   alwaysShowAllBtns: true,
@@ -23,7 +24,7 @@ const pagination = paginationFactory({
   sizePerPageRenderer: ({ options, currSizePerPage, onSizePerPageChange }) => (
     <div className="dataTables_length" id="datatable-basic_length">
       <label>
-        Show{' '}
+        Show
         {
           <select
             name="datatable-basic_length"
@@ -36,7 +37,7 @@ const pagination = paginationFactory({
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
-        }{' '}
+        }
         entries.
       </label>
     </div>
@@ -46,8 +47,7 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
-  console.log('params', params.data);
-  // const [alert, setAlert] = useState(null);
+  const id = useSelector((state) => state.currentMenuSelectedReducer);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -55,8 +55,12 @@ function MenuBSTables(params) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
   const [menus, setMenu] = useState([]);
-  // this.state = { selected: [0, 1] };
+  console.log(id['payload']);
+  let selectedmenusection = id['payload'];
+  console.log('MenuBSTables', selectedmenusection);
 
+  // const input = document.getElementById('text-filter-column-idMeal').value;
+  // let data = (document.getElementById('vans').value = selectedmenusection);
   const [columns, setColumns] = useState([
     { dataField: 'strMealThumb', text: '', sort: true },
     { dataField: 'idMeal', text: '', sort: true },
@@ -93,6 +97,9 @@ function MenuBSTables(params) {
             setopenModal(true);
           },
         },
+        filter: textFilter({
+          defaultValue: selectedmenusection,
+        }),
       },
       { dataField: 'strMeal', text: params.column[1], sort: true },
 
@@ -106,7 +113,13 @@ function MenuBSTables(params) {
       },
     ];
     setColumns(column);
-  }, []);
+    var input = document.getElementById('text-filter-column-idMeal');
+    var inputVal = '';
+    if (input) {
+      inputVal = input.value;
+      console.log(inputVal);
+    }
+  }, [selectedmenusection]);
 
   function imageFormatter(cell, row) {
     return (
@@ -147,7 +160,6 @@ function MenuBSTables(params) {
     setSelected((arr) => [...arr, row.idMeal]);
   };
 
-  console.log('check', selected);
   let removeRepeated = [];
   const selectRow = {
     mode: 'checkbox',
@@ -178,7 +190,7 @@ function MenuBSTables(params) {
   }
 
   const DeleteHandler = (row) => {
-    console.log('here at confirm delete');
+    console.log('here at DeleteHandler');
     console.log(row.idMeal);
     setselectedId(row.idMeal);
     setDeleteModal(true);
@@ -243,6 +255,7 @@ function MenuBSTables(params) {
                     })}
                     selectRow={selectRow}
                     bordered={true}
+                    filter={filterFactory()}
                   />
                 </div>
               )}

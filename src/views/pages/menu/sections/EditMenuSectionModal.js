@@ -11,15 +11,18 @@ import {
   CardBody,
   CardText,
 } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
 const EditMenuSectionModal = () => {
   const [editModal, setEditModal] = useState(false);
+  const id = useSelector((state) => state.currentMenuSelectedReducer);
+  let selectedMenu = id['payload'];
   return (
     <div>
       <>
         <div>
           <Container className="mt--6" fluid>
             <h5 className="modal-title" id="exampleModalLabel">
-              Edit Menu Section
+              Edit Menu Section {selectedMenu}
             </h5>
             <br></br>
             <Row>

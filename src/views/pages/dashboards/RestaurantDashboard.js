@@ -31,43 +31,10 @@ function RestaurantDashboard() {
 
   return (
     <div>
-      <SimpleHeader name="" parentName="Restaurant Management" />
-      <Container className="mt--6" fluid>
-        <Row>
-          <Card>
-            <CardBody>
-              <CardTitle className="mb-3" tag="h3">
-                Restaurant
-              </CardTitle>
-              <CardText className=" wrap-overlap">
-                lorem ipsum For the dropdown Below, please select a restaurant
-                to view/modify the menus of the selected restaurant
-                <br></br>
-              </CardText>
-              <Input
-                type="select"
-                name="select"
-                id="exampleSelect"
-                onChange={(e) => setSelectedValue(e.target.value)}
-                value={selectedValue}
-              >
-                <option value={0}>Select</option>
-                <option value={1}>Option 1</option>
-                <option value={2}>Option 2</option>
-                <option value={3}>Option 3</option>
-                <option value={4}>Option 4</option>
-                <option value={5}>Option 5</option>
-              </Input>
-            </CardBody>
-          </Card>
-        </Row>
-      </Container>
-      <Container>
-        <RestaurantTable
-          column={dataFieldTable}
-          data={restaurant}
-        ></RestaurantTable>
-      </Container>
+      <RestaurantTable
+        column={dataFieldTable}
+        data={restaurant}
+      ></RestaurantTable>
     </div>
   );
 }

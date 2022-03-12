@@ -187,13 +187,9 @@ function Menu() {
 
       {/* MenuSection Dashboard*/}
       <Container>
-        <Row>
-          <Card>
-            <CardBody>
-              <NavBarMenu items={items}></NavBarMenu>
-            </CardBody>
-          </Card>
-        </Row>
+        <Card className="card-frame">
+          <NavBarMenu items={items}></NavBarMenu>
+        </Card>
       </Container>
 
       <Container>
@@ -248,9 +244,6 @@ function Menu() {
             onClick={() => setMenuSectionsModal(false)}
           >
             Close
-          </Button>
-          <Button color="primary" type="button">
-            Save changes
           </Button>
         </div>
       </Modal>
