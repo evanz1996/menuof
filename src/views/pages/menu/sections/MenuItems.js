@@ -18,11 +18,6 @@ const MenuItems = ({ items, depthLevel }) => {
       setDropdown((prev) => !prev);
       setActiveSelected('segmentsList');
     }
-
-    // if (items.uid && dropdown) {
-    //   console.log('CURRRREENNNTTT selected', items.uid);
-    //   setSelectedId(items.uid);
-    // }
   }
   let ref = useRef();
   useEffect(() => {
