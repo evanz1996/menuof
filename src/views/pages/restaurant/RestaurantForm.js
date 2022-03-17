@@ -128,7 +128,7 @@ function RestaurantForm() {
                     <label className="form-control-label">Name</label>
                     <Input
                       required
-                      defaultValue="John Snow"
+                      placeholder="John Snow"
                       id="name"
                       type="text"
                       onChange={(e) => setName(e.target.value)}
@@ -140,7 +140,7 @@ function RestaurantForm() {
                     <label className="form-control-label">Company Name</label>
                     <Input
                       required
-                      defaultValue="company name...."
+                      placeholder="company name...."
                       id="Company name"
                       type="text"
                       onChange={(e) => setCompanyName(e.target.value)}
@@ -158,7 +158,7 @@ function RestaurantForm() {
                 </label>
                 <Input
                   required
-                  defaultValue="Description...."
+                  placeholder="Description...."
                   id="description"
                   type="textarea"
                   onChange={(e) => setDescription(e.target.value)}
@@ -180,7 +180,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Vat Code</label>
                     <Input
-                      defaultValue="vat code..."
+                      placeholder="vat code..."
                       id="vatCode"
                       type="text"
                       onChange={(e) => setVatCode(e.target.value)}
@@ -193,7 +193,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Fiscal Number</label>
                     <Input
-                      defaultValue="fiscal ...."
+                      placeholder="fiscal ...."
                       id="fiscalNumber"
                       type="text"
                       onChange={(e) => setFiscalNumber(e.target.value)}
@@ -204,7 +204,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Timezone</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="timezone"
                       type="text"
                       onChange={(e) => setTimezone(e.target.value)}
@@ -215,7 +215,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Country Code</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="countryCode"
                       type="text"
                       onChange={(e) => setCountryCode(e.target.value)}
@@ -228,7 +228,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Country Code</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="countryCode"
                       type="text"
                       onChange={(e) => setCountryCode(e.target.value)}
@@ -239,7 +239,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Currency</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="currency"
                       type="text"
                       hidden
@@ -253,7 +253,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Latitude</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="latitude"
                       type="text"
                       hidden
@@ -265,7 +265,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Longitude</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="longitude"
                       type="text"
                       hidden
@@ -277,7 +277,7 @@ function RestaurantForm() {
               <FormGroup>
                 <label className="form-control-label">Address</label>
                 <Input
-                  defaultValue=""
+                  placeholder=""
                   id="address"
                   type="text"
                   onChange={(e) => setAddress(e.target.value)}
@@ -286,7 +286,7 @@ function RestaurantForm() {
               <FormGroup>
                 <label className="form-control-label">Billing Address</label>
                 <Input
-                  defaultValue=""
+                  placeholder=""
                   id="billingAddress"
                   type="text"
                   onChange={(e) => setbillingAddress(e.target.value)}
@@ -297,7 +297,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Profile Image</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="profile_image"
                       type="text"
                       onChange={(e) => setProfileImage(e.target.value)}
@@ -308,7 +308,7 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Cover Image</label>
                     <Input
-                      defaultValue=""
+                      placeholder=""
                       id="cover_image"
                       type="text"
                       onChange={(e) => setCoverImage(e.target.value)}

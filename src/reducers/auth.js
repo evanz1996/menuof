@@ -11,7 +11,7 @@ console.log('reducer/auth', user);
 
 const initialState = user
   ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  : { isLoggedIn: false, user: '', message: {} };
 console.log('initia State, auth reducers', initialState);
 export default function auth(state = initialState, action) {
   console.log('reducer/auth');
@@ -37,11 +37,11 @@ export default function auth(state = initialState, action) {
         user: payload.user,
       };
     case LOGIN_FAIL:
-      console.log('LOGIN_FAIL', state);
+      console.log('LOGIN LOGIN_FAIL HERE REDUCER');
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
+        user: payload,
       };
     case LOGOUT:
       console.log('LOGOUT HERE REDUCER');

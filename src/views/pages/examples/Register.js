@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import {
   Button,
@@ -26,13 +26,18 @@ import { Spinner } from 'reactstrap';
 function Register() {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
-  const [name, setName] = useState('');
+  const [fname, setFirstName] = useState('');
+  const [lname, setLastName] = useState('');
   const [spinner, setSpinner] = useState(false);
   const { message } = useSelector((state) => state);
-  console.log(message);
+  const [errorMessage, setErrorMessage] = useState({});
+  const [fnameMessage, setFnameMessage] = useState('');
+  const [lnameMessage, setLnameMessage] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
   const dispatch = useDispatch();
   let history = useHistory();
-
+  console.log('RESPONSE', message);
   const notifAlert = useRef(null);
   const notify = (place, message, type) => {
     console.log('im here');
@@ -53,24 +58,48 @@ function Register() {
     notifAlert.current.notificationAlert(options);
   };
 
+  // useEffect(() => {
+  //   console.log('im here bro', message);
+
+  // }, [message]);
+
   const onSubmitHandler = (event) => {
     // console.log('message register', message);
     event.preventDefault();
     console.log('henlo from create signup');
 
-    dispatch(register(name, email, password))
+    dispatch(register(fname, lname, email, password))
       .then(() => {
-        console.log('success register');
-
         notify('tr', 'successfully registered', 'success');
-
+        console.log('RESPONSE', { message });
         setTimeout(function () {
           history.push('/auth/restaurant');
         }, 1000);
+        // if (response !== undefined || response === '') {
+        //   console.log('I am here');
+        //   console.log(response);
+        // } else {
+        //   // console.log('response.error', response.response);
+        //   // console.log('response.error', response.data);
+        //   notify('tr', 'Failed to register!', 'danger');
+        // }
+        // console.log(response.response);
+        // if (response.status === 200) {
+        //   console.log('success register');
+        //   notify('tr', 'successfully registered', 'success');
+        // } else {
+        //   console.log('failed register');
+        //   notify('tr', 'Failed to register!', 'danger');
+        // }
+        // console.log('success register');
+        // notify('tr', 'successfully registered', 'success');
+        // setTimeout(function () {
+        //   history.push('/auth/restaurant');
+        // }, 1000);
       })
       .catch(() => {
-        console.log('failed register');
         notify('tr', 'Failed to register!', 'danger');
+        console.log('Failed to register!', message);
       });
   };
 
@@ -98,12 +127,35 @@ function Register() {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Name"
+                        placeholder="First name"
                         type="text"
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                     </InputGroup>
+                    {message.message !== undefined &&
+                      message.message.fname !== undefined && (
+                        <span> {message.message.fname[0]} </span>
+                      )}
                   </FormGroup>
+                  <FormGroup>
+                    <InputGroup className="input-group-merge input-group-alternative mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="ni ni-hat-3" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Last name"
+                        type="text"
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </InputGroup>
+                    {message.message !== undefined &&
+                      message.message.lname !== undefined && (
+                        <span> {message.message.lname[0]} </span>
+                      )}
+                  </FormGroup>
+
                   <FormGroup>
                     <InputGroup className="input-group-merge input-group-alternative mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -117,6 +169,10 @@ function Register() {
                         onChange={(e) => setemail(e.target.value)}
                       />
                     </InputGroup>
+                    {message.message !== undefined &&
+                      message.message.email !== undefined && (
+                        <span> {message.message.email[0]} </span>
+                      )}
                   </FormGroup>
                   <FormGroup>
                     <InputGroup className="input-group-merge input-group-alternative">
@@ -131,10 +187,14 @@ function Register() {
                         onChange={(e) => setpassword(e.target.value)}
                       />
                     </InputGroup>
+                    {message.message !== undefined &&
+                      message.message.password !== undefined && (
+                        <span> {message.message.password[0]} </span>
+                      )}
                   </FormGroup>
                   <div className="text-muted font-italic">
                     <small>
-                      password strength:{' '}
+                      password strength:
                       <span className="text-success font-weight-700">
                         strong
                       </span>

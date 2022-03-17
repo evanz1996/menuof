@@ -40,15 +40,40 @@ function Login() {
 
   useEffect(() => {
     console.log('check if logged In');
-    console.log(isLoggedIn);
+    console.log('isLoggedIn', isLoggedIn);
+    console.log('message', message);
     isLoggedIn ? history.push('/admin/menu') : history.push('/auth/login');
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    console.log('message', message);
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      history.push('/admin/menu');
+    } else if (message) {
+      history.push('/auth/login');
+      alert(message);
+      window.location.reload();
+    }
+  }, [message]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('henlo from login component');
     setLoading(true);
     dispatch(login(email, password));
+    if (isLoggedIn) {
+      history.push('/admin/menu');
+    } else {
+      // console.log('henlo');
+      // console.log(message);
+      if (message) {
+        history.push('/auth/login');
+        alert(message);
+      }
+      // history.push('/auth/login');
+      // alert(message);
+    }
   };
 
   return (
