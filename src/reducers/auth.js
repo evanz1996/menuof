@@ -21,7 +21,7 @@ export default function auth(state = initialState, action) {
       console.log('REgister SUCCESS HERE REDUCER');
       return {
         ...state,
-        isLoggedIn: false,
+        isLoggedIn: true,
       };
     case REGISTER_FAIL:
       console.log('REgister FAILED HERE REDUCER');

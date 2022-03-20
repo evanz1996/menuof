@@ -15,13 +15,14 @@ export const register = (fname, lname, email, password) => (dispatch) => {
   return authService.register(fname, lname, email, password).then(
     (response) => {
       console.log('auth actions', response);
+      let success_message = response.data;
       if (response.status) {
         dispatch({
           type: REGISTER_SUCCESS,
         });
         dispatch({
           type: SET_MESSAGE,
-          payload: response.data,
+          payload: success_message,
         });
       }
 
@@ -100,7 +101,7 @@ export const register = (fname, lname, email, password) => (dispatch) => {
       //   });
       // }
       // }
-      return Promise.resolve();
+
       // dispatch({
       //   type: REGISTER_SUCCESS,
       // });

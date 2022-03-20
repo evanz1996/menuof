@@ -17,7 +17,15 @@ import AuthHeader from 'components/Headers/AuthHeader.js';
 import { useHistory } from 'react-router-dom';
 import { render } from 'preact/compat';
 import { geolocated } from 'react-geolocated';
+import { createRestaurant } from 'actions/restaurant';
+import { useDispatch, useSelector } from 'react-redux';
+import { AccessTokenRestaurant } from 'actions/restaurant';
+import { color } from '@mui/system';
+import './restaurant.css';
+import NotificationAlert from 'react-notification-alert';
+import { REGISTER_SUCCESS } from 'actions/types';
 function RestaurantForm() {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [description, setDescription] = useState('');
@@ -34,13 +42,43 @@ function RestaurantForm() {
   const [profileImage, setProfileImage] = useState('');
   const [coverImage, setCoverImage] = useState('');
 
+  const [errors, setErrors] = useState({
+    name: '',
+    phoneNumber: '',
+    address: '',
+    fiscalNumber: '',
+    billingAddress: '',
+    vatCode: '',
+    timeZoneMessage: '',
+  });
   let history = useHistory();
+
+  const notifAlert = useRef(null);
+  const notify = (place, message, type) => {
+    console.log('im here');
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notifAlert.current.notificationAlert(options);
+  };
 
   // return <div>Hello Res Form</div>;
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('im here');
     let restaurant = {
+      owner_id: 2,
       name: name,
       company_name: companyName,
       description: description,
@@ -49,15 +87,61 @@ function RestaurantForm() {
       fiscal_number: fiscalNumber,
       timezone: timezone,
       country_code: countryCode,
-      currency: currency,
+      currency: 'USDT',
       latitude: latitude,
       longitude: longitude,
       billing_address: billingAddress,
       address: address,
       profile_image: profileImage,
       cover_image: coverImage,
+      category_id: 1,
     };
-    console.log('res', restaurant);
+
+    const token = localStorage.getItem('token');
+    console.log(localStorage.getItem('token'));
+    // const token =
+    //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJhYTczN2YxMjIwYzQwYTUwNDRlOGMyMzdmY2IxM2JiMWRlNTkzOTE2NzE3NGVmMzIwYmEzODc1Nzg3ODZiZDhkMjhmNTU5N2I1ODhiYTkwNCIsImlhdCI6MTY0NzY4OTYyMC45NTg4ODMsIm5iZiI6MTY0NzY4OTYyMC45NTg4OTksImV4cCI6MTY3OTIyNTYyMC45MzExMDYsInN1YiI6IjY1Iiwic2NvcGVzIjpbXX0.EXPq37KLYy0wXDC-qlLW9NJu1HhyrqanOdpwmhxKK5PO5PkA1WWCINgIOc3eRJ7E0yAmOrUo7pORkYU0Th6fyu6HIeVVrUfkJP6i_h1cwbYBtaPF0OuMh8xNXIQVf1yRlY5jpdCiaeAff4uMYld2hg_sIqmz4NDmO_XV6htX1ihJKv7WJitCE1PLyr6sOYlfWw6uHhpW5eSGLDdODCVDvOQuC26V1lPg_8fpVf32v_hryhrlmMvXfxpTueIDuVGVxnw_aRWhTTSyQRxgpgBOXLMBnXqvkb3Iis4IOJP22N_4xy6oA3QgggMT9uXCeXkpW9_7VhFU6kKqk0wgXD__Mqrm4EdItHYc0q6uhfXHj3IbBNqKw6SpsaTl8LmlzB1RFheCEElUnQw-JY3izuAtmOanlGtNZYJYxFK3POK1GTbqvI6555IT1j4GibP8ABUI053zfJWk8vdaU-S7wbvHjvBMVONzbKtuCi7NAOYunVlR-07xbdpxMV-HBDJD6LXEq1XZ6BeL9vjKZ6jSVwOBJzGQZct0pCzv_SmtjK8PvZ_PoBstzVEJDd6bzTIWv0yzyhcFFEG-UJVEv1Ybqda0w_u40RG6_ZdPzYh0RKYUK7D9zMc7MbxJbMpYVzdw0M7rPruaasI9szkUASLEiANTw2wnacWMCU3xbcewKSqnUmM';
+
+    fetch('http://menuof.test/api/resturant-owner/resturants', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/form-data',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(restaurant),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // alert(result);
+        console.log(result);
+        if (result.status === 422) {
+          console.log(result.error);
+          // setErrors(result.error);
+          setErrors({
+            name: result.error.name,
+            phoneNumber: result.error.phone,
+            address: result.error.address,
+            fiscalNumber: result.error.fiscal_number,
+            billingAddress: result.error.billing_address,
+            vatCode: result.error.vat_code,
+            timeZoneMessage: result.error.timezone,
+          });
+        } else {
+          notify('tr', 'successfully created', 'success');
+          dispatch({
+            type: REGISTER_SUCCESS,
+          });
+
+          setTimeout(function () {
+            history.push('/admin/dashboard');
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        console.log('error ERROR', error);
+        notify('tr', 'Failed to create', 'danger');
+      });
   };
 
   let success = false;
@@ -108,6 +192,7 @@ function RestaurantForm() {
     //   }
     // );
   }
+
   return (
     <>
       <AuthHeader
@@ -127,19 +212,20 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Name</label>
                     <Input
-                      required
                       placeholder="John Snow"
                       id="name"
                       type="text"
                       onChange={(e) => setName(e.target.value)}
                     />
+                    {errors.name && errors.name !== undefined && (
+                      <span className="errorMessage"> {errors.name} </span>
+                    )}
                   </FormGroup>
                 </Col>
                 <Col md="6">
                   <FormGroup>
                     <label className="form-control-label">Company Name</label>
                     <Input
-                      required
                       placeholder="company name...."
                       id="Company name"
                       type="text"
@@ -157,7 +243,6 @@ function RestaurantForm() {
                   Description
                 </label>
                 <Input
-                  required
                   placeholder="Description...."
                   id="description"
                   type="textarea"
@@ -169,11 +254,13 @@ function RestaurantForm() {
                   <FormGroup>
                     <label className="form-control-label">Telephone </label>
                     <Input
-                      required
                       id="phone"
                       type="text"
                       onChange={(e) => setTelephone(e.target.value)}
                     />
+                    {errors.phoneNumber && errors.phoneNumber !== undefined && (
+                      <span className="errorMessage">{errors.phoneNumber}</span>
+                    )}
                   </FormGroup>
                 </Col>
                 <Col md="6">
@@ -185,6 +272,9 @@ function RestaurantForm() {
                       type="text"
                       onChange={(e) => setVatCode(e.target.value)}
                     />
+                    {errors.vatCode && errors.vatCode !== undefined && (
+                      <span className="errorMessage">{errors.vatCode}</span>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
@@ -198,6 +288,12 @@ function RestaurantForm() {
                       type="text"
                       onChange={(e) => setFiscalNumber(e.target.value)}
                     />
+                    {errors.fiscalNumber &&
+                      errors.fiscalNumber !== undefined && (
+                        <span className="errorMessage">
+                          {errors.fiscalNumber}
+                        </span>
+                      )}
                   </FormGroup>
                 </Col>
                 <Col md="4">
@@ -209,6 +305,12 @@ function RestaurantForm() {
                       type="text"
                       onChange={(e) => setTimezone(e.target.value)}
                     />
+                    {errors.timeZoneMessage &&
+                      errors.timeZoneMessage !== undefined && (
+                        <span className="errorMessage">
+                          {errors.timeZoneMessage}
+                        </span>
+                      )}
                   </FormGroup>
                 </Col>
                 <Col md="">
@@ -274,6 +376,7 @@ function RestaurantForm() {
                   </FormGroup>
                 </Col>
               </Row> */}
+
               <FormGroup>
                 <label className="form-control-label">Address</label>
                 <Input
@@ -282,6 +385,9 @@ function RestaurantForm() {
                   type="text"
                   onChange={(e) => setAddress(e.target.value)}
                 />
+                {errors.address && errors.address !== undefined && (
+                  <span className="errorMessage">{errors.address}</span>
+                )}
               </FormGroup>
               <FormGroup>
                 <label className="form-control-label">Billing Address</label>
@@ -291,6 +397,12 @@ function RestaurantForm() {
                   type="text"
                   onChange={(e) => setbillingAddress(e.target.value)}
                 />
+                {errors.billingAddress &&
+                  errors.billingAddress !== undefined && (
+                    <span className="errorMessage">
+                      {errors.billingAddress}
+                    </span>
+                  )}
               </FormGroup>
               <Row>
                 <Col md="6">
@@ -323,6 +435,9 @@ function RestaurantForm() {
           </CardBody>
         </Card>
       </Container>
+      <div className="rna-wrapper">
+        <NotificationAlert ref={notifAlert} />
+      </div>
     </>
   );
 }
