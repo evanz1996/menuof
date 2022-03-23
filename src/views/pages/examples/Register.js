@@ -109,6 +109,7 @@ function Register() {
           console.log(result.uid);
           console.log(result.role[0]['id']);
           localStorage.setItem('id', result.uid);
+          localStorage.setItem('expires_in', result.oauthData.expires_in);
           localStorage.setItem('token', result.oauthData.token);
           localStorage.setItem(
             'owner_id',

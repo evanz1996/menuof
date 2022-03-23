@@ -33,6 +33,7 @@ import { history } from 'helpers/history';
 import { useHistory } from 'react-router-dom';
 
 function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
+  console.log('im vanesssa');
   // function that on mobile devices makes the search open
   const openSearch = () => {
     document.body.classList.add('g-navbar-search-showing');
@@ -64,15 +65,25 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   console.log(isLoggedIn);
   const dispatch = useDispatch();
   let history = useHistory();
+  // useEffect(() => {
+  //   console.log('dispatch from logout');
+  //   if (!isLoggedIn) {
+  //     history.push('/auth/login');
+  //   }
+  //   history.listen((location) => {
+  //     dispatch(clearMessage()); // clear message when changing location
+  //   });
+  // }, [dispatch]);
+
   useEffect(() => {
     console.log('dispatch from logout');
-    if (!isLoggedIn) {
-      history.push('/auth/login');
+    if (localStorage.getItem('id')) {
+      history.push('/admin/dashboard');
     }
-    history.listen((location) => {
-      dispatch(clearMessage()); // clear message when changing location
-    });
-  }, [dispatch]);
+    // history.listen((location) => {
+    //   dispatch(clearMessage()); // clear message when changing location
+    // });
+  }, []);
 
   const logOut = () => {
     console.log('here at logOut');

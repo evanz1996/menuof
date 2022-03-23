@@ -49,15 +49,24 @@ const pagination = paginationFactory({
 });
 function RestaurantTable(params) {
   console.log('RestaurantTable', params.data);
+
+  // let extractColumn = (arr, column) => arr.params((x) => x[column]);
+  // extractColumn();
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
   const [restaurant, setRestaurant] = useState([]);
   const [activateRestaurant, setActivateRestaurant] = useState(false);
   const [currentRestaurant, setCurrentRestaurant] = useState('');
   const [columns, setColumns] = useState([
-    { dataField: 'strMealThumb', text: '', sort: true },
-    { dataField: 'idMeal', text: '', sort: true },
-    { dataField: 'strMeal', text: '', sort: true },
+    { dataField: 'uid', text: '', sort: true },
+    { dataField: 'name', text: '', sort: true },
+    { dataField: 'slug', text: '', sort: true },
   ]);
+  let data = [
+    { id: 1, name: 'George', slug: 'Monkey' },
+    { id: 2, name: 'Jeffrey', slug: 'Giraffe' },
+    { id: 3, name: 'Alice', slug: 'Giraffe' },
+    { id: 4, name: 'Alice', slug: 'Tiger' },
+  ];
   let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
   const fetchData = async () => {
     const data = await fetch(url);
@@ -89,8 +98,8 @@ function RestaurantTable(params) {
 
     const column = [
       {
-        dataField: 'idMeal',
-        text: params.column[0],
+        dataField: 'uid',
+        text: 'ID',
         sort: true,
         events: {
           onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -98,10 +107,10 @@ function RestaurantTable(params) {
           },
         },
       },
-      { dataField: 'strMeal', text: params.column[1], sort: true },
+      { dataField: 'name', text: 'Name', sort: true },
 
       {
-        dataField: 'Action',
+        dataField: 'slug',
         text: 'Action',
         sort: false,
         formatter: activateFormatter,
@@ -142,12 +151,12 @@ function RestaurantTable(params) {
           <Card>
             <CardHeader>
               <ToolkitProvider
-                keyField="idMeal"
-                data={params.data}
+                keyField="id"
+                data={data}
                 columns={columns}
                 search
               >
-                {(restaurant) => (
+                {(data) => (
                   <div className="py-4 table-responsive">
                     <div
                       id="datatable-basic_filter"
@@ -158,13 +167,13 @@ function RestaurantTable(params) {
                         <SearchBar
                           className="form-control-sm"
                           placeholder=""
-                          {...restaurant.searchProps}
+                          {...data.searchProps}
                         />
                       </label>
                     </div>
 
                     <BootstrapTable
-                      {...restaurant.baseProps}
+                      {...data.baseProps}
                       bootstrap4={true}
                       pagination={pagination}
                       //   cellEdit={cellEditFactory({

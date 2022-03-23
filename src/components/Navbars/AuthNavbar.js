@@ -15,7 +15,7 @@
 
 */
 // react library for routing
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 // reactstrap components
 import {
   UncontrolledCollapse,
@@ -29,7 +29,7 @@ import {
   Col,
   UncontrolledTooltip,
   Button,
-} from "reactstrap";
+} from 'reactstrap';
 
 function AdminNavbar() {
   return (
@@ -43,7 +43,7 @@ function AdminNavbar() {
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
-              src={require("assets/img/brand/argon-react-white.png").default}
+              src={require('assets/img/brand/argon-react-white.png').default}
             />
           </NavbarBrand>
           <button
@@ -69,7 +69,7 @@ function AdminNavbar() {
                   <Link to="/admin/dashboard">
                     <img
                       alt="..."
-                      src={require("assets/img/brand/blue.png").default}
+                      src={require('assets/img/brand/blue.png').default}
                     />
                   </Link>
                 </Col>
@@ -96,11 +96,11 @@ function AdminNavbar() {
                   <span className="nav-link-inner--text">Dashboard</span>
                 </NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink to="/auth/pricing" tag={Link}>
                   <span className="nav-link-inner--text">Pricing</span>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <NavLink to="/auth/login" tag={Link}>
                   <span className="nav-link-inner--text">Login</span>
@@ -111,11 +111,11 @@ function AdminNavbar() {
                   <span className="nav-link-inner--text">Register</span>
                 </NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink to="/auth/lock" tag={Link}>
                   <span className="nav-link-inner--text">Lock</span>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
             </Nav>
             <hr className="d-lg-none" />
             <Nav className="align-items-lg-center ml-lg-auto" navbar>

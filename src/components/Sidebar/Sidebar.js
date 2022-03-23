@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // react library for routing
 import { useLocation, NavLink as NavLinkRRD, Link } from 'react-router-dom';
 // nodejs library that concatenates classes
@@ -17,14 +17,16 @@ import {
   Nav,
   Input,
 } from 'reactstrap';
-
+import { useHistory } from 'react-router-dom';
 import { selectRestaurantId } from 'actions/selectRestaurant';
 import { useDispatch, useSelector } from 'react-redux';
 import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
 function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   const [state, setState] = React.useState({});
   const [selectedRestaurant, setSelectedRestaurant] = React.useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
   const dispatch = useDispatch();
+  let history = useHistory();
   const id = useSelector((state) => state.currentRestaurantReducer);
   console.log('IIIID', id);
   const restaurantTest = [
@@ -37,6 +39,57 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       value: 2,
     },
   ];
+  useEffect(() => {
+    console.log('useEffect');
+    if (localStorage.getItem('id')) {
+      setLoggedIn(true);
+    }
+  });
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/admin/dashboard');
+
+      var myHeaders = new Headers();
+      myHeaders.append('mode', 'no-cors');
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Access-Control-Allow-Origin', '*');
+      myHeaders.append(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, OPTIONS'
+      );
+      myHeaders.append(
+        'Access-Control-Allow-Headers',
+        'Origin, Content-Type, Accept, Authorization, X-Request-With'
+      );
+      myHeaders.append('Access-Control-Allow-Credentials', ' true');
+      myHeaders.append(
+        'Authorization',
+        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJhOTc2MDQxM2VlZmMwYTc3ZTcyOTI4MjA4ZjdlMTgyMzk0NTE5ZjJjMzVhN2YyZTU2NDY1ODE3MGY5YzFhMDU3ODYxMmE2ZDUyYWRkNjk3OSIsImlhdCI6MTY0Nzg1ODQyMC4xMDg3NDcsIm5iZiI6MTY0Nzg1ODQyMC4xMDg3NTEsImV4cCI6MTY3OTM5NDQyMC4wOTAxNDIsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.DrirXxI0xqNs7AnvVqzYCQY_gHh9mO3EL0PXZ7H-EFs2SOeGux00N6RvUHLoSFTgScAfIyVI9uCDnId6FGVepfSXur17Xbsz2EvC8OjQBlJVPMhCzImeWCKaqwiEP5U5UHLdJIm0x5Vpt7RiA-97i1RIvfbb-57jgfurxBIxwNfjWWN4gSx3UuVn_2hjfz-MHfRWmIh5dtE99qc8sozjnEts_xDkx3uWMn6sAqBJRcwwtcoSQmZNo7gvhB7Z8n3ZYvMxu61gnIKdLVebEZwhtMyotNL_p7zs6njbBkPkXyqCFUwtxRyaDaQESYqPIig9h2jRtGwskzNmHL3O58slbAzIR7kqWYg0e-aINnPDi5hwfOqvJaD2RqoKwFxG29XVB_SU95KRxVqyfv6QUBb5XrOHdAxqcesjZQOzx4J78ZCzEatlmIdXqQ8BST1mY7p17lBRzNLwS58ArQremVZL1ZG4jrGEymiNcI-RAxz9d68lOMxnB357mO-mCepmgXJMRo_BLrSh1QUoSWtnvYbkEPoD5FGcteKHO0G5_nH1CEKm6ccPFPU_9gal8p8pFSS7va3Ja12X1QT93u44EYR-Cv3N_VdKY1ZCw9w66XLvQsYDMXZpPTviy2ANEpZHeU_WmuB7s3ib0eHXwjUALO14h8XRvi2mzS9rU4fuD0P_9qM'
+      );
+
+      var raw = '';
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        // body: raw,
+        // redirect: 'follow',
+      };
+
+      fetch(
+        'http://menuof.test/api/resturant-owner/resturants/1',
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log('error', error));
+      // return () => {
+      //   second;
+      // };
+    } else {
+      history.push('/auth/login');
+    }
+  }, [loggedIn]);
 
   const location = useLocation();
   React.useEffect(() => {

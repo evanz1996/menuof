@@ -60,8 +60,14 @@ const login = (email, password) => {
         console.log(response.data.auth_user.uid);
         console.log(response.data.expires_in);
         if (response.data.access_token) {
-          localStorage.setItem('token', response.data.access_token);
-          localStorage.setItem('user', response.data.auth_user.uid);
+          localStorage.setItem(
+            'token',
+            JSON.stringify(response.data.access_token)
+          );
+          localStorage.setItem(
+            'user',
+            JSON.stringify(response.data.auth_user.uid)
+          );
           localStorage.setItem(
             'expires',
             JSON.stringify(response.data.expires_in)

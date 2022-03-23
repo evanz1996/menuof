@@ -43,18 +43,24 @@ function Menu() {
   console.log(menuId['payload']);
   let selectedMenu = menuId['payload'];
   useEffect(() => {
+    let isMounted = true;
     // declare the data fetching function
     let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
 
     const fetchData = async () => {
       const data = await fetch(url);
       const response = await data.json();
-      setMenu(response.meals);
+      if (isMounted) {
+        setMenu(response.meals);
+      }
     };
     // call the function
     fetchData()
       // make sure to catch any error
       .catch(console.error);
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const deletedSelectedRow = () => {

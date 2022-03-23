@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // nodejs library that concatenates classes
 import classnames from 'classnames';
 // reactstrap components
@@ -23,57 +23,140 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'actions/auth';
 import { clearMessage } from 'actions/message';
-
+import NotificationAlert from 'react-notification-alert';
+import { LOGIN_SUCCESS } from 'actions/types';
 function Login() {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
+
+  const [loggedIn, setloggedIn] = useState('');
   const dispatch = useDispatch();
+
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
   let history = useHistory();
-  useEffect(() => {
-    console.log('here at first useEffect');
-    // <Redirect to="/admin/menu" />;
-    dispatch(clearMessage());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log('here at first useEffect');
+  //   console.log(localStorage.getItem('id'));
+  //   if (localStorage.getItem('id')) {
+  //     setloggedIn(localStorage.getItem('id'));
+  //     console.log('setState', loggedIn);
+  //   }
 
-  useEffect(() => {
-    console.log('check if logged In');
-    console.log('isLoggedIn', isLoggedIn);
-    console.log('message', message);
-    isLoggedIn ? history.push('/admin/menu') : history.push('/auth/login');
-  }, [isLoggedIn]);
+  //   // if (localStorage.getItem('id')) {
+  //   //   history.push('/admin/menu');
+  //   // }
+  //   // if (localStorage.getItem('id')) {
+  //   //   history.push('/admin/menu');
+  //   // } else {
+  //   //   history.push('/auth/login');
+  //   // }
+  //   // <Redirect to="/admin/menu" />;
+  //   // dispatch(clearMessage());
+  // });
 
-  useEffect(() => {
-    console.log('message', message);
-    console.log(isLoggedIn);
-    if (isLoggedIn) {
-      history.push('/admin/menu');
-    } else if (message) {
-      history.push('/auth/login');
-      alert(message);
-      window.location.reload();
-    }
-  }, [message]);
+  // function checkLocalStorage() {
+  //   console.log('checkLocalStorage');
+  //   if (setloggedIn(localStorage.getItem('id'))) {
+  //     setloggedIn(localStorage.getItem('id'));
+  //     console.log('setState', loggedIn);
+  //   }
+  // }
+  // checkLocalStorage();
+  // useEffect(() => {
+  //   console.log('here at first useEffect');
+  //   // <Redirect to="/admin/menu" />;
+  //   dispatch(clearMessage());
+  // }, [dispatch]);
 
+  // useEffect(() => {
+  //   console.log('check if logged In');
+  //   console.log('isLoggedIn', isLoggedIn);
+  //   console.log('message', message);
+  //   console.log('USER', user);
+  //   isLoggedIn ? history.push('/admin/menu') : history.push('/auth/login');
+  // }, [isLoggedIn]);
+
+  // useEffect(() => {
+  //   console.log('message', message);
+  //   console.log(isLoggedIn);
+  //   if (isLoggedIn) {
+  //     history.push('/admin/menu');
+  //   } else if (message) {
+  //     history.push('/auth/login');
+  //     alert(message);
+  //     window.location.reload();
+  //   }
+  // }, [message]);
+
+  const notifAlert = useRef(null);
+  const notify = (place, message, type) => {
+    console.log('im here');
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notifAlert.current.notificationAlert(options);
+  };
   const onSubmitHandler = (event) => {
     event.preventDefault();
     console.log('henlo from login component');
-    setLoading(true);
-    dispatch(login(email, password));
-    if (isLoggedIn) {
-      history.push('/admin/menu');
-    } else {
-      // console.log('henlo');
-      // console.log(message);
-      if (message) {
-        history.push('/auth/login');
-        alert(message);
-      }
-      // history.push('/auth/login');
-      // alert(message);
-    }
+    let loginUser = {
+      email: email,
+      password: password,
+    };
+
+    console.log('loginUser', loginUser);
+    fetch('http://menuof.test/api/resturant-owner/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginUser),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log('LOGIN', result);
+        if (result.status === 400) {
+          notify('tr', result.message, 'danger');
+        } else {
+          notify('tr', 'successfully created', 'success');
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: result,
+          });
+
+          localStorage.setItem('id', result.uid);
+          localStorage.setItem('expires_in', result.oauthData.expires_in);
+          localStorage.setItem('token', result.oauthData.access_token);
+          history.push('/admin/menu');
+        }
+      });
+    // setLoading(true);
+    // dispatch(login(email, password));
+    // if (isLoggedIn) {
+    //   history.push('/admin/menu');
+    // } else {
+    //   if (message) {
+    //     history.push('/auth/login');
+    //     alert(message);
+    //   }
+    // }
   };
 
   return (
@@ -182,6 +265,9 @@ function Login() {
           </Col>
         </Row>
       </Container>
+      <div className="rna-wrapper">
+        <NotificationAlert ref={notifAlert} />
+      </div>
     </>
   );
 }

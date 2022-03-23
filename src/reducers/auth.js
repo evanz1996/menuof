@@ -16,6 +16,7 @@ console.log('initia State, auth reducers', initialState);
 export default function auth(state = initialState, action) {
   console.log('reducer/auth');
   const { type, payload } = action;
+  console.log('payload', payload);
   switch (type) {
     case REGISTER_SUCCESS:
       console.log('REgister SUCCESS HERE REDUCER');
@@ -31,10 +32,12 @@ export default function auth(state = initialState, action) {
       };
     case LOGIN_SUCCESS:
       console.log('LOGIN SUCCESS HERE REDUCER');
+      console.log('LOGIN SUCCESS HERE REDUCER');
+      console.log(' payload', payload);
       return {
         ...state,
         isLoggedIn: true,
-        user: payload.user,
+        user: payload,
       };
     case LOGIN_FAIL:
       console.log('LOGIN LOGIN_FAIL HERE REDUCER');
