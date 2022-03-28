@@ -93,7 +93,9 @@ function RestaurantTable(params) {
   };
 
   useEffect(() => {
+    console.log('useEffect setRestaurant');
     fetchData();
+
     setRestaurant(params.data);
 
     const column = [
@@ -152,11 +154,11 @@ function RestaurantTable(params) {
             <CardHeader>
               <ToolkitProvider
                 keyField="id"
-                data={data}
+                data={restaurant}
                 columns={columns}
                 search
               >
-                {(data) => (
+                {(restaurant) => (
                   <div className="py-4 table-responsive">
                     <div
                       id="datatable-basic_filter"
@@ -167,13 +169,13 @@ function RestaurantTable(params) {
                         <SearchBar
                           className="form-control-sm"
                           placeholder=""
-                          {...data.searchProps}
+                          {...restaurant.searchProps}
                         />
                       </label>
                     </div>
 
                     <BootstrapTable
-                      {...data.baseProps}
+                      {...restaurant.baseProps}
                       bootstrap4={true}
                       pagination={pagination}
                       //   cellEdit={cellEditFactory({

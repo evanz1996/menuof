@@ -58,10 +58,44 @@ function Menu() {
     fetchData()
       // make sure to catch any error
       .catch(console.error);
+    // getMenuSections();
     return () => {
       isMounted = false;
     };
   }, []);
+
+  // const getMenuSections = () => {
+  //   var config = {
+  //     method: 'get',
+  //     url: `http://menuof.test/api/resturant-owner/resturant/${id.payload}/menus`,
+  //     // url: 'http://menuof.test/api/resturant-owner/resturants',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       Authorization:
+  //         'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJlNDJmZjk5MzdlOTQxYTVmNDlmODU3NWU4YjNkODE2MTE3ZjU2NmViN2U2ZGZhMmRmNjNiZDdmMjJlMTExNjliMTJlOWNkN2FkZDUzNmM4YiIsImlhdCI6MTY0ODI2MjcwOC42OTY0MzksIm5iZiI6MTY0ODI2MjcwOC42OTY0NjgsImV4cCI6MTY3OTc5ODcwOC4yODg3NTMsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.nAupJYlqUGFPEeWBPOIzA8vHpYy6QsAjYQZqzPDsfI07xnHea68kNyNi86ObKTT1sxSwwW1q20o1RdZYdpU5gmeExfQbZSm67ruqFjn35dx0T-eGLTu3C8A4tT8NN4nxBWw84lKcEEnxWdfpXwYPJICh7y6Oyb2vzBFAVM7Dh1g4MJ68NDsofVSFhzy36Hb-E1ziPpRAtuC4vMRYlcIH4zLtg2JHWMgfkqiZhYuXxtxTHyPchHrbdpnb4RPQC6Klt7nKzPY5fQ468kQdT5tY3ZeqMp6kbRRMXMmW77j8QaENMhhZtTmjWobBdNte6mW8_YBPdu-JPtrflwigyT5cU0oFZTUX21iW9SD9aUw2ETPCruG0ipcuL8vTI9ZmSlhtP9y_7lpc5rTRmy-e_c_N9z2Xzw1iYNRTeXnhL4-KJe92bkru4zQMQQNoRnBYxDXIe8TRq_q0U9SVM99QxcUjlW1xRhAncRmVMG6r6LugHkquzwEmtysOMuCIQBHkqehZ53JNft0y50PNGZPbB7zulrT-hw3FcfGSo0gFBVtziYxI_dN8GPNqre_J5Z4TvPhmu5zfHZ6BPRcA67g2GenJREK4xjLKVCLGXkmaMxegkInkvBcrUby5tAFxLT4mnYQBHqMy68SZNdJH7RouH3CwPANQJ9w2M8PCfeG74nz8k3c',
+  //     },
+  //   };
+
+  //   axios(config)
+  //     .then(function (response) {
+  //       console.log('here at axios NavBar Menu Dash');
+  //       console.log(response.data);
+
+  //       console.log('im here,componentMounted');
+  //       setTimeout(() => {
+  //         console.log('Data loaded for page');
+
+  //         if (mounted) {
+  //           console.log(mounted);
+  //           console.log('i am here mounted');
+  //           setMenu(response.data);
+  //         }
+  //       }, 1000);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // };
 
   const deletedSelectedRow = () => {
     console.log('deletedSelectedRow');
@@ -194,7 +228,7 @@ function Menu() {
       {/* MenuSection Dashboard*/}
       <Container>
         <Card className="card-frame">
-          <NavBarMenu items={items}></NavBarMenu>
+          <NavBarMenu></NavBarMenu>
         </Card>
       </Container>
 
@@ -270,9 +304,6 @@ function Menu() {
           >
             Close
           </Button>
-          <Button color="primary" type="button">
-            Add Section
-          </Button>
         </div>
       </Modal>
 
@@ -324,19 +355,6 @@ function Menu() {
         <div className="modal-body">
           {/* <SectionModal /> */}
           <EditMenuSectionModal></EditMenuSectionModal>
-        </div>
-        <div className="modal-footer">
-          <Button
-            color="secondary"
-            data-dismiss="modal"
-            type="button"
-            onClick={() => setEditModal(false)}
-          >
-            Close
-          </Button>
-          <Button color="primary" type="button">
-            Save changes
-          </Button>
         </div>
       </Modal>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Col,
@@ -13,25 +13,10 @@ import {
   Modal,
   Dropdown,
 } from 'reactstrap';
-import VariationModalForm from '../variation/VariationModalForm';
-import { items } from 'json/restaurantMenu';
-import NavBarMenu from '../sections/NavBarMenu';
-import UploadImage from 'views/pages/images/UploadImage';
-import axios from 'axios';
-import ImageUploader from 'react-images-upload';
+import DishModal from '../menu/dish/DishModal';
 import NotificationAlert from 'react-notification-alert';
-
-const parentMenu = {
-  categoryName: 'Select Menu ...',
-};
-const subMenu = {
-  productName: 'Select SubMenu ...',
-};
-const subSubMenu = {
-  orderName: 'Select   ...',
-};
-
-function DishModal() {
+import ImageUploader from 'react-images-upload';
+function ModalMenu({ handleClose, show, children }) {
   const [dishModal, setDishModal] = useState(false);
   const [openModal, setopenModal] = useState(false);
   const [title, setTitle] = useState('');
@@ -105,65 +90,76 @@ function DishModal() {
     console.log('hello', pictureFiles);
     setUploadImage(pictureFiles);
   };
+  const checkClose = () => {
+    console.log('checkClose');
+    return handleClose;
+  };
   return (
-    <>
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">
-          New Dish
-        </h5>
-      </div>
-      <Card>
-        <CardBody>
-          <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col lg="9">
-                <FormGroup>
-                  <label className="form-control-label"> Title</label>
-                  <Input
-                    type="text"
-                    name="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                  {errors.name && errors.name !== undefined && (
-                    <span className="errorMessage">{errors.name}</span>
-                  )}
-                </FormGroup>
-              </Col>
-              <Col lg="3">
-                <FormGroup>
-                  <label className="form-control-label"> Price</label>
-                  <Input
-                    type="number"
-                    name="price"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                  {errors.price && errors.price !== undefined && (
-                    <span className="errorMessage">{errors.price}</span>
-                  )}
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg="12">
-                <FormGroup>
-                  <label className="form-control-label"> Description</label>
-                  <Input
-                    type="text-area"
-                    name="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <br></br>
+    <div>
+      alert('helloo im modal Menu');
+      <Modal
+        size="lg"
+        isOpen={show}
+        toggle={() => handleClose}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLabel">
+            New Dish
+          </h5>
+        </div>
+        <Card>
+          <CardBody>
+            <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col lg="9">
+                  <FormGroup>
+                    <label className="form-control-label"> Title</label>
+                    <Input
+                      type="text"
+                      name="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                    {errors.name && errors.name !== undefined && (
+                      <span className="errorMessage">{errors.name}</span>
+                    )}
+                  </FormGroup>
+                </Col>
+                <Col lg="3">
+                  <FormGroup>
+                    <label className="form-control-label"> Price</label>
+                    <Input
+                      type="number"
+                      name="price"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                    {errors.price && errors.price !== undefined && (
+                      <span className="errorMessage">{errors.price}</span>
+                    )}
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg="12">
+                  <FormGroup>
+                    <label className="form-control-label"> Description</label>
+                    <Input
+                      type="text-area"
+                      name="description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <br></br>
 
-            <Row>
-              <Col lg="6">
-                <FormGroup>
-                  {/* <Input
+              <Row>
+                <Col lg="6">
+                  <FormGroup>
+                    {/* <Input
                     className="inputBrand"
                     type="select"
                     name="carbrand"
@@ -177,7 +173,7 @@ function DishModal() {
                     })}
                   </Input> */}
 
-                  {/* <Input
+                    {/* <Input
                     className="inputBrand"
                     type="select"
                     name="carmodel"
@@ -196,7 +192,7 @@ function DishModal() {
                     })}
                   </Input> */}
 
-                  {/* <Input
+                    {/* <Input
                     className="inputBrand"
                     type="select"
                     name="subSubMenu"
@@ -219,7 +215,7 @@ function DishModal() {
                     })}
                   </Input> */}
 
-                  {/* 
+                    {/* 
                   <label htmlFor="exampleFormControlSelect1">
                     Menu Section
                   </label>
@@ -230,9 +226,9 @@ function DishModal() {
                     <option>BrushCetta</option>
                     <option>5</option>
                   </Input> */}
-                </FormGroup>
-              </Col>
-              {/* <Col lg="6">
+                  </FormGroup>
+                </Col>
+                {/* <Col lg="6">
                 <FormGroup>
                   <label htmlFor="exampleFormControlSelect1">Sub Section</label>
                   <Input id="exampleFormControlSelect1" type="select">
@@ -244,78 +240,60 @@ function DishModal() {
                   </Input>
                 </FormGroup>
               </Col> */}
-            </Row>
-            <Row>
-              <Col lg="6">
-                <FormGroup>
-                  <label htmlFor="exampleFormControlSelect1">Variations</label>
-                  <Input id="exampleFormControlSelect1" type="select">
-                    <option>Menu of the day</option>
-                    <option>Sauces</option>
-                    <option>Dough + Ingredients</option>
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Button onClick={() => setopenModal(true)}>
-                    Add Variations
-                  </Button>
-                </FormGroup>
-              </Col>
-            </Row>
+              </Row>
+              <Row>
+                <Col lg="6">
+                  <FormGroup>
+                    <label htmlFor="exampleFormControlSelect1">
+                      Variations
+                    </label>
+                    <Input id="exampleFormControlSelect1" type="select">
+                      <option>Menu of the day</option>
+                      <option>Sauces</option>
+                      <option>Dough + Ingredients</option>
+                    </Input>
+                  </FormGroup>
+                  <FormGroup>
+                    <Button onClick={() => setopenModal(true)}>
+                      Add Variations
+                    </Button>
+                  </FormGroup>
+                </Col>
+              </Row>
 
-            <ImageUploader
-              withIcon={false}
-              withPreview={true}
-              buttonText="Choose images"
-              onChange={onDrop}
-              imgExtension={['.jpg', '.gif', '.png', '.gif']}
-              maxFileSize={5242880}
-            />
-            <Button color="primary" type="submit">
-              Add Section
-            </Button>
-          </Form>
-        </CardBody>
-      </Card>
-      <div className="rna-wrapper">
-        <NotificationAlert ref={notifAlert} />
-      </div>
-      <Modal
-        size="lg"
-        isOpen={openModal}
-        toggle={() => setopenModal(false)}
-        className="modal-dialog-centered modal-secondary"
-      >
-        <div className="modal-header">
-          <button
-            aria-label="Close"
-            className="close"
-            data-dismiss="modal"
-            type="button"
-            onClick={() => setopenModal(false)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
-        </div>
-        <div className="modal-body">
-          <VariationModalForm />
-        </div>
+              <ImageUploader
+                withIcon={false}
+                withPreview={true}
+                buttonText="Choose images"
+                onChange={onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+              />
+              <Button color="primary" type="submit">
+                Add Section
+              </Button>
+            </Form>
+          </CardBody>
+        </Card>
         <div className="modal-footer">
-          <Button
+          {/* <button type="button" onClick={checkClose()}>
+            Close
+          </button> */}
+          {/* <Button
             color="secondary"
             data-dismiss="modal"
             type="button"
-            // onClick={() => addVariation}
+            onClick={handleClose}
           >
             Close
-          </Button>
-          <Button color="primary" type="button">
-            Save changes
-          </Button>
+          </Button> */}
         </div>
       </Modal>
-    </>
+      <div className="rna-wrapper">
+        <NotificationAlert ref={notifAlert} />
+      </div>
+    </div>
   );
 }
 
-export default DishModal;
+export default ModalMenu;

@@ -24,6 +24,7 @@ import { color } from '@mui/system';
 import './restaurant.css';
 import NotificationAlert from 'react-notification-alert';
 import { REGISTER_SUCCESS } from 'actions/types';
+import ImageUploader from 'react-images-upload';
 function RestaurantForm() {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -50,8 +51,20 @@ function RestaurantForm() {
     billingAddress: '',
     vatCode: '',
     timeZoneMessage: '',
+    cover_image: '',
+    profile_image: '',
   });
   let history = useHistory();
+
+  const onProfile = (pictureFiles) => {
+    console.log('hello', pictureFiles);
+    setProfileImage(pictureFiles);
+  };
+
+  const onCoverImage = (pictureFiles) => {
+    console.log('hello', pictureFiles);
+    setCoverImage(pictureFiles);
+  };
 
   const notifAlert = useRef(null);
   const notify = (place, message, type) => {
@@ -99,13 +112,10 @@ function RestaurantForm() {
 
     const token = localStorage.getItem('token');
     console.log(localStorage.getItem('token'));
-    // const token =
-    //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJhYTczN2YxMjIwYzQwYTUwNDRlOGMyMzdmY2IxM2JiMWRlNTkzOTE2NzE3NGVmMzIwYmEzODc1Nzg3ODZiZDhkMjhmNTU5N2I1ODhiYTkwNCIsImlhdCI6MTY0NzY4OTYyMC45NTg4ODMsIm5iZiI6MTY0NzY4OTYyMC45NTg4OTksImV4cCI6MTY3OTIyNTYyMC45MzExMDYsInN1YiI6IjY1Iiwic2NvcGVzIjpbXX0.EXPq37KLYy0wXDC-qlLW9NJu1HhyrqanOdpwmhxKK5PO5PkA1WWCINgIOc3eRJ7E0yAmOrUo7pORkYU0Th6fyu6HIeVVrUfkJP6i_h1cwbYBtaPF0OuMh8xNXIQVf1yRlY5jpdCiaeAff4uMYld2hg_sIqmz4NDmO_XV6htX1ihJKv7WJitCE1PLyr6sOYlfWw6uHhpW5eSGLDdODCVDvOQuC26V1lPg_8fpVf32v_hryhrlmMvXfxpTueIDuVGVxnw_aRWhTTSyQRxgpgBOXLMBnXqvkb3Iis4IOJP22N_4xy6oA3QgggMT9uXCeXkpW9_7VhFU6kKqk0wgXD__Mqrm4EdItHYc0q6uhfXHj3IbBNqKw6SpsaTl8LmlzB1RFheCEElUnQw-JY3izuAtmOanlGtNZYJYxFK3POK1GTbqvI6555IT1j4GibP8ABUI053zfJWk8vdaU-S7wbvHjvBMVONzbKtuCi7NAOYunVlR-07xbdpxMV-HBDJD6LXEq1XZ6BeL9vjKZ6jSVwOBJzGQZct0pCzv_SmtjK8PvZ_PoBstzVEJDd6bzTIWv0yzyhcFFEG-UJVEv1Ybqda0w_u40RG6_ZdPzYh0RKYUK7D9zMc7MbxJbMpYVzdw0M7rPruaasI9szkUASLEiANTw2wnacWMCU3xbcewKSqnUmM';
-
     fetch('http://menuof.test/api/resturant-owner/resturants', {
       method: 'POST',
       headers: {
-        Accept: 'application/form-data',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
@@ -113,21 +123,23 @@ function RestaurantForm() {
     })
       .then((res) => res.json())
       .then((result) => {
-        // alert(result);
         console.log(result);
-        if (result.status === 422) {
-          console.log(result.error);
+        if (result.message) {
+          console.log(result.errors);
           // setErrors(result.error);
           setErrors({
-            name: result.error.name,
-            phoneNumber: result.error.phone,
-            address: result.error.address,
-            fiscalNumber: result.error.fiscal_number,
-            billingAddress: result.error.billing_address,
-            vatCode: result.error.vat_code,
-            timeZoneMessage: result.error.timezone,
+            name: result.errors.name,
+            phoneNumber: result.errors.phone,
+            address: result.errors.address,
+            fiscalNumber: result.errors.fiscal_number,
+            billingAddress: result.errors.billing_address,
+            vatCode: result.errors.vat_code,
+            timeZoneMessage: result.errors.timezone,
+            cover_image: result.errors.cover_image,
+            profile_image: result.errors.profile_image,
           });
         } else {
+          alert('Here at Restaurant Form ');
           notify('tr', 'successfully created', 'success');
           dispatch({
             type: REGISTER_SUCCESS,
@@ -408,23 +420,48 @@ function RestaurantForm() {
                 <Col md="6">
                   <FormGroup>
                     <label className="form-control-label">Profile Image</label>
-                    <Input
+                    <ImageUploader
+                      withIcon={false}
+                      withPreview={true}
+                      buttonText="Choose Profile Image"
+                      onChange={onProfile}
+                      imgExtension={['.jpg', '.png']}
+                      maxFileSize={5242880}
+                    />
+                    {/* <Input
                       placeholder=""
                       id="profile_image"
                       type="text"
                       onChange={(e) => setProfileImage(e.target.value)}
                     />
+                    {errors.profile_image &&
+                      errors.profile_image !== undefined && (
+                        <span className="errorMessage">
+                          {errors.profile_image}
+                        </span>
+                      )} */}
                   </FormGroup>
                 </Col>
                 <Col md="6">
                   <FormGroup>
                     <label className="form-control-label">Cover Image</label>
-                    <Input
+                    <ImageUploader
+                      withIcon={false}
+                      withPreview={true}
+                      buttonText="Choose cover image"
+                      onChange={onCoverImage}
+                      imgExtension={['.jpg', '.png']}
+                      maxFileSize={5242880}
+                    />
+                    {/* <Input
                       placeholder=""
                       id="cover_image"
                       type="text"
                       onChange={(e) => setCoverImage(e.target.value)}
                     />
+                    {errors.cover_image && errors.cover_image !== undefined && (
+                      <span className="errorMessage">{errors.cover_image}</span>
+                    )} */}
                   </FormGroup>
                 </Col>
               </Row>

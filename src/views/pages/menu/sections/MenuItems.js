@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMenuId } from 'actions/selectedMenu';
 const MenuItems = ({ items, depthLevel }) => {
+  console.log('MenuItems', items);
   const [dropdown, setDropdown] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const dispatch = useDispatch();

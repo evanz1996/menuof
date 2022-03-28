@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Container,
   Col,
@@ -16,6 +16,7 @@ import { items } from 'json/restaurantMenu';
 import './MultilevelMenu.css';
 import MultiLevelMenu from './MultiLevelMenu';
 import NavBarMenu from './NavBarMenu';
+import NotificationAlert from 'react-notification-alert';
 import { useDispatch, useSelector } from 'react-redux';
 function SectionForm() {
   const id = useSelector((state) => state.currentMenuSelectedReducer);
@@ -26,8 +27,36 @@ function SectionForm() {
   const [description, setDescription] = useState('');
   const [fromAvailability, setFromAvailability] = useState('');
   const [toAvailability, setToAvailability] = useState('');
-
+  const [errors, setErrors] = useState({
+    resturant_id: '',
+    parent_id: '',
+    name: '',
+    description: '',
+    availability: '',
+  });
+  const notifAlert = useRef(null);
+  const notify = (place, message, type) => {
+    console.log('im here');
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notifAlert.current.notificationAlert(options);
+  };
   console.log('selected', selectedMenu);
+  let parent_id = '';
+  let currentMenu = '1';
+  let currentRestaurant = '1';
   const selectedMenuHandleChange = () => {
     console.log('selectedMenu', selectedMenu);
     console.log('selectedMenuHandleChange');
@@ -36,14 +65,56 @@ function SectionForm() {
   function handleSubmit(event) {
     console.log('im here');
     event.preventDefault();
+    let token = localStorage.getItem('token');
+
+    if (!selectedMenu) {
+      parent_id = currentMenu;
+    } else {
+      parent_id = selectedMenu;
+    }
+
     const data = {
-      section: selectedMenu,
-      menu: selected,
+      resturant_id: 1,
+      // // parent_id: parent_id,
+      // parent_id: 1,
+      name: newSection,
       description: description,
-      fromAvailability: fromAvailability,
+      availability: fromAvailability,
       toAvailability: toAvailability,
     };
     console.log(data);
+    fetch(
+      // `http://menuof.test/api/resturant-owner/resturant/${currentRestaurant}/menus`,
+      `http://menuof.test/api/resturant-owner/resturant/${currentRestaurant}/menus`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        // if (result.status) {
+        if (result.message) {
+          console.log('MENUS', result.status);
+          console.log('MENUS', result);
+          setErrors({
+            resturant_id: result.errors.resturant_id,
+            parent_id: '',
+            name: result.errors.name,
+            description: result.errors.description,
+            availability: result.errors.availability,
+          });
+          notify('tr', 'Failed to Add!', 'danger');
+        } else {
+          console.log('MENUS', result);
+          notify('tr', 'successfully Added!', 'success');
+        }
+      });
   }
   return (
     <>
@@ -52,6 +123,7 @@ function SectionForm() {
           <h5 className="modal-title" id="exampleModalLabel">
             Menu Section {selectedMenu}
           </h5>
+
           <br></br>
           <Row>
             <Col lg="12">
@@ -74,6 +146,9 @@ function SectionForm() {
                     value={newSection}
                     onChange={(e) => setNewSection(e.target.value)}
                   />
+                  {errors.name && errors.name !== undefined && (
+                    <span className="errorMessage">{errors.name}</span>
+                  )}
                 </FormGroup>
 
                 <FormGroup>
@@ -89,6 +164,9 @@ function SectionForm() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
+                  {errors.description && errors.description !== undefined && (
+                    <span className="errorMessage">{errors.description}</span>
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <label
@@ -133,6 +211,9 @@ function SectionForm() {
             </Col>
           </Row>
         </Container>
+        <div className="rna-wrapper">
+          <NotificationAlert ref={notifAlert} />
+        </div>
       </div>
     </>
   );

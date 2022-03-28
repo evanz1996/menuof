@@ -96,18 +96,19 @@ function Register() {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-
-        if (result.status === 422) {
+        if (result.message === 'The given data was invalid.') {
+          console.log('setErrors');
           setErrors({
-            fname: result.error.fname,
-            lname: result.error.lname,
-            email: result.error.email,
-            password: result.error.password,
+            fname: result.errors.fname,
+            lname: result.errors.lname,
+            email: result.errors.email,
+            password: result.errors.password,
           });
         } else {
+          console.log('Successfully Added!');
           console.log(result);
           console.log(result.uid);
-          console.log(result.role[0]['id']);
+
           localStorage.setItem('id', result.uid);
           localStorage.setItem('expires_in', result.oauthData.expires_in);
           localStorage.setItem('token', result.oauthData.token);
@@ -143,6 +144,7 @@ function Register() {
     // });
   };
 
+  console.log(errors);
   return (
     <>
       <AuthHeader
@@ -173,7 +175,7 @@ function Register() {
                       />
                     </InputGroup>
                     {errors.fname && errors.fname !== undefined && (
-                      <span className="errorMessage">{errors.fname}</span>
+                      <span className="errorMessage">{errors.fname[0]}</span>
                     )}
                   </FormGroup>
                   <FormGroup>
@@ -190,7 +192,7 @@ function Register() {
                       />
                     </InputGroup>
                     {errors.lname && errors.lname !== undefined && (
-                      <span className="errorMessage">{errors.lname}</span>
+                      <span className="errorMessage">{errors.lname[0]}</span>
                     )}
                   </FormGroup>
 
@@ -208,7 +210,7 @@ function Register() {
                       />
                     </InputGroup>
                     {errors.email && errors.email !== undefined && (
-                      <span className="errorMessage">{errors.email}</span>
+                      <span className="errorMessage">{errors.email[0]}</span>
                     )}
                   </FormGroup>
                   <FormGroup>
@@ -225,7 +227,7 @@ function Register() {
                       />
                     </InputGroup>
                     {errors.password && errors.password !== undefined && (
-                      <span className="errorMessage">{errors.password}</span>
+                      <span className="errorMessage">{errors.password[0]}</span>
                     )}
                   </FormGroup>
                   <div className="text-muted font-italic">

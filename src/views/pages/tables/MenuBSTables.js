@@ -47,7 +47,7 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
-  const id = useSelector((state) => state.currentMenuSelectedReducer);
+  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -55,8 +55,8 @@ function MenuBSTables(params) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
   const [menus, setMenu] = useState([]);
-  console.log(id['payload']);
-  let selectedmenusection = id['payload'];
+  console.log(menuId['payload']);
+  let selectedmenusection = menuId['payload'];
   console.log('MenuBSTables', selectedmenusection);
 
   // const input = document.getElementById('text-filter-column-idMeal').value;
