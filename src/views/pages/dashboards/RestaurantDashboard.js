@@ -60,11 +60,12 @@ function RestaurantDashboard() {
     return () => (mounted = false);
   }, []);
   const getData = () => {
+    console.log('Im here ate GET DATA');
     let token = localStorage.getItem('token');
     var config = {
       method: 'get',
-      url: '   https://jsonplaceholder.typicode.com/comments',
-      // url: 'http://menuof.test/api/resturant-owner/resturants',
+      // url: 'https://jsonplaceholder.typicode.com/comments',
+      url: 'http://menuof.test/api/resturant-owner/resturants',
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ function RestaurantDashboard() {
     axios(config)
       .then(function (response) {
         console.log('here at axios Restaurant Dash');
-        console.log(response.data);
+        console.log(response);
         setRestaurant(response.data);
       })
       .catch(function (error) {
@@ -128,18 +129,18 @@ function RestaurantDashboard() {
     { dataField: 'id', text: 'ID', sort: true },
     { dataField: 'name', text: 'Name', sort: true, filter: textFilter() },
     { dataField: 'slug', text: 'Slug', sort: true },
-    {
-      dataField: 'Menu',
-      text: 'Menu',
-      sort: true,
-      isDummyField: true,
-      filter: textFilter(),
-      formatter: (cellContent, row) => {
-        console.log(row);
-        console.log(cellContent);
-        return <div key={menu.id}>{renderMenu(menu.data)}</div>;
-      },
-    },
+    // {
+    //   dataField: 'Menu',
+    //   text: 'Menu',
+    //   sort: true,
+    //   isDummyField: true,
+    //   filter: textFilter(),
+    //   formatter: (cellContent, row) => {
+    //     console.log(row);
+    //     console.log(cellContent);
+    //     return <div key={menu.id}>{renderMenu(menu.data)}</div>;
+    //   },
+    // },
     {
       dataField: 'Action',
       text: 'Delete',

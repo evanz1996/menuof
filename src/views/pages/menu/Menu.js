@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Menu.css';
+import axios from 'axios';
 import {
   DropdownToggle,
   DropdownMenu,
@@ -39,31 +40,69 @@ function Menu() {
   const [dishModal, setDishModal] = useState(false);
   const [variationModal, setVariationModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
   const menuId = useSelector((state) => state.currentMenuSelectedReducer);
   console.log(menuId['payload']);
   let selectedMenu = menuId['payload'];
+  console.log(selectedMenu);
+  let isMounted = true;
   useEffect(() => {
-    let isMounted = true;
-    // declare the data fetching function
-    let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
+    // // declare the data fetching function
+    // let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
 
-    const fetchData = async () => {
-      const data = await fetch(url);
-      const response = await data.json();
-      if (isMounted) {
-        setMenu(response.meals);
-      }
-    };
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
+    // const fetchData = async () => {
+    //   const data = await fetch(url);
+    //   const response = await data.json();
+    //   if (isMounted) {
+    //     setMenu(response.meals);
+    //   }
+    // };
+    // // call the function
+    // fetchData()
+    //   // make sure to catch any error
+    //   .catch(console.error);
     // getMenuSections();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
+    if (localStorage.getItem('id')) {
+      if (isMounted) {
+        console.log('HUHUHHUMenu');
+        getMenuItems();
+      }
+    }
+    return () => (isMounted = false);
+  }, [selectedMenu]);
+
+  const getMenuItems = () => {
+    console.log('Im here ate GET DATA');
+    let token = localStorage.getItem('token');
+    let URL = '';
+    if (selectedMenu) {
+      URL = 'http://menuof.test/api/resturant-owner/menus/2/items';
+      console.log('I selected a menu', selectedMenu);
+    } else {
+      URL = 'http://menuof.test/api/resturant-owner/menus/1/items';
+    }
+    var config = {
+      method: 'get',
+
+      url: URL,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        console.log('here at axios MENU ITEMS');
+        if (isMounted) {
+          setMenuItems(response.data);
+          console.log('setMenuItems', menuItems);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   // const getMenuSections = () => {
   //   var config = {
   //     method: 'get',
@@ -168,6 +207,7 @@ function Menu() {
   };
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
 
+  console.log('menuItems', menuItems);
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
@@ -250,7 +290,7 @@ function Menu() {
         </Button>
         <MenuBSTables
           column={dataFieldTable}
-          data={menus}
+          data={menuItems}
           func={selectedRowsFromTable}
         ></MenuBSTables>
       </Container>

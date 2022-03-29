@@ -47,6 +47,7 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function MenuBSTables(params) {
+  console.log('MenuBSTables11', params);
   const menuId = useSelector((state) => state.currentMenuSelectedReducer);
   const [categoryOptions, setcategoryOptions] = useState([]);
   const [openModal, setopenModal] = useState(false);
@@ -55,22 +56,21 @@ function MenuBSTables(params) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
   const [menus, setMenu] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   console.log(menuId['payload']);
   let selectedmenusection = menuId['payload'];
   console.log('MenuBSTables', selectedmenusection);
 
-  // const input = document.getElementById('text-filter-column-idMeal').value;
-  // let data = (document.getElementById('vans').value = selectedmenusection);
   const [columns, setColumns] = useState([
-    { dataField: 'strMealThumb', text: '', sort: true },
-    { dataField: 'idMeal', text: '', sort: true },
-    { dataField: 'strMeal', text: '', sort: true },
-    { dataField: 'strCategory', text: '' },
+    { dataField: 'images', text: '', sort: true },
+    { dataField: 'name', text: 'Name' },
+    { dataField: 'price', text: 'Price', sort: true },
+    { dataField: 'status', text: 'Status', sort: true },
   ]);
-
-  let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
   let isMounted = true;
+
   const fetchData = async () => {
+    let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
     const data = await fetch(url);
     const response = await data.json();
     if (isMounted) {
@@ -79,9 +79,7 @@ function MenuBSTables(params) {
   };
 
   useEffect(() => {
-    fetchData();
-    setMenu(params.data);
-
+    // fetchData();
     const column = [
       {
         dataField: 'strMealThumb',
@@ -91,7 +89,7 @@ function MenuBSTables(params) {
         editable: (content, row, rowIndex, columnIndex) => {},
       },
       {
-        dataField: 'idMeal',
+        dataField: 'name',
         text: params.column[0],
         sort: true,
         events: {
@@ -100,11 +98,11 @@ function MenuBSTables(params) {
             setopenModal(true);
           },
         },
-        filter: textFilter({
-          defaultValue: selectedmenusection,
-        }),
+        // filter: textFilter({
+        //   defaultValue: selectedmenusection,
+        // }),
       },
-      { dataField: 'strMeal', text: params.column[1], sort: true },
+      { dataField: 'price', text: params.column[1], sort: true },
 
       {
         dataField: 'delete',
@@ -125,7 +123,7 @@ function MenuBSTables(params) {
     return () => {
       isMounted = false;
     };
-  }, [selectedmenusection]);
+  }, []);
 
   function imageFormatter(cell, row) {
     return (
@@ -223,7 +221,7 @@ function MenuBSTables(params) {
             </CardHeader>
 
             <ToolkitProvider
-              keyField="idMeal"
+              keyField="id"
               data={params.data}
               columns={columns}
               search
