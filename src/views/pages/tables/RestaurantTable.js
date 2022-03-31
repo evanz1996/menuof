@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -14,8 +14,10 @@ import {
 } from 'reactstrap';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import MenuForm from '../menu/MenuForm';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import NotificationAlert from 'react-notification-alert';
+import 'react-notification-alert/dist/animate.css';
 const pagination = paginationFactory({
   page: 1,
   alwaysShowAllBtns: true,
@@ -43,54 +45,33 @@ const pagination = paginationFactory({
     </div>
   ),
 });
-
 const { SearchBar } = Search;
 
-function MenuBSTables(params) {
-  console.log('MenuBSTables11', params);
-  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
-  const [categoryOptions, setcategoryOptions] = useState([]);
+function RestaurantTable(params) {
+  console.log('RestaurantTable', params);
   const [openModal, setopenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedId, setselectedId] = useState('');
-  const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [menus, setMenu] = useState([]);
-  const [menuItems, setMenuItems] = useState([]);
-  console.log(menuId['payload']);
-  let selectedmenusection = menuId['payload'];
-  console.log('MenuBSTables', selectedmenusection);
-
+  const [selectedId, setselectedId] = useState('');
   const [columns, setColumns] = useState([
-    { dataField: 'images', text: '', sort: true },
+    { dataField: 'images', text: 'Images', sort: true },
     { dataField: 'name', text: 'Name' },
-    { dataField: 'price', text: 'Price', sort: true },
     { dataField: 'status', text: 'Status', sort: true },
+    { dataField: '', text: 'Action' },
   ]);
   let isMounted = true;
-
-  const fetchData = async () => {
-    let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
-    const data = await fetch(url);
-    const response = await data.json();
-    if (isMounted) {
-      setcategoryOptions(response.categories);
-    }
-  };
-
   useEffect(() => {
-    // fetchData();
     const column = [
       {
-        dataField: 'strMealThumb',
-        text: '',
-        formatter: imageFormatter,
+        dataField: 'images',
+        text: 'Images',
+        // formatter: imageFormatter,
         sort: true,
-        editable: (content, row, rowIndex, columnIndex) => {},
+        // editable: (content, row, rowIndex, columnIndex) => {},
       },
       {
         dataField: 'name',
-        text: params.column[0],
+        text: 'Name',
         sort: true,
         events: {
           onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -102,15 +83,14 @@ function MenuBSTables(params) {
         //   defaultValue: selectedmenusection,
         // }),
       },
-      { dataField: 'price', text: params.column[1], sort: true },
+      { dataField: 'description', text: 'Description', sort: true },
 
       {
         dataField: 'delete',
         text: 'Delete',
         sort: false,
-        formatter: deleteFormatter,
-        // headerAttrs: { width: 50 },
         attrs: { width: 50, className: 'DeleteRow' },
+        formatter: deleteFormatter,
       },
     ];
     setColumns(column);
@@ -124,47 +104,35 @@ function MenuBSTables(params) {
       isMounted = false;
     };
   }, []);
-
-  function imageFormatter(cell, row) {
-    return (
-      <a
-        className="avatar avatar-xl  rounded-circle"
-        href="#pablo"
-        onClick={(e) => e.preventDefault()}
-      >
-        <img alt="..." src={cell} />
-      </a>
-    );
-  }
-
-  function selectedRowsTry(data) {
-    console.log('data form function', data);
-    return data;
-  }
-  const deleteSelectedRows = () => {
-    console.log(selected);
-    console.log('params.data', params.data);
-    // let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
-    // const fetchData = async () => {
-    //   const data = await fetch(url);
-    //   const response = await data.json();
-    //   setcategoryOptions(response.categories);
-    // };
-    // menus = params.data;
-    // const newMenu = menus.filter((menu) => menu.idMeal === selected);
-    // console.log(newMenu);
-    // console.log(menu);
-  };
-
   let selectedRow = [];
+  const notifAlert = useRef(null);
+  const notify = (place, message, type) => {
+    console.log('im here');
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notifAlert.current.notificationAlert(options);
+  };
   const handleOnSelect = (row, isSelect) => {
     console.log('handleOnSelect');
     console.log(row.uid, isSelect);
     console.log('selectedRow', row.uid);
     setSelected((arr) => [...arr, row.uid]);
   };
-
-  let removeRepeated = [];
+  const deleteSelectedRows = () => {
+    console.log('params.data', params.data);
+  };
   const selectRow = {
     mode: 'checkbox',
     clickToSelect: true,
@@ -180,9 +148,6 @@ function MenuBSTables(params) {
     // },
   };
 
-  // params.func(removeRepeated);
-  console.log('removeRepeated', removeRepeated);
-
   function deleteFormatter(cell, row, rowIndex, formatExtraData) {
     return (
       <div
@@ -194,18 +159,41 @@ function MenuBSTables(params) {
       </div>
     );
   }
-
   const DeleteHandler = (row) => {
+    console.log(row);
     console.log('here at DeleteHandler');
-    console.log(row.uid);
-    setselectedId(row.uid);
+    console.log(row.id);
+    setselectedId(row.id);
     setDeleteModal(true);
   };
 
   const confirmDeleteHandler = (e) => {
     console.log('confirmDeleteHandler');
     console.log('selectedId', selectedId);
-    setDeleteModal(false);
+    let token = localStorage.getItem('token');
+    var config = {
+      method: 'DELETE',
+      url: `http://menuof.test/api/resturant-owner/resturants/${selectedId}`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        console.log('here at DELETE', response);
+        if (response.status === 200) {
+          setDeleteModal(false);
+          notify('tr', 'successfully Deleted', 'success');
+          window.location.reload(false);
+        }
+      })
+      .catch(function (error) {
+        console.log('here at DELETE', error);
+        console.log(error);
+        setDeleteModal(false);
+        notify('tr', 'Failed to Delete', 'danger');
+      });
   };
 
   return (
@@ -214,20 +202,18 @@ function MenuBSTables(params) {
         <div className="col">
           <Card>
             <CardHeader>
-              {/* <h3 className="mb-0">Dishes</h3> */}
               <p className="text-sm mb-0">
                 This is an exmaple of data table using the well known
                 react-bootstrap-table2 plugin. This is a minimal setup in order
                 to get started fast.
               </p>
             </CardHeader>
-
             <ToolkitProvider
-              keyField="id"
+              keyField="uid"
               data={params.data}
               columns={columns}
               search
-              dataFormat={imageFormatter}
+              //   dataFormat={imageFormatter}
             >
               {(menu) => (
                 <div className="py-4 table-responsive">
@@ -269,42 +255,6 @@ function MenuBSTables(params) {
           </Card>
         </div>
       </Row>
-      {/* Modal */}
-      <Modal
-        size="lg"
-        isOpen={openModal}
-        toggle={() => setopenModal(false)}
-        className="modal-dialog-centered modal-secondary"
-      >
-        <div className="modal-header">
-          <button
-            aria-label="Close"
-            className="close"
-            data-dismiss="modal"
-            type="button"
-            onClick={() => setopenModal(false)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
-        </div>
-        <div className="modal-body">
-          <MenuForm></MenuForm>
-        </div>
-        <div className="modal-footer">
-          <Button
-            color="secondary"
-            data-dismiss="modal"
-            type="button"
-            onClick={() => setopenModal(false)}
-          >
-            Close
-          </Button>
-          <Button color="primary" type="button">
-            Save changes
-          </Button>
-        </div>
-      </Modal>
-
       {/* Delete Modal */}
       <Modal
         className="modal-dialog-centered modal-danger"
@@ -353,8 +303,11 @@ function MenuBSTables(params) {
           </Button>
         </div>
       </Modal>
+      <div className="rna-wrapper">
+        <NotificationAlert ref={notifAlert} />
+      </div>
     </>
   );
 }
 
-export default MenuBSTables;
+export default RestaurantTable;

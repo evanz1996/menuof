@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
   Card,
   Container,
   Row,
   CardBody,
   CardText,
   CardTitle,
-  Input,
-  Modal,
+  Button,
 } from 'reactstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
-import RestaurantTable from '../restaurant/RestaurantTable';
+import RestaurantTable from '../tables/RestaurantTable';
 import axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -21,42 +24,17 @@ function RestaurantDashboard() {
   const [restaurant, setRestaurant] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
   let dataFieldTable = ['Title', 'Description', 'Action'];
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   // declare the data fetching function
-  //   let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
-  //   const fetchData = async () => {
-  //     const data = await fetch(url);
-  //     const response = await data.json();
-  //     if (isMounted) {
-  //       setRestaurant(response.meals);
-  //     }
-  //   };
-  //   // call the function
-  //   fetchData()
-  //     // make sure to catch any error
-  //     .catch(console.error);
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, []);
 
   let check = document.getElementById('text-filter-column-Menu');
   console.log(check);
-  // let filter = check.value.toUpperCase();
-  // console.log(filter);
 
-  console.log(check);
-
+  let mounted = true;
   useEffect(() => {
-    console.log('useEffect');
-    let mounted = true;
     if (localStorage.getItem('id')) {
       if (mounted) {
         getData();
       }
     }
-
     return () => (mounted = false);
   }, []);
   const getData = () => {
@@ -64,7 +42,6 @@ function RestaurantDashboard() {
     let token = localStorage.getItem('token');
     var config = {
       method: 'get',
-      // url: 'https://jsonplaceholder.typicode.com/comments',
       url: 'http://menuof.test/api/resturant-owner/resturants',
       headers: {
         Accept: 'application/json',
@@ -73,57 +50,26 @@ function RestaurantDashboard() {
     };
     axios(config)
       .then(function (response) {
-        console.log('here at axios Restaurant Dash');
-        console.log(response);
-        setRestaurant(response.data);
+        console.log('here at axios Restaurant Dash', response);
+        if (mounted) {
+          setRestaurant(response.data);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   };
   console.log('Restaurant Dashboard', restaurant);
-  const menu = {
-    data: [
-      {
-        id: 1,
-        title: 'Home',
-        child: [
-          {
-            id: '1cg',
-            title: 'SubLevel1',
-            child: [
-              {
-                title: 'SubSubLevel1',
-              },
-            ],
-          },
-          {
-            id: '1cg2',
-            title: 'SubLevel2',
-            child: [
-              { id: '1cc', title: 'SubSubLevel1' },
-              { id: '2cc', title: 'SubSubLevel2' },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'About',
-      },
-      {
-        title: 'Contact',
-      },
-    ],
-  };
-  const renderMenu = (menu) => {
-    return menu.map((item, index) => (
-      <div key={index} style={{ marginLeft: '25px' }}>
-        <li key={item.id}> {item.title}</li>
 
-        {item.child && renderMenu(item.child)}
-      </div>
-    ));
-  };
+  // const renderMenu = (menu) => {
+  //   return menu.map((item, index) => (
+  //     <div key={index} style={{ marginLeft: '25px' }}>
+  //       <li key={item.id}> {item.title}</li>
+
+  //       {item.child && renderMenu(item.child)}
+  //     </div>
+  //   ));
+  // };
 
   const column = [
     { dataField: 'id', text: 'ID', sort: true },
@@ -162,20 +108,49 @@ function RestaurantDashboard() {
     console.log(rowId);
   };
   return (
-    <div>
-      <BootstrapTable
-        keyField="id"
-        data={restaurant}
-        columns={column}
-        hover
-        pagination={paginationFactory()}
-        filter={filterFactory()}
-      />
-      {/* <RestaurantTable
-        column={dataFieldTable}
-        data={restaurant}
-      ></RestaurantTable> */}
-    </div>
+    <>
+      <div>
+        <SimpleHeader name="" parentName="Restaurant Management" />
+        <Container className="mt--6" fluid>
+          <Row>
+            <Card>
+              <CardBody>
+                <CardTitle className="mb-3" tag="h3">
+                  Restaurant
+                </CardTitle>
+                <CardText className="mb-4 wrap-overlap">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Facilis non dolore est fuga nobis ipsum illum eligendi nemo
+                  iure repellat, soluta, optio minus ut reiciendis voluptates
+                  enim impedit veritatis officiis.
+                </CardText>
+                <Button
+                  color="primary"
+                  href="#pablo"
+                  // onClick={(e) => setEditModal(true)}
+                >
+                  Add Restaurant
+                </Button>
+              </CardBody>
+            </Card>
+          </Row>
+        </Container>
+        <Container>
+          <RestaurantTable
+            column={dataFieldTable}
+            data={restaurant}
+          ></RestaurantTable>
+          {/* <BootstrapTable
+            keyField="id"
+            data={restaurant}
+            columns={column}
+            hover
+            pagination={paginationFactory()}
+            filter={filterFactory()}
+          /> */}
+        </Container>
+      </div>
+    </>
   );
 }
 
