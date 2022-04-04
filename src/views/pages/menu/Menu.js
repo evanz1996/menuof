@@ -29,7 +29,7 @@ import VariationModalForm from './variation/VariationModalForm';
 import SectionForm from './sections/SectionForm';
 import NavBarMenu from './sections/NavBarMenu';
 import { items } from 'json/restaurantMenu';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import EditMenuSectionModal from './sections/EditMenuSectionModal';
 function Menu() {
   // const [t, i18n] = useTranslation();
@@ -47,22 +47,6 @@ function Menu() {
   console.log(selectedMenu);
   let isMounted = true;
   useEffect(() => {
-    // // declare the data fetching function
-    // let url = 'https://www.themealdb.com/api/json/v1/1/search.php?f=a';
-
-    // const fetchData = async () => {
-    //   const data = await fetch(url);
-    //   const response = await data.json();
-    //   if (isMounted) {
-    //     setMenu(response.meals);
-    //   }
-    // };
-    // // call the function
-    // fetchData()
-    //   // make sure to catch any error
-    //   .catch(console.error);
-    // getMenuSections();
-
     if (localStorage.getItem('id')) {
       if (isMounted) {
         console.log('HUHUHHUMenu');

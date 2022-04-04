@@ -11,9 +11,6 @@ const NavBarMenu = ({ items }) => {
   useEffect(() => {
     let mounted = true;
     console.log('here ar useEffect');
-    // if (mounted) {
-    //   getData();
-    // }
     if (localStorage.getItem('token')) {
       console.log('MOUNTED ');
       if (mounted) {

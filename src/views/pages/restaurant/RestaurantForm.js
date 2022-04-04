@@ -109,7 +109,7 @@ function RestaurantForm() {
       cover_image: coverImage,
       category_id: 1,
     };
-
+    console.log('onSubmitHandler', restaurant);
     const token = localStorage.getItem('token');
     console.log(localStorage.getItem('token'));
     fetch('http://menuof.test/api/resturant-owner/resturants', {

@@ -20,6 +20,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import ImageResizer from '../images/ImageResizer';
 function RestaurantDashboard() {
   const [restaurant, setRestaurant] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
@@ -131,6 +132,7 @@ function RestaurantDashboard() {
                 >
                   Add Restaurant
                 </Button>
+                <ImageResizer></ImageResizer>
               </CardBody>
             </Card>
           </Row>

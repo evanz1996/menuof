@@ -41,10 +41,6 @@ const MenuItems = ({ items, depthLevel }) => {
     dispatch(selectMenuId(selectedId));
   }, [selectedId]);
 
-  function selectedMenuHandler1(itemId) {
-    console.log('check', itemId);
-  }
-
   return (
     <li className="menu-items" ref={ref}>
       {items.menu && items.menu.length ? (
@@ -54,7 +50,7 @@ const MenuItems = ({ items, depthLevel }) => {
             type="button"
             aria-haspopup="menu"
             aria-expanded={dropdown ? 'true' : 'false'}
-            onClick={(event) => selectedMenuHandler(event, items.uid)}
+            onClick={(event) => selectedMenuHandler(event, items.id)}
             // onClick={() => setDropdown((prev) => !prev)}
             // onClick={check(items.uid)}
           >
@@ -70,7 +66,7 @@ const MenuItems = ({ items, depthLevel }) => {
       ) : (
         <button
           className="button"
-          onClick={(event) => selectedMenuHandler(event, items.uid)}
+          onClick={(event) => selectedMenuHandler(event, items.id)}
         >
           {items.name}
         </button>
