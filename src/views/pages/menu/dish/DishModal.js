@@ -20,7 +20,7 @@ import UploadImage from 'views/pages/images/UploadImage';
 import axios from 'axios';
 import ImageUploader from 'react-images-upload';
 import NotificationAlert from 'react-notification-alert';
-
+import { useSelector } from 'react-redux';
 const parentMenu = {
   categoryName: 'Select Menu ...',
 };
@@ -37,7 +37,7 @@ function DishModal() {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  const [selectedMenu, setSelectedMenu] = useState('');
+  // const [selectedMenu, setSelectedMenu] = useState('');
   const [selectedSubMenu, setSelectedSubMenu] = useState('');
   const [selectedSubSubMenu, setSelectedSubSubMenu] = useState('');
   const [uploadImage, setUploadImage] = useState('');
@@ -46,6 +46,9 @@ function DishModal() {
     name: '',
     price: '',
   });
+  const id = useSelector((state) => state.currentRestaurantReducer);
+  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
+  let selectedMenu = menuId['payload'];
   const notifAlert = useRef(null);
   const notify = (place, message, type) => {
     console.log('im here');
@@ -76,15 +79,18 @@ function DishModal() {
       price: price,
       status: 1,
     };
-    fetch('http://menuof.test/api/resturant-owner/menus/1/items', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `http://menuof.test/api/resturant-owner/menus/${selectedMenu}/items`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
         if (result.message) {

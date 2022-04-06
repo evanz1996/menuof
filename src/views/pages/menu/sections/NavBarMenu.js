@@ -32,7 +32,8 @@ const NavBarMenu = ({ items }) => {
     console.log('defaultId', defaultId);
     var config = {
       method: 'get',
-      url: `http://menuof.test/api/resturant-owner/resturant/${defaultId}/menus`,
+      // url: `http://menuof.test/api/resturant-owner/resturant/${defaultId}/menus`,
+      url: `http://menuof.test/api/resturant-owner/resturant/${id.payload}/menus`,
       // url: 'http://menuof.test/api/resturant-owner/resturants',
       headers: {
         Accept: 'application/json',

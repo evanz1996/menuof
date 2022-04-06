@@ -192,6 +192,7 @@ function Menu() {
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
 
   console.log('menuItems', menuItems);
+
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
@@ -209,6 +210,7 @@ function Menu() {
                 impedit veritatis officiis.
               </CardText>
               <Button
+                disabled={!selectedMenu}
                 color="primary"
                 href="#pablo"
                 onClick={(e) => setEditModal(true)}
@@ -259,6 +261,7 @@ function Menu() {
       <Container>
         <h1> Dishes</h1>
         <Button
+          disabled={!selectedMenu}
           color="success"
           href="#pablo"
           onClick={(e) => setDishModal(true)}

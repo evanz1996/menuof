@@ -91,7 +91,7 @@ function RestaurantForm() {
     event.preventDefault();
     console.log('im here');
     let restaurant = {
-      owner_id: 2,
+      owner_id: localStorage.getItem('id'),
       name: name,
       company_name: companyName,
       description: description,

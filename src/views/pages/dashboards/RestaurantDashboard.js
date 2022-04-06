@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   DropdownToggle,
   DropdownMenu,
@@ -11,7 +11,13 @@ import {
   CardText,
   CardTitle,
   Button,
+  FormGroup,
+  Form,
+  Col,
+  Input,
+  Modal,
 } from 'reactstrap';
+import NotificationAlert from 'react-notification-alert';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import SimpleHeader from 'components/Headers/SimpleHeader.js';
 import RestaurantTable from '../tables/RestaurantTable';
@@ -24,9 +30,36 @@ import ImageResizer from '../images/ImageResizer';
 function RestaurantDashboard() {
   const [restaurant, setRestaurant] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
-  let dataFieldTable = ['Title', 'Description', 'Action'];
 
+  const [addModal, setAddModal] = useState(false);
+  const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [description, setDescription] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [vatCode, setVatCode] = useState('');
+  const [fiscalNumber, setFiscalNumber] = useState('');
+  const [timezone, setTimezone] = useState('');
+  const [countryCode, setCountryCode] = useState('');
+  const [currency, setCurrency] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [address, setAddress] = useState('');
+  const [billingAddress, setbillingAddress] = useState('');
+  const [profileImage, setProfileImage] = useState('');
+  const [coverImage, setCoverImage] = useState('');
+  const [errors, setErrors] = useState({
+    name: '',
+    phoneNumber: '',
+    address: '',
+    fiscalNumber: '',
+    billingAddress: '',
+    vatCode: '',
+    timeZoneMessage: '',
+    cover_image: '',
+    profile_image: '',
+  });
   let check = document.getElementById('text-filter-column-Menu');
+  let dataFieldTable = ['Title', 'Description', 'Action'];
   console.log(check);
 
   let mounted = true;
@@ -108,6 +141,95 @@ function RestaurantDashboard() {
   const handleDelete = (rowId) => {
     console.log(rowId);
   };
+  const notifAlert = useRef(null);
+  const notify = (place, message, type) => {
+    console.log('im here');
+    let options = {
+      place: place,
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            Attention
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notifAlert.current.notificationAlert(options);
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log('im here');
+    let restaurant = {
+      owner_id: localStorage.getItem('id'),
+      name: name,
+      company_name: companyName,
+      description: description,
+      phone: telephone,
+      vat_code: vatCode,
+      fiscal_number: fiscalNumber,
+      timezone: timezone,
+      country_code: countryCode,
+      currency: 'USDT',
+      latitude: latitude,
+      longitude: longitude,
+      billing_address: billingAddress,
+      address: address,
+      profile_image: profileImage,
+      cover_image: coverImage,
+      category_id: 1,
+    };
+    console.log('onSubmitHandler', restaurant);
+    const token = localStorage.getItem('token');
+    console.log(localStorage.getItem('token'));
+    fetch('http://menuof.test/api/resturant-owner/resturants', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(restaurant),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        if (result.message) {
+          console.log(result.errors);
+          // setErrors(result.error);
+          setErrors({
+            name: result.errors.name,
+            phoneNumber: result.errors.phone,
+            address: result.errors.address,
+            fiscalNumber: result.errors.fiscal_number,
+            billingAddress: result.errors.billing_address,
+            vatCode: result.errors.vat_code,
+            timeZoneMessage: result.errors.timezone,
+            cover_image: result.errors.cover_image,
+            profile_image: result.errors.profile_image,
+          });
+        } else {
+          alert('Here at Restaurant Form ');
+          notify('tr', 'successfully created', 'success');
+          // dispatch({
+          //   type: REGISTER_SUCCESS,
+          // });
+
+          // setTimeout(function () {
+          //   history.push('/admin/dashboard');
+          // }, 1000);
+        }
+      })
+      .catch((error) => {
+        console.log('error ERROR', error);
+        notify('tr', 'Failed to create', 'danger');
+      });
+  };
+
   return (
     <>
       <div>
@@ -128,7 +250,7 @@ function RestaurantDashboard() {
                 <Button
                   color="primary"
                   href="#pablo"
-                  // onClick={(e) => setEditModal(true)}
+                  onClick={(e) => setAddModal(true)}
                 >
                   Add Restaurant
                 </Button>
@@ -152,6 +274,217 @@ function RestaurantDashboard() {
           /> */}
         </Container>
       </div>
+      {/* Menu Section Modal */}
+      <Modal
+        size="lg"
+        isOpen={addModal}
+        toggle={() => setAddModal(false)}
+        className="modal-dialog-centered modal-secondary"
+      >
+        <div className="modal-header">
+          <CardTitle className="mb-3" tag="h3">
+            Restaurant Form
+          </CardTitle>
+          <button
+            aria-label="Close"
+            className="close"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setAddModal(false)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <Form role="form" onSubmit={onSubmitHandler}>
+            <Row>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Name</label>
+                  <Input
+                    placeholder="John Snow"
+                    id="name"
+                    type="text"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  {errors.name && errors.name !== undefined && (
+                    <span className="errorMessage"> {errors.name} </span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Company Name</label>
+                  <Input
+                    placeholder="company name...."
+                    id="Company name"
+                    type="text"
+                    onChange={(e) => setCompanyName(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <FormGroup>
+              <label
+                className="form-control-label"
+                htmlFor="example-email-input"
+              >
+                Description
+              </label>
+              <Input
+                placeholder="Description...."
+                id="description"
+                type="textarea"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </FormGroup>
+            <Row>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Telephone </label>
+                  <Input
+                    id="phone"
+                    type="text"
+                    onChange={(e) => setTelephone(e.target.value)}
+                  />
+                  {errors.phoneNumber && errors.phoneNumber !== undefined && (
+                    <span className="errorMessage">{errors.phoneNumber}</span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Vat Code</label>
+                  <Input
+                    placeholder="vat code..."
+                    id="vatCode"
+                    type="text"
+                    onChange={(e) => setVatCode(e.target.value)}
+                  />
+                  {errors.vatCode && errors.vatCode !== undefined && (
+                    <span className="errorMessage">{errors.vatCode}</span>
+                  )}
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col md="4">
+                <FormGroup>
+                  <label className="form-control-label">Fiscal Number</label>
+                  <Input
+                    placeholder="fiscal ...."
+                    id="fiscalNumber"
+                    type="text"
+                    onChange={(e) => setFiscalNumber(e.target.value)}
+                  />
+                  {errors.fiscalNumber && errors.fiscalNumber !== undefined && (
+                    <span className="errorMessage">{errors.fiscalNumber}</span>
+                  )}
+                </FormGroup>
+              </Col>
+              <Col md="4">
+                <FormGroup>
+                  <label className="form-control-label">Timezone</label>
+                  <Input
+                    placeholder=""
+                    id="timezone"
+                    type="text"
+                    onChange={(e) => setTimezone(e.target.value)}
+                  />
+                  {errors.timeZoneMessage &&
+                    errors.timeZoneMessage !== undefined && (
+                      <span className="errorMessage">
+                        {errors.timeZoneMessage}
+                      </span>
+                    )}
+                </FormGroup>
+              </Col>
+              <Col md="">
+                <FormGroup>
+                  <label className="form-control-label">Country Code</label>
+                  <Input
+                    placeholder=""
+                    id="countryCode"
+                    type="text"
+                    onChange={(e) => setCountryCode(e.target.value)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <FormGroup>
+              <label className="form-control-label">Address</label>
+              <Input
+                placeholder=""
+                id="address"
+                type="text"
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              {errors.address && errors.address !== undefined && (
+                <span className="errorMessage">{errors.address}</span>
+              )}
+            </FormGroup>
+            <FormGroup>
+              <label className="form-control-label">Billing Address</label>
+              <Input
+                placeholder=""
+                id="billingAddress"
+                type="text"
+                onChange={(e) => setbillingAddress(e.target.value)}
+              />
+              {errors.billingAddress && errors.billingAddress !== undefined && (
+                <span className="errorMessage">{errors.billingAddress}</span>
+              )}
+            </FormGroup>
+            <Row>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Profile Image</label>
+                  {/* <ImageUploader
+                          withIcon={false}
+                          withPreview={true}
+                          buttonText="Choose Profile Image"
+                          onChange={onProfile}
+                          imgExtension={['.jpg', '.png']}
+                          maxFileSize={5242880}
+                        /> */}
+                </FormGroup>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <label className="form-control-label">Cover Image</label>
+                  {/* <ImageUploader
+                          withIcon={false}
+                          withPreview={true}
+                          buttonText="Choose cover image"
+                          onChange={onCoverImage}
+                          imgExtension={['.jpg', '.png']}
+                          maxFileSize={5242880}
+                        /> */}
+                </FormGroup>
+              </Col>
+            </Row>
+            <Button type="submit" className="success">
+              Submit
+            </Button>
+          </Form>
+
+          <div className="rna-wrapper">
+            <NotificationAlert ref={notifAlert} />
+          </div>
+        </div>
+        <div className="modal-footer">
+          <Button
+            color="secondary"
+            data-dismiss="modal"
+            type="button"
+            onClick={() => setAddModal(false)}
+          >
+            Close
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }

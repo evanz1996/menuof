@@ -140,8 +140,8 @@ function Login() {
             type: LOGIN_SUCCESS,
             payload: result,
           });
-
-          localStorage.setItem('id', result.uid);
+          localStorage.setItem('id', result.id);
+          localStorage.setItem('uid', result.uid);
           localStorage.setItem('expires_in', result.oauthData.expires_in);
           localStorage.setItem('token', result.oauthData.access_token);
           history.push('/admin/menu');

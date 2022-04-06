@@ -18,22 +18,23 @@ const EditMenuSectionModal = () => {
   const [editModal, setEditModal] = useState(false);
   const menuId = useSelector((state) => state.currentMenuSelectedReducer);
   const id = useSelector((state) => state.currentRestaurantReducer);
-  console.log('IIIID', id.payload);
   let selectedMenu = menuId['payload'];
   const [newSection, setNewSection] = useState('');
   const [description, setDescription] = useState('');
   const [fromAvailability, setFromAvailability] = useState('');
   const [toAvailability, setToAvailability] = useState('');
-
+  let mounted = true;
   useEffect(() => {
-    let mounted = true;
     console.log('here at EditMenuSectionModal');
     getData();
     return () => (mounted = false);
   }, []);
-
+  let parent_id = '';
+  let currentMenu = '';
   const getData = () => {
+    console.log('IDDD', id);
     console.log('id', menuId);
+    console.log('id.payload', id.payload);
     console.log(
       'url',
       `http://menuof.test/api/resturant-owner/resturant/${id.payload}/menus/${selectedMenu}`
@@ -64,34 +65,56 @@ const EditMenuSectionModal = () => {
   };
 
   function updateHandler(event) {
-    console.log('updateHandler', event);
     event.preventDefault();
-    const data = JSON.stringify({
-      resturant_id: 1,
-      // // parent_id: parent_id,
-      parent_id: 1,
+    let token = localStorage.getItem('token');
+
+    if (!selectedMenu) {
+      console.log('here !selectedMenu');
+      parent_id = currentMenu;
+    } else {
+      console.log('here selectedMenu', selectedMenu);
+      parent_id = selectedMenu;
+    }
+    const data = {
+      resturant_id: id.payload,
+      parent_id: parent_id,
       name: newSection,
       description: description,
       availability: fromAvailability,
-    });
-
-    var config = {
-      method: 'put',
-      url: 'http://menuof.test/api/resturant-owner/resturant/1/menus/8',
-      headers: {
-        Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJlNDJmZjk5MzdlOTQxYTVmNDlmODU3NWU4YjNkODE2MTE3ZjU2NmViN2U2ZGZhMmRmNjNiZDdmMjJlMTExNjliMTJlOWNkN2FkZDUzNmM4YiIsImlhdCI6MTY0ODI2MjcwOC42OTY0MzksIm5iZiI6MTY0ODI2MjcwOC42OTY0NjgsImV4cCI6MTY3OTc5ODcwOC4yODg3NTMsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.nAupJYlqUGFPEeWBPOIzA8vHpYy6QsAjYQZqzPDsfI07xnHea68kNyNi86ObKTT1sxSwwW1q20o1RdZYdpU5gmeExfQbZSm67ruqFjn35dx0T-eGLTu3C8A4tT8NN4nxBWw84lKcEEnxWdfpXwYPJICh7y6Oyb2vzBFAVM7Dh1g4MJ68NDsofVSFhzy36Hb-E1ziPpRAtuC4vMRYlcIH4zLtg2JHWMgfkqiZhYuXxtxTHyPchHrbdpnb4RPQC6Klt7nKzPY5fQ468kQdT5tY3ZeqMp6kbRRMXMmW77j8QaENMhhZtTmjWobBdNte6mW8_YBPdu-JPtrflwigyT5cU0oFZTUX21iW9SD9aUw2ETPCruG0ipcuL8vTI9ZmSlhtP9y_7lpc5rTRmy-e_c_N9z2Xzw1iYNRTeXnhL4-KJe92bkru4zQMQQNoRnBYxDXIe8TRq_q0U9SVM99QxcUjlW1xRhAncRmVMG6r6LugHkquzwEmtysOMuCIQBHkqehZ53JNft0y50PNGZPbB7zulrT-hw3FcfGSo0gFBVtziYxI_dN8GPNqre_J5Z4TvPhmu5zfHZ6BPRcA67g2GenJREK4xjLKVCLGXkmaMxegkInkvBcrUby5tAFxLT4mnYQBHqMy68SZNdJH7RouH3CwPANQJ9w2M8PCfeG74nz8k3c',
-        'Content-Type': 'application/json',
-      },
-      data: data,
     };
-    axios(config)
-      .then(function (response) {
-        console.log('here at axios Edit Section');
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
+    console.log('data', data);
+
+    fetch(
+      `http://menuof.test/api/resturant-owner/resturant/${id.payload}/menus/${selectedMenu}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        console.log('result', result);
+        // if (result.status) {
+        // if (result.message) {
+        //   console.log('MENUS', result.status);
+        //   console.log('MENUS', result);
+        //   // setErrors({
+        //   //   resturant_id: result.errors.resturant_id,
+        //   //   parent_id: '',
+        //   //   name: result.errors.name,
+        //   //   description: result.errors.description,
+        //   //   availability: result.errors.availability,
+        //   // });
+        //   // notify('tr', 'Failed to Add!', 'danger');
+        // } else {
+        //   console.log('MENUS', result);
+        //   // notify('tr', 'successfully Added!', 'success');
+        // }
       });
   }
   return (
@@ -118,7 +141,7 @@ const EditMenuSectionModal = () => {
                       // onChange={(e) => setNewSection(e.target.value)}
                     />
                   </FormGroup>
-                  {/* <NavBarMenu items={items}> </NavBarMenu> */}
+                  <NavBarMenu> </NavBarMenu>
                   <FormGroup>
                     <label className="form-control-label">
                       Sub Menu Section

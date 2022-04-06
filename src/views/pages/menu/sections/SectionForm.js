@@ -20,8 +20,11 @@ import NotificationAlert from 'react-notification-alert';
 import { useDispatch, useSelector } from 'react-redux';
 function SectionForm() {
   const id = useSelector((state) => state.currentMenuSelectedReducer);
+  const restaurantId = useSelector((state) => state.currentRestaurantReducer);
   console.log(id['payload']);
+  console.log('restaurantId', restaurantId['payload']);
   let selectedMenu = id['payload'];
+  let currentRestaurant = restaurantId['payload'];
   const [newSection, setNewSection] = useState('');
   const [selected, setSelected] = useState(selectedMenu);
   const [description, setDescription] = useState('');
@@ -55,8 +58,8 @@ function SectionForm() {
   };
   console.log('selected', selectedMenu);
   let parent_id = '';
-  let currentMenu = '1';
-  let currentRestaurant = '1';
+  let currentMenu = '';
+
   const selectedMenuHandleChange = () => {
     console.log('selectedMenu', selectedMenu);
     console.log('selectedMenuHandleChange');
@@ -68,21 +71,21 @@ function SectionForm() {
     let token = localStorage.getItem('token');
 
     if (!selectedMenu) {
+      console.log('here !selectedMenu');
       parent_id = currentMenu;
     } else {
+      console.log('here selectedMenu', selectedMenu);
       parent_id = selectedMenu;
     }
 
     const data = {
-      resturant_id: 1,
-      // // parent_id: parent_id,
-      // parent_id: 1,
+      resturant_id: currentRestaurant,
+      parent_id: parent_id,
       name: newSection,
       description: description,
       availability: fromAvailability,
       toAvailability: toAvailability,
     };
-    console.log(data);
     fetch(
       // `http://menuof.test/api/resturant-owner/resturant/${currentRestaurant}/menus`,
       `http://menuof.test/api/resturant-owner/resturant/${currentRestaurant}/menus`,
@@ -98,7 +101,8 @@ function SectionForm() {
     )
       .then((res) => res.json())
       .then((result) => {
-        // if (result.status) {
+        console.log('MENUS', result);
+
         if (result.message) {
           console.log('MENUS', result.status);
           console.log('MENUS', result);
