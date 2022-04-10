@@ -69,15 +69,6 @@ function MenuBSTables(params) {
   ]);
   let isMounted = true;
 
-  const fetchData = async () => {
-    let url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
-    const data = await fetch(url);
-    const response = await data.json();
-    if (isMounted) {
-      setcategoryOptions(response.categories);
-    }
-  };
-
   useEffect(() => {
     // fetchData();
     const column = [

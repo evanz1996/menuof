@@ -82,10 +82,11 @@ function ImageResizer() {
     var canvas = document.getElementById('canvas');
     var image = canvas.toDataURL('image/jpg');
     console.log(image);
+    console.log(canvas);
     var link = document.createElement('a');
-    // link.download = 'filename.png';
-    // link.href = image;
-    // link.click();
+    link.download = 'filename.png';
+    link.href = image;
+    link.click();
     const base64Canvas = canvas.toDataURL('image/jpeg').split(';base64,')[1];
     console.log(base64Canvas);
   }

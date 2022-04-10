@@ -24,12 +24,12 @@ import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
 function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   const [state, setState] = React.useState({});
   const [selectedRestaurant, setSelectedRestaurant] = useState('');
-  const [restaurant, setRestaurant] = React.useState([]);
+  const [restaurant, setRestaurant] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const dispatch = useDispatch();
   let history = useHistory();
-  const id = useSelector((state) => state.currentRestaurantReducer);
-  console.log('IIIID', id);
+  let id = '';
+
   const restaurantTest = [
     {
       label: 'Apple',
@@ -59,9 +59,9 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       fetch('http://menuof.test/api/resturant-owner/resturants', requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log('SIDEBAR', result);
-          // console.log('Lists of Sidebar', JSON.parse(result.data));
           setRestaurant(result);
+          id = result[0].id;
+          dispatch(selectRestaurantId(id));
         })
         .catch((error) => console.log('error', error));
     } else {
@@ -69,42 +69,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     history.push('/admin/dashboard');
-
-  //     var myHeaders = new Headers();
-  //     myHeaders.append('mode', 'no-cors');
-  //     myHeaders.append('Accept', 'application/json');
-  //     myHeaders.append(
-  //       'Authorization',
-  //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJhOTc2MDQxM2VlZmMwYTc3ZTcyOTI4MjA4ZjdlMTgyMzk0NTE5ZjJjMzVhN2YyZTU2NDY1ODE3MGY5YzFhMDU3ODYxMmE2ZDUyYWRkNjk3OSIsImlhdCI6MTY0Nzg1ODQyMC4xMDg3NDcsIm5iZiI6MTY0Nzg1ODQyMC4xMDg3NTEsImV4cCI6MTY3OTM5NDQyMC4wOTAxNDIsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.DrirXxI0xqNs7AnvVqzYCQY_gHh9mO3EL0PXZ7H-EFs2SOeGux00N6RvUHLoSFTgScAfIyVI9uCDnId6FGVepfSXur17Xbsz2EvC8OjQBlJVPMhCzImeWCKaqwiEP5U5UHLdJIm0x5Vpt7RiA-97i1RIvfbb-57jgfurxBIxwNfjWWN4gSx3UuVn_2hjfz-MHfRWmIh5dtE99qc8sozjnEts_xDkx3uWMn6sAqBJRcwwtcoSQmZNo7gvhB7Z8n3ZYvMxu61gnIKdLVebEZwhtMyotNL_p7zs6njbBkPkXyqCFUwtxRyaDaQESYqPIig9h2jRtGwskzNmHL3O58slbAzIR7kqWYg0e-aINnPDi5hwfOqvJaD2RqoKwFxG29XVB_SU95KRxVqyfv6QUBb5XrOHdAxqcesjZQOzx4J78ZCzEatlmIdXqQ8BST1mY7p17lBRzNLwS58ArQremVZL1ZG4jrGEymiNcI-RAxz9d68lOMxnB357mO-mCepmgXJMRo_BLrSh1QUoSWtnvYbkEPoD5FGcteKHO0G5_nH1CEKm6ccPFPU_9gal8p8pFSS7va3Ja12X1QT93u44EYR-Cv3N_VdKY1ZCw9w66XLvQsYDMXZpPTviy2ANEpZHeU_WmuB7s3ib0eHXwjUALO14h8XRvi2mzS9rU4fuD0P_9qM'
-  //     );
-
-  //     var raw = '';
-  //     var requestOptions = {
-  //       method: 'GET',
-  //       headers: myHeaders,
-  //       // body: raw,
-  //       // redirect: 'follow',
-  //     };
-
-  //     fetch('http://menuof.test/api/resturant-owner/resturants', requestOptions)
-  //       .then((response) => response.json())
-  //       .then((result) => {
-  //         console.log('Lists of Sidebar', result);
-  //         // console.log('Lists of Sidebar', JSON.parse(result.data));
-  //         setRestaurant(result.data);
-  //       })
-  //       .catch((error) => console.log('error', error));
-  //     // return () => {
-  //     //   second;
-  //     // };
-  //   } else {
-  //     history.push('/auth/login');
-  //   }
-  // }, [loggedIn]);
-
+  console.log('IDDD sidebar', id);
   const location = useLocation();
   React.useEffect(() => {
     setState(getCollapseStates(routes));
@@ -245,7 +210,6 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
     dispatch(selectRestaurantId(id));
   };
 
-  console.log('here ate selected rest', selectedRestaurant);
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -258,7 +222,29 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       target: '_blank',
     };
   }
+
+  // ));
+
+  // <select
+  //   className="form-control input-box"
+  //   name="select"
+  //   id="exampleSelect"
+  //   onChange={(e) => restaurantIdHandler(e)}
+  //   // required
+  //   // defaultValue={restaurant[0].id} // Add this line
+  // >
+  //   {restaurant.map((option) => (
+  //     <option
+  //       key={option.id}
+  //       value={option.id}
+  //       // defaultValue={option[0]}
+  //     >
+  //       {option.name}
+  //     </option>
+  //   ))}
+  // </select>;
   // let defaultRestaurantHere = '';
+
   const scrollBarInner = (
     <div className="scrollbar-inner">
       <div className="sidenav-header d-flex align-items-center">
@@ -278,19 +264,11 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
             onChange={(e) => restaurantIdHandler(e)}
             // value={selectedValue}
           >
-            {/* {restaurant} */}
-            {/* {restaurant}?return(
-            {restaurant.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-            ) */}
             {restaurant.map((option) => (
               <option
                 key={option.id}
                 value={option.id}
-                // defaultValue={index === 0}
+                // defaultValue={option[0]}
               >
                 {option.name}
               </option>

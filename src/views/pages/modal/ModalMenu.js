@@ -96,7 +96,6 @@ function ModalMenu({ handleClose, show, children }) {
   };
   return (
     <div>
-      alert('helloo im modal Menu');
       <Modal
         size="lg"
         isOpen={show}

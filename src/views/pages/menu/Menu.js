@@ -31,6 +31,7 @@ import NavBarMenu from './sections/NavBarMenu';
 import { items } from 'json/restaurantMenu';
 import { useSelector } from 'react-redux';
 import EditMenuSectionModal from './sections/EditMenuSectionModal';
+import { selectMenuId } from 'actions/selectedMenu';
 function Menu() {
   // const [t, i18n] = useTranslation();
   let [menus, setMenu] = useState([]);
@@ -42,9 +43,10 @@ function Menu() {
   const [editModal, setEditModal] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
   const menuId = useSelector((state) => state.currentMenuSelectedReducer);
+  const id = useSelector((state) => state.currentRestaurantReducer);
   console.log(menuId['payload']);
   let selectedMenu = menuId['payload'];
-  console.log(selectedMenu);
+
   let isMounted = true;
   useEffect(() => {
     if (localStorage.getItem('id')) {
@@ -60,11 +62,12 @@ function Menu() {
     console.log('Im here ate GET DATA');
     let token = localStorage.getItem('token');
     let URL = '';
+    console.log('selectedMenu', selectedMenu);
     if (selectedMenu) {
-      URL = 'http://menuof.test/api/resturant-owner/menus/2/items';
+      URL = `http://menuof.test/api/resturant-owner/menus/${selectedMenu}/items`;
       console.log('I selected a menu', selectedMenu);
     } else {
-      URL = 'http://menuof.test/api/resturant-owner/menus/1/items';
+      URL = `http://menuof.test/api/resturant-owner/menus/${selectedMenu}/items`;
     }
     var config = {
       method: 'get',
@@ -80,52 +83,18 @@ function Menu() {
         console.log('here at axios MENU ITEMS');
         if (isMounted) {
           setMenuItems(response.data);
-          console.log('setMenuItems', menuItems);
         }
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  // const getMenuSections = () => {
-  //   var config = {
-  //     method: 'get',
-  //     url: `http://menuof.test/api/resturant-owner/resturant/${id.payload}/menus`,
-  //     // url: 'http://menuof.test/api/resturant-owner/resturants',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       Authorization:
-  //         'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NWNlZjU0Yy0wMjJlLTQyMzAtOTYxMi05MTM5Y2UxM2IwOTkiLCJqdGkiOiJlNDJmZjk5MzdlOTQxYTVmNDlmODU3NWU4YjNkODE2MTE3ZjU2NmViN2U2ZGZhMmRmNjNiZDdmMjJlMTExNjliMTJlOWNkN2FkZDUzNmM4YiIsImlhdCI6MTY0ODI2MjcwOC42OTY0MzksIm5iZiI6MTY0ODI2MjcwOC42OTY0NjgsImV4cCI6MTY3OTc5ODcwOC4yODg3NTMsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.nAupJYlqUGFPEeWBPOIzA8vHpYy6QsAjYQZqzPDsfI07xnHea68kNyNi86ObKTT1sxSwwW1q20o1RdZYdpU5gmeExfQbZSm67ruqFjn35dx0T-eGLTu3C8A4tT8NN4nxBWw84lKcEEnxWdfpXwYPJICh7y6Oyb2vzBFAVM7Dh1g4MJ68NDsofVSFhzy36Hb-E1ziPpRAtuC4vMRYlcIH4zLtg2JHWMgfkqiZhYuXxtxTHyPchHrbdpnb4RPQC6Klt7nKzPY5fQ468kQdT5tY3ZeqMp6kbRRMXMmW77j8QaENMhhZtTmjWobBdNte6mW8_YBPdu-JPtrflwigyT5cU0oFZTUX21iW9SD9aUw2ETPCruG0ipcuL8vTI9ZmSlhtP9y_7lpc5rTRmy-e_c_N9z2Xzw1iYNRTeXnhL4-KJe92bkru4zQMQQNoRnBYxDXIe8TRq_q0U9SVM99QxcUjlW1xRhAncRmVMG6r6LugHkquzwEmtysOMuCIQBHkqehZ53JNft0y50PNGZPbB7zulrT-hw3FcfGSo0gFBVtziYxI_dN8GPNqre_J5Z4TvPhmu5zfHZ6BPRcA67g2GenJREK4xjLKVCLGXkmaMxegkInkvBcrUby5tAFxLT4mnYQBHqMy68SZNdJH7RouH3CwPANQJ9w2M8PCfeG74nz8k3c',
-  //     },
-  //   };
-
-  //   axios(config)
-  //     .then(function (response) {
-  //       console.log('here at axios NavBar Menu Dash');
-  //       console.log(response.data);
-
-  //       console.log('im here,componentMounted');
-  //       setTimeout(() => {
-  //         console.log('Data loaded for page');
-
-  //         if (mounted) {
-  //           console.log(mounted);
-  //           console.log('i am here mounted');
-  //           setMenu(response.data);
-  //         }
-  //       }, 1000);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
 
   const deletedSelectedRow = () => {
     console.log('deletedSelectedRow');
   };
 
   const processData = (dataString) => {
-    console.log('dataString1', dataString);
     const dataStringLines = dataString.split(/\r\n|\n/);
     console.log('dataStringLines', dataStringLines);
     const headers = dataStringLines[0].split(
@@ -190,9 +159,6 @@ function Menu() {
     console.log('selectedRowsFromTable', rowsId); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   };
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
-
-  console.log('menuItems', menuItems);
-
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
@@ -336,14 +302,14 @@ function Menu() {
 
       {/* Variation */}
       <Modal
-        size="lg"
+        size="xl"
         isOpen={variationModal}
         toggle={() => setVariationModal(false)}
         className="modal-dialog-centered modal-secondary"
       >
-        <li> Sauces</li>
+        {/* <li> Sauces</li>
         <li> Dough + Ingredients</li>
-        <li> Test</li>
+        <li> Test</li> */}
 
         <VariationModalForm />
 

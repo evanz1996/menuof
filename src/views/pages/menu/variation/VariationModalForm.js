@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames';
 import {
   Container,
   Col,
@@ -10,10 +11,20 @@ import {
   Card,
   CardBody,
   CardTitle,
+  NavItem,
+  NavLink,
+  Nav,
+  TabPane,
+  TabContent,
+  Table,
 } from 'reactstrap';
+import OptionTable from '../../tables/OptionTable';
+import FoodGroupTable from 'views/pages/tables/FoodGroupTable';
 function VariationModalForm() {
   const [formValues, setFormValues] = useState([{ name: '', email: '' }]);
-
+  const [selected, setSelected] = useState('selected1');
+  const [tabs, setTabs] = useState(1);
+  console.log(tabs);
   const [formGroupValues, setformGroupValues] = useState([
     { groupName: '', groupOptions: '', maxChoices: 0 },
   ]);
@@ -55,149 +66,68 @@ function VariationModalForm() {
     setformGroupValues(newFormValues);
   };
 
+  const toggleNavs = (e, tabs, index) => {
+    e.preventDefault();
+    setTabs(index);
+  };
+
   return (
     <>
-      <Container className="mt--6" fluid>
-        <strong> Variants Management</strong>
-        <br />
-
-        <Card>
+      <Card>
+        <CardBody>
+          <CardTitle> Options/Variations</CardTitle>
+          <Nav
+            className="nav-fill flex-column flex-md-row"
+            id="tabs-icons-text"
+            pills
+            role="tablist"
+          >
+            <NavItem>
+              <NavLink
+                aria-selected={tabs === 1}
+                className={classnames('mb-sm-3 mb-md-0', {
+                  active: tabs === 1,
+                })}
+                onClick={(e) => toggleNavs(e, 'tabs', 1)}
+                href="#pablo"
+                role="tab"
+              >
+                <i className="ni ni-cloud-upload-96 mr-2" />
+                Options
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                aria-selected={tabs === 2}
+                className={classnames('mb-sm-3 mb-md-0', {
+                  active: tabs === 2,
+                })}
+                onClick={(e) => toggleNavs(e, 'tabs', 2)}
+                href="#pablo"
+                role="tab"
+              >
+                <i className="ni ni-bell-55 mr-2" />
+                Groups
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </CardBody>
+      </Card>
+      <Container>
+        <Card className="shadow">
           <CardBody>
-            <CardTitle>Name Variation</CardTitle>
-            <FormGroup className="row">
-              <Col md="10">
-                <Input
-                  id="variationName"
-                  type="text"
-                  placeholder="Ex: Variation Pizza"
-                />
-              </Col>
-            </FormGroup>
+            <TabContent activeTab={'tabs' + tabs}>
+              <TabPane tabId="tabs1">
+                <h3>Restaurant Settings</h3>
+                <OptionTable></OptionTable>
+              </TabPane>
+              <TabPane tabId="tabs2">
+                <h3>Orders Settings</h3>
+                <FoodGroupTable></FoodGroupTable>
+              </TabPane>
+            </TabContent>
           </CardBody>
         </Card>
-
-        <Form>
-          <Card>
-            {formGroupValues.map((input, index) => (
-              <div key={index}>
-                <CardBody>
-                  <CardTitle> Group </CardTitle>
-
-                  <Row>
-                    <Col md="4">
-                      <FormGroup>
-                        <label className="form-control-label">Group name</label>
-                        {/* <Input required type="text" placeholder="eg: Dough" /> */}
-                        <Input
-                          type="text"
-                          name="groupName"
-                          value={input.groupName || ''}
-                          onChange={(e) => handleGroupChange(index, e)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col md="4">
-                      <FormGroup>
-                        <label className="form-control-label"> Options</label>
-                        <Input
-                          className="form-control"
-                          id="sel1"
-                          type="select"
-                          name="groupOptions"
-                          value={input.groupOptions || ''}
-                          onChange={(e) => handleGroupChange(index, e)}
-                        >
-                          <option value="1">Multiple Choice</option>
-                          <option value="2">Alternative Choice </option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                    <Col md="2">
-                      <FormGroup>
-                        <label className="form-control-label">
-                          Max Choices
-                        </label>
-                        <Input
-                          type="numbers"
-                          name="maxChoices"
-                          value={input.maxChoices || ''}
-                          onChange={(e) => handleGroupChange(index, e)}
-                        ></Input>
-
-                        {index ? (
-                          <Button
-                            type="button"
-                            className="ni ni-fat-remove"
-                            onClick={() => removeGroupFormFields(index)}
-                          >
-                            Remove
-                          </Button>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="4">
-                      <Button
-                        className="button add"
-                        type="button"
-                        color="info"
-                        onClick={() => addFormFields()}
-                      >
-                        Add Item
-                      </Button>
-                    </Col>
-                  </Row>
-                  <br></br>
-                  {formValues.map((element, index) => (
-                    <div key={index}>
-                      <Row>
-                        <Col md="4">
-                          <Input
-                            placeholder="integral"
-                            type="text"
-                            name="itemName"
-                            value={element.itemName || ''}
-                            onChange={(e) => handleChange(index, e)}
-                          />
-                        </Col>
-
-                        <Col md="4">
-                          <Input
-                            placeholder="€"
-                            type="number"
-                            name="itemPrice"
-                            value={element.itemPrice || ''}
-                            onChange={(e) => handleChange(index, e)}
-                          />
-                        </Col>
-                        <Col md="4">
-                          <Button
-                            type="button"
-                            color="calm"
-                            className="ni ni-fa-trash-can"
-                            onClick={() => removeFormFields(index)}
-                          >
-                            Delete
-                          </Button>
-                        </Col>
-                      </Row>
-                    </div>
-                  ))}
-                </CardBody>
-              </div>
-            ))}
-          </Card>
-        </Form>
-
-        <Button
-          className="button add primary"
-          color="success"
-          type="button"
-          onClick={() => addGroupFields()}
-        >
-          Add New Group
-        </Button>
       </Container>
     </>
   );

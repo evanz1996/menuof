@@ -3,11 +3,12 @@ import './NavBarMenu.css';
 import MenuItems from './MenuItems';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectMenuId } from 'actions/selectedMenu';
 const NavBarMenu = ({ items }) => {
   const [menu, setMenu] = useState([]);
   const id = useSelector((state) => state.currentRestaurantReducer);
   console.log('IIIID', id.payload);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     let mounted = true;
     console.log('here ar useEffect');
@@ -48,6 +49,11 @@ const NavBarMenu = ({ items }) => {
         if (mounted) {
           console.log('i am here mounted');
           setMenu(response.data);
+          console.log('setMenu', response.data);
+          if (response.data) {
+            console.log('may laman ang response data');
+            dispatch(selectMenuId(response.data[0].id));
+          }
         }
       })
       .catch(function (error) {

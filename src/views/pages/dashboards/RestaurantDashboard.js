@@ -60,7 +60,6 @@ function RestaurantDashboard() {
   });
   let check = document.getElementById('text-filter-column-Menu');
   let dataFieldTable = ['Title', 'Description', 'Action'];
-  console.log(check);
 
   let mounted = true;
   useEffect(() => {
@@ -84,7 +83,6 @@ function RestaurantDashboard() {
     };
     axios(config)
       .then(function (response) {
-        console.log('here at axios Restaurant Dash', response);
         if (mounted) {
           setRestaurant(response.data);
         }
@@ -143,7 +141,6 @@ function RestaurantDashboard() {
   };
   const notifAlert = useRef(null);
   const notify = (place, message, type) => {
-    console.log('im here');
     let options = {
       place: place,
       message: (
@@ -163,7 +160,6 @@ function RestaurantDashboard() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('im here');
     let restaurant = {
       owner_id: localStorage.getItem('id'),
       name: name,
@@ -185,7 +181,6 @@ function RestaurantDashboard() {
     };
     console.log('onSubmitHandler', restaurant);
     const token = localStorage.getItem('token');
-    console.log(localStorage.getItem('token'));
     fetch('http://menuof.test/api/resturant-owner/resturants', {
       method: 'POST',
       headers: {
@@ -197,10 +192,7 @@ function RestaurantDashboard() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         if (result.message) {
-          console.log(result.errors);
-          // setErrors(result.error);
           setErrors({
             name: result.errors.name,
             phoneNumber: result.errors.phone,
@@ -213,15 +205,7 @@ function RestaurantDashboard() {
             profile_image: result.errors.profile_image,
           });
         } else {
-          alert('Here at Restaurant Form ');
           notify('tr', 'successfully created', 'success');
-          // dispatch({
-          //   type: REGISTER_SUCCESS,
-          // });
-
-          // setTimeout(function () {
-          //   history.push('/admin/dashboard');
-          // }, 1000);
         }
       })
       .catch((error) => {
