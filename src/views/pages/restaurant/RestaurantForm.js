@@ -218,7 +218,11 @@ function RestaurantForm() {
             <CardTitle className="mb-3" tag="h3">
               Restaurant Form
             </CardTitle>
-            <Form role="form" onSubmit={onSubmitHandler}>
+            <Form
+              role="form"
+              onSubmit={onSubmitHandler}
+              enctype="multipart/form-data"
+            >
               <Row>
                 <Col md="6">
                   <FormGroup>

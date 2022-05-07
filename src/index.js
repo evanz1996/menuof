@@ -26,11 +26,16 @@ import message from 'reducers/message';
 import { Provider } from 'react-redux';
 import currentRestaurantReducer from 'reducers/currentRestaurantReducer';
 import currentMenuSelectedReducer from 'reducers/currentMenuSelectedReducer';
+import modalStatusReducer from 'reducers/modalStatusReducer';
+import { Modal } from 'reactstrap';
+import DynamicModal from 'views/pages/modal/DynamicModal';
+import NotificationAlert from 'views/pages/modal/NotificationAlert1';
 const reducer = {
   auth: auth,
   message: message,
   currentRestaurantReducer: currentRestaurantReducer,
   currentMenuSelectedReducer: currentMenuSelectedReducer,
+  modalStatusReducer: modalStatusReducer,
 };
 
 const store = configureStore({
@@ -39,6 +44,9 @@ const store = configureStore({
 });
 ReactDOM.render(
   <Provider store={store}>
+    <div className="rna-wrapper">
+      <NotificationAlert />
+    </div>
     <BrowserRouter>
       <Switch>
         <Route path="/admin" render={(props) => <AdminLayout {...props} />} />

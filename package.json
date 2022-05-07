@@ -56,6 +56,7 @@
     "react-image-file-resizer": "^0.4.7",
     "react-images-upload": "^1.2.8",
     "react-jvectormap": "0.0.16",
+    "react-modal": "^3.14.4",
     "react-multilevel-dropdown": "^3.0.3",
     "react-notification-alert": "0.0.13",
     "react-perfect-scrollbar": "1.5.8",

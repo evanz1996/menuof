@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearMessage } from 'actions/message';
 import { history } from 'helpers/history';
 import { useHistory } from 'react-router-dom';
+import DynamicModal from 'views/pages/modal/DynamicModal';
 
 function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   console.log('im vanesssa');
@@ -65,6 +66,9 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
   console.log(isLoggedIn);
   const dispatch = useDispatch();
   let history = useHistory();
+  // const modalStatusReducer = useSelector((state) => state.modalStatusReducer);
+  // console.log('  console.log(modalStatusReducer);', modalStatusReducer);
+  // const currentModalStatus = modalStatusReducer['payload'];
   // useEffect(() => {
   //   console.log('dispatch from logout');
   //   if (!isLoggedIn) {
@@ -95,6 +99,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
 
   return (
     <>
+      {/* <DynamicModal isOpen={currentModalStatus}></DynamicModal> */}
       <Navbar
         className={classnames(
           'navbar-top navbar-expand border-bottom',

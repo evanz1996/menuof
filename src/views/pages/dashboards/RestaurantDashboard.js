@@ -27,6 +27,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import ImageResizer from '../images/ImageResizer';
+import ImageUploader from 'react-images-upload';
 function RestaurantDashboard() {
   const [restaurant, setRestaurant] = useState([]);
   const [selectedValue, setSelectedValue] = useState(1);
@@ -93,6 +94,15 @@ function RestaurantDashboard() {
   };
   console.log('Restaurant Dashboard', restaurant);
 
+  const onProfile = (e) => {
+    console.log('hello', e);
+    setProfileImage(e.target.files[0]);
+  };
+  const onCoverImage = (e) => {
+    // console.log('hello', pictureFiles);
+    // setCoverImage(pictureFiles);
+    setCoverImage(e.target.files[0]);
+  };
   // const renderMenu = (menu) => {
   //   return menu.map((item, index) => (
   //     <div key={index} style={{ marginLeft: '25px' }}>
@@ -158,40 +168,92 @@ function RestaurantDashboard() {
     notifAlert.current.notificationAlert(options);
   };
 
+  // const onSubmitHandler = (event) => {
+  //   event.preventDefault();
+  //   let restaurant = {
+  //     owner_id: localStorage.getItem('id'),
+  //     name: name,
+  //     company_name: companyName,
+  //     description: description,
+  //     phone: telephone,
+  //     vat_code: vatCode,
+  //     fiscal_number: fiscalNumber,
+  //     timezone: timezone,
+  //     country_code: countryCode,
+  //     currency: 'USDT',
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //     billing_address: billingAddress,
+  //     address: address,
+  //     profile_image: profileImage,
+  //     cover_image: coverImage,
+  //     category_id: 1,
+  //   };
+  //   console.log('onSubmitHandler', restaurant);
+  //   const token = localStorage.getItem('token');
+  //   fetch('http://menuof.test/api/resturant-owner/resturants', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: restaurant,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       if (result.message) {
+  //         setErrors({
+  //           name: result.errors.name,
+  //           phoneNumber: result.errors.phone,
+  //           address: result.errors.address,
+  //           fiscalNumber: result.errors.fiscal_number,
+  //           billingAddress: result.errors.billing_address,
+  //           vatCode: result.errors.vat_code,
+  //           timeZoneMessage: result.errors.timezone,
+  //           cover_image: result.errors.cover_image,
+  //           profile_image: result.errors.profile_image,
+  //         });
+  //       } else {
+  //         notify('tr', 'successfully created', 'success');
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log('error ERROR', error);
+  //       notify('tr', 'Failed to create', 'danger');
+  //     });
+  // };
+
   const onSubmitHandler = (event) => {
+    console.log('onSubmitHandler');
     event.preventDefault();
-    let restaurant = {
-      owner_id: localStorage.getItem('id'),
-      name: name,
-      company_name: companyName,
-      description: description,
-      phone: telephone,
-      vat_code: vatCode,
-      fiscal_number: fiscalNumber,
-      timezone: timezone,
-      country_code: countryCode,
-      currency: 'USDT',
-      latitude: latitude,
-      longitude: longitude,
-      billing_address: billingAddress,
-      address: address,
-      profile_image: profileImage,
-      cover_image: coverImage,
-      category_id: 1,
-    };
-    console.log('onSubmitHandler', restaurant);
     const token = localStorage.getItem('token');
-    fetch('http://menuof.test/api/resturant-owner/resturants', {
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token} `);
+    var formdata = new FormData();
+    formdata.append('address', address);
+    formdata.append('billing_address', billingAddress);
+    formdata.append('cover_image', coverImage);
+    formdata.append('fiscal_number', fiscalNumber);
+    formdata.append('name', name);
+    formdata.append('phone', telephone);
+    formdata.append('profile_image', profileImage);
+    formdata.append('timezone', timezone);
+    formdata.append('vat_code', vatCode);
+    formdata.append('category_id', '1');
+    formdata.append('currency', 'USDT');
+    var requestOptions = {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(restaurant),
-    })
-      .then((res) => res.json())
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
+    fetch('http://menuof.test/api/resturant-owner/resturants', requestOptions)
+      .then((response) => response.json())
       .then((result) => {
+        console.log('test101', result);
         if (result.message) {
           setErrors({
             name: result.errors.name,
@@ -205,13 +267,11 @@ function RestaurantDashboard() {
             profile_image: result.errors.profile_image,
           });
         } else {
+          alert('working success');
           notify('tr', 'successfully created', 'success');
         }
       })
-      .catch((error) => {
-        console.log('error ERROR', error);
-        notify('tr', 'Failed to create', 'danger');
-      });
+      .catch((error) => console.log('error', error));
   };
 
   return (
@@ -425,28 +485,47 @@ function RestaurantDashboard() {
               <Col md="6">
                 <FormGroup>
                   <label className="form-control-label">Profile Image</label>
+                  <Input
+                    type="file"
+                    id="myProfile"
+                    name="myProfile"
+                    onChange={onProfile}
+                  />
+
                   {/* <ImageUploader
-                          withIcon={false}
-                          withPreview={true}
-                          buttonText="Choose Profile Image"
-                          onChange={onProfile}
-                          imgExtension={['.jpg', '.png']}
-                          maxFileSize={5242880}
-                        /> */}
+                    withIcon={false}
+                    withPreview={true}
+                    buttonText="Choose Profile Image"
+                    onChange={onProfile}
+                    imgExtension={['.jpg', '.png']}
+                    maxFileSize={5242880}
+                  /> */}
                 </FormGroup>
+                {errors.cover_image && errors.cover_image !== undefined && (
+                  <span className="errorMessage"> {errors.cover_image} </span>
+                )}
               </Col>
               <Col md="6">
                 <FormGroup>
                   <label className="form-control-label">Cover Image</label>
+                  <Input
+                    type="file"
+                    id="myCoverImage"
+                    name="myCoverImage"
+                    onChange={onCoverImage}
+                  />
                   {/* <ImageUploader
-                          withIcon={false}
-                          withPreview={true}
-                          buttonText="Choose cover image"
-                          onChange={onCoverImage}
-                          imgExtension={['.jpg', '.png']}
-                          maxFileSize={5242880}
-                        /> */}
+                    withIcon={false}
+                    withPreview={true}
+                    buttonText="Choose cover image"
+                    onChange={onCoverImage}
+                    imgExtension={['.jpg', '.png']}
+                    maxFileSize={5242880}
+                  /> */}
                 </FormGroup>
+                {errors.profile_image && errors.profile_image !== undefined && (
+                  <span className="errorMessage"> {errors.profile_image} </span>
+                )}
               </Col>
             </Row>
             <Button type="submit" className="success">

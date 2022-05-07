@@ -29,11 +29,16 @@ import VariationModalForm from './variation/VariationModalForm';
 import SectionForm from './sections/SectionForm';
 import NavBarMenu from './sections/NavBarMenu';
 import { items } from 'json/restaurantMenu';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import EditMenuSectionModal from './sections/EditMenuSectionModal';
 import { selectMenuId } from 'actions/selectedMenu';
+import DynamicModal from '../modal/DynamicModal';
+import modalStatusReducer from 'reducers/modalStatusReducer';
+import { modalStatus } from 'actions/modalStatus';
+
 function Menu() {
-  // const [t, i18n] = useTranslation();
+  const currentModalStatus = useSelector((state) => state.modalStatusReducer);
+  const dispatch = useDispatch();
   let [menus, setMenu] = useState([]);
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
@@ -42,11 +47,17 @@ function Menu() {
   const [variationModal, setVariationModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
+  const [showModal, setShowModal] = useState();
+  console.log('showModal', showModal);
   const menuId = useSelector((state) => state.currentMenuSelectedReducer);
   const id = useSelector((state) => state.currentRestaurantReducer);
+  const [isOpen, setIsOpen] = useState(false);
+  console.log('modalStatus', currentModalStatus);
   console.log(menuId['payload']);
   let selectedMenu = menuId['payload'];
-
+  const toggleModal = (currentModalStatus) => {
+    setShowModal(currentModalStatus);
+  };
   let isMounted = true;
   useEffect(() => {
     if (localStorage.getItem('id')) {
@@ -138,6 +149,12 @@ function Menu() {
     setData(list); //data of excel
     setColumns(columns); //columns of excel
   };
+
+  // useEffect(() => {
+  //   console.log('im here bro', currentModalStatus);
+  //   setShowModal(currentModalStatus);
+  // }, [showModal]);
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -159,6 +176,14 @@ function Menu() {
     console.log('selectedRowsFromTable', rowsId); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   };
   let dataFieldTable = ['Title', 'Description', 'Section / Subsection'];
+
+  function setShowModal1() {
+    setShowModal(true);
+    dispatch(modalStatus(true));
+    // return <DishModal isOpen="true" />;
+  }
+  console.log('currentModalStatus', currentModalStatus);
+  console.log('showModal', showModal);
   return (
     <div>
       <SimpleHeader name="" parentName="Menu Management" />
@@ -216,21 +241,20 @@ function Menu() {
           </Card>
         </Row>
       </Container>
-
       {/* MenuSection Dashboard*/}
       <Container>
         <Card className="card-frame">
           <NavBarMenu></NavBarMenu>
         </Card>
       </Container>
-
       <Container>
         <h1> Dishes</h1>
         <Button
           disabled={!selectedMenu}
           color="success"
           href="#pablo"
-          onClick={(e) => setDishModal(true)}
+          // onClick={(e) => setDishModal(true)}
+          onClick={(e) => setShowModal1()}
         >
           Add
         </Button>
@@ -281,6 +305,16 @@ function Menu() {
         </div>
       </Modal>
       {/* Dish */}
+      {/* {showModal && <DishModal isOpen={currentModalStatus}></DishModal>} */}
+      {showModal && (
+        <DynamicModal>
+          <DishModal></DishModal>
+        </DynamicModal>
+      )}
+      {/* <DynamicModal size="xl" isOpen={currentModalStatus} toggle={toggleModal}>
+        <DishModal toggleModal={toggleModal}></DishModal>
+      </DynamicModal> */}
+      {/* 
       <Modal
         size="lg"
         isOpen={dishModal}
@@ -298,8 +332,7 @@ function Menu() {
             Close
           </Button>
         </div>
-      </Modal>
-
+      </Modal> */}
       {/* Variation */}
       <Modal
         size="xl"

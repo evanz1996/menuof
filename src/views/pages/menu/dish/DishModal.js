@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Container,
   Col,
@@ -13,14 +13,14 @@ import {
   Modal,
   Dropdown,
 } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import VariationModalForm from '../variation/VariationModalForm';
-import { items } from 'json/restaurantMenu';
 import NavBarMenu from '../sections/NavBarMenu';
 import UploadImage from 'views/pages/images/UploadImage';
 import axios from 'axios';
 import ImageUploader from 'react-images-upload';
 import NotificationAlert from 'react-notification-alert';
-import { useSelector } from 'react-redux';
+import { modalStatus } from 'actions/modalStatus';
 const parentMenu = {
   categoryName: 'Select Menu ...',
 };
@@ -31,13 +31,20 @@ const subSubMenu = {
   orderName: 'Select   ...',
 };
 
-function DishModal() {
+function DishModal(props) {
+  console.log('DishModal props', props);
+  const id = useSelector((state) => state.currentRestaurantReducer);
+  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
+  const modalStatusReducer = useSelector((state) => state.modalStatusReducer);
+  console.log('  console.log(modalStatusReducer);', modalStatusReducer);
+  const currentModalStatus = modalStatusReducer['payload'];
+  console.log('11modalStatus', currentModalStatus);
   const [dishModal, setDishModal] = useState(false);
   const [openModal, setopenModal] = useState(false);
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  // const [selectedMenu, setSelectedMenu] = useState('');
+  const dispatch = useDispatch();
   const [selectedSubMenu, setSelectedSubMenu] = useState('');
   const [selectedSubSubMenu, setSelectedSubSubMenu] = useState('');
   const [uploadImage, setUploadImage] = useState('');
@@ -46,10 +53,14 @@ function DishModal() {
     name: '',
     price: '',
   });
-  const id = useSelector((state) => state.currentRestaurantReducer);
-  const menuId = useSelector((state) => state.currentMenuSelectedReducer);
+
   let selectedMenu = menuId['payload'];
   const notifAlert = useRef(null);
+
+  useEffect(() => {
+    'here at useEffect';
+    console.log(modalStatusReducer['payload']);
+  }, [modalStatusReducer['payload']]);
   const notify = (place, message, type) => {
     console.log('im here');
     let options = {
@@ -79,6 +90,7 @@ function DishModal() {
       price: price,
       status: 1,
     };
+    console.log(data);
     fetch(
       `http://menuof.test/api/resturant-owner/menus/${selectedMenu}/items`,
       {
@@ -93,6 +105,7 @@ function DishModal() {
     )
       .then((res) => res.json())
       .then((result) => {
+        console.log(result);
         if (result.message) {
           setErrors({
             name: result.errors.name,
@@ -102,10 +115,14 @@ function DishModal() {
         } else {
           console.log('MENUS', result);
           notify('tr', 'successfully Added!', 'success');
+          setTimeout(() => dispatch(modalStatus(currentModalStatus)), 1000);
+
+          console.log('  console.log(modalStatusReducer);', currentModalStatus);
         }
       });
   };
   console.log('selectedMenu', selectedMenu);
+  console.log('  console.log(modalStatusReducer);', modalStatusReducer);
 
   const onDrop = (pictureFiles) => {
     console.log('hello', pictureFiles);
@@ -118,6 +135,7 @@ function DishModal() {
           New Dish
         </h5>
       </div>
+
       <Card>
         <CardBody>
           <Form onSubmit={handleSubmit}>
@@ -286,7 +304,7 @@ function DishModal() {
       <div className="rna-wrapper">
         <NotificationAlert ref={notifAlert} />
       </div>
-      <Modal
+      {/* <Modal
         size="lg"
         isOpen={openModal}
         toggle={() => setopenModal(false)}
@@ -319,7 +337,7 @@ function DishModal() {
             Save changes
           </Button>
         </div>
-      </Modal>
+      </Modal> */}
     </>
   );
 }
